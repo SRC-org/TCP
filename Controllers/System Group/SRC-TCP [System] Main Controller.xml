@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Main Controller v1.4.0" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1656" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Main Controller v1.4.0" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1658" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="6" component_id="46">
 			<node label="Front Coupler" mode="1" type="5" description="Connects to front coupler">
@@ -83,7 +83,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -99,7 +99,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -191,7 +195,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -207,7 +211,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -328,7 +336,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -344,7 +352,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -436,7 +448,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -452,7 +464,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -542,13 +558,12 @@ end">
 				</object>
 			</c>
 			<c type="41">
-				<object id="1534" count="4">
-					<pos x="-10.75" y="3.25"/>
+				<object id="1534" count="3">
+					<pos x="-10.75" y="3.5"/>
 					<inc component_id="1549"/>
 					<in1 component_id="1608"/>
 					<in2 component_id="1625"/>
 					<in3 component_id="1544"/>
-					<in4 component_id="1581"/>
 				</object>
 			</c>
 			<c type="45">
@@ -630,7 +645,7 @@ end">
 				<object id="1549" count="2">
 					<pos x="-12.5" y="3.75"/>
 					<inc component_id="59"/>
-					<in1 component_id="1602"/>
+					<in1 component_id="1657"/>
 					<in2 component_id="1547"/>
 				</object>
 			</c>
@@ -971,7 +986,7 @@ end">
 			</c>
 			<c type="15">
 				<object id="1602">
-					<pos x="-14.25" y="3.75"/>
+					<pos x="-16" y="3.75"/>
 					<n text="-16032025" value="-16032025"/>
 				</object>
 			</c>
@@ -1137,6 +1152,20 @@ end">
 					<in2 component_id="1581"/>
 				</object>
 			</c>
+			<c type="22">
+				<object id="1657">
+					<pos x="-14.25" y="3.25"/>
+					<in1 component_id="1602"/>
+					<in2 component_id="1658"/>
+					<in3 component_id="1581"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="1658">
+					<pos x="-16" y="3.25"/>
+					<n text="16032025" value="16032025"/>
+				</object>
+			</c>
 		</components>
 		<components_bridge>
 			<c type="4">
@@ -1219,7 +1248,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -1235,7 +1264,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -1325,7 +1358,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -1341,7 +1374,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -1452,7 +1489,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -1468,7 +1505,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -1558,7 +1599,7 @@ function onTick()
 
 	--setup inputs
 	
-	if gN(1)==-16032025 then
+	if math.abs(gN(1))==16032025 then
 		for i=1,32,1 do
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
@@ -1574,7 +1615,11 @@ function onTick()
 	ReqMaster=ModulesInB[1]
 	DenyMaster=ModulesInB[2]
 	RearCabMaster=ModulesInB[3]
-	IamMaster=ModulesInB[4]
+	if ModulesIn[1]==-16032025 then
+		IamMaster=true
+	else
+		IamMaster=false
+	end
 	
 	MyID=ModulesIn[2]
 	
@@ -1658,13 +1703,12 @@ end">
 				<pos x="-10.75" y="2.25"/>
 				<in1 component_id="1533"/>
 			</c11>
-			<c12 id="1534" count="4">
-				<pos x="-10.75" y="3.25"/>
+			<c12 id="1534" count="3">
+				<pos x="-10.75" y="3.5"/>
 				<inc component_id="1549"/>
 				<in1 component_id="1608"/>
 				<in2 component_id="1625"/>
 				<in3 component_id="1544"/>
-				<in4 component_id="1581"/>
 			</c12>
 			<c13 id="1536" e="x%4">
 				<pos x="-24.75" y="10.75"/>
@@ -1722,7 +1766,7 @@ end">
 			<c24 id="1549" count="2">
 				<pos x="-12.5" y="3.75"/>
 				<inc component_id="59"/>
-				<in1 component_id="1602"/>
+				<in1 component_id="1657"/>
 				<in2 component_id="1547"/>
 			</c24>
 			<c25 id="1550" l="My ID">
@@ -1967,7 +2011,7 @@ end">
 				<in4 component_id="1600"/>
 			</c71>
 			<c72 id="1602">
-				<pos x="-14.25" y="3.75"/>
+				<pos x="-16" y="3.75"/>
 				<n text="-16032025" value="-16032025"/>
 			</c72>
 			<c73 id="1604">
@@ -2084,6 +2128,16 @@ end">
 				<in1 component_id="1586"/>
 				<in2 component_id="1581"/>
 			</c96>
+			<c97 id="1657">
+				<pos x="-14.25" y="3.25"/>
+				<in1 component_id="1602"/>
+				<in2 component_id="1658"/>
+				<in3 component_id="1581"/>
+			</c97>
+			<c98 id="1658">
+				<pos x="-16" y="3.25"/>
+				<n text="16032025" value="16032025"/>
+			</c98>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="46">
