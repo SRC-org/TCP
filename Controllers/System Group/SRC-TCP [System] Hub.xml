@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Hub v1.4.0.1" description="Can be used to connect multiple modules to the main controller. Multiple Hubs can be chained" width="1" length="4" id_counter="2474" id_counter_node="41" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Hub v1.4.0.2" description="Can be used to connect multiple modules to the main controller. Multiple Hubs can be chained" width="1" length="4" id_counter="2474" id_counter_node="41" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="20" component_id="293">
 			<node label="Main Input" type="5" description="To Main Input on Main Controller (or other hub if chaining)"/>
@@ -28,9 +28,9 @@
 		<components>
 			<c type="40">
 				<object id="2451" count="1">
-					<pos x="-3.25" y="11.5"/>
-					<inc component_id="316"/>
-					<in1 component_id="2456"/>
+					<pos x="-3.25" y="7.5"/>
+					<inc component_id="298"/>
+					<in1 component_id="2458"/>
 				</object>
 			</c>
 			<c type="53">
@@ -43,16 +43,16 @@
 			</c>
 			<c type="40">
 				<object id="2453" count="1">
-					<pos x="-3.25" y="9.5"/>
-					<inc component_id="305"/>
-					<in1 component_id="2457"/>
+					<pos x="-3.25" y="11.5"/>
+					<inc component_id="316"/>
+					<in1 component_id="2456"/>
 				</object>
 			</c>
 			<c type="40">
 				<object id="2454" count="1">
-					<pos x="-3.25" y="7.5"/>
-					<inc component_id="298"/>
-					<in1 component_id="2458"/>
+					<pos x="-3.25" y="9.5"/>
+					<inc component_id="305"/>
+					<in1 component_id="2457"/>
 				</object>
 			</c>
 			<c type="53">
@@ -66,7 +66,7 @@
 			<c type="15">
 				<object id="2456">
 					<pos x="-5" y="11.25"/>
-					<n text="1" value="1"/>
+					<n text="3" value="3"/>
 				</object>
 			</c>
 			<c type="15">
@@ -78,7 +78,7 @@
 			<c type="15">
 				<object id="2458">
 					<pos x="-5" y="7.25"/>
-					<n text="3" value="3"/>
+					<n text="1" value="1"/>
 				</object>
 			</c>
 			<c>
@@ -310,9 +310,9 @@ end
 		<groups/>
 		<component_states>
 			<c0 id="2451" count="1">
-				<pos x="-3.25" y="11.5"/>
-				<inc component_id="316"/>
-				<in1 component_id="2456"/>
+				<pos x="-3.25" y="7.5"/>
+				<inc component_id="298"/>
+				<in1 component_id="2458"/>
 			</c0>
 			<c1 id="2452">
 				<pos x="-1.5" y="11.25"/>
@@ -321,14 +321,14 @@ end
 				<in3 component_id="2461"/>
 			</c1>
 			<c2 id="2453" count="1">
+				<pos x="-3.25" y="11.5"/>
+				<inc component_id="316"/>
+				<in1 component_id="2456"/>
+			</c2>
+			<c3 id="2454" count="1">
 				<pos x="-3.25" y="9.5"/>
 				<inc component_id="305"/>
 				<in1 component_id="2457"/>
-			</c2>
-			<c3 id="2454" count="1">
-				<pos x="-3.25" y="7.5"/>
-				<inc component_id="298"/>
-				<in1 component_id="2458"/>
 			</c3>
 			<c4 id="2455">
 				<pos x="0.25" y="11.25"/>
@@ -338,7 +338,7 @@ end
 			</c4>
 			<c5 id="2456">
 				<pos x="-5" y="11.25"/>
-				<n text="1" value="1"/>
+				<n text="3" value="3"/>
 			</c5>
 			<c6 id="2457">
 				<pos x="-5" y="9.25"/>
@@ -346,7 +346,7 @@ end
 			</c6>
 			<c7 id="2458">
 				<pos x="-5" y="7.25"/>
-				<n text="3" value="3"/>
+				<n text="1" value="1"/>
 			</c7>
 			<c8 id="2459">
 				<pos x="-1.5" y="13.25"/>
