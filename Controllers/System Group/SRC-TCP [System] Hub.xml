@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Hub v1.4.0.2" description="Can be used to connect multiple modules to the main controller. Multiple Hubs can be chained" width="1" length="4" id_counter="2474" id_counter_node="41" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Hub v1.4.0.3" description="Can be used to connect multiple modules to the main controller. Multiple Hubs can be chained" width="1" length="4" id_counter="2471" id_counter_node="41" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="20" component_id="293">
 			<node label="Main Input" type="5" description="To Main Input on Main Controller (or other hub if chaining)"/>
@@ -28,9 +28,9 @@
 		<components>
 			<c type="40">
 				<object id="2451" count="1">
-					<pos x="-3.25" y="7.5"/>
-					<inc component_id="298"/>
-					<in1 component_id="2458"/>
+					<pos x="-3.25" y="11.5"/>
+					<inc component_id="316"/>
+					<in1 component_id="2456"/>
 				</object>
 			</c>
 			<c type="53">
@@ -43,42 +43,42 @@
 			</c>
 			<c type="40">
 				<object id="2453" count="1">
-					<pos x="-3.25" y="11.5"/>
-					<inc component_id="316"/>
-					<in1 component_id="2456"/>
+					<pos x="-3.25" y="10.5"/>
+					<inc component_id="305"/>
+					<in1 component_id="2457"/>
 				</object>
 			</c>
 			<c type="40">
 				<object id="2454" count="1">
 					<pos x="-3.25" y="9.5"/>
-					<inc component_id="305"/>
-					<in1 component_id="2457"/>
+					<inc component_id="298"/>
+					<in1 component_id="2458"/>
 				</object>
 			</c>
 			<c type="53">
 				<object id="2455">
 					<pos x="0.25" y="11.25"/>
 					<in1 component_id="2452"/>
-					<in2 component_id="2473"/>
+					<in2 component_id="2454"/>
 					<in3 component_id="2459"/>
 				</object>
 			</c>
 			<c type="15">
 				<object id="2456">
 					<pos x="-5" y="11.25"/>
-					<n text="3" value="3"/>
+					<n text="1" value="1"/>
 				</object>
 			</c>
 			<c type="15">
 				<object id="2457">
-					<pos x="-5" y="9.25"/>
+					<pos x="-5" y="10.25"/>
 					<n text="2" value="2"/>
 				</object>
 			</c>
 			<c type="15">
 				<object id="2458">
-					<pos x="-5" y="7.25"/>
-					<n text="1" value="1"/>
+					<pos x="-5" y="9.25"/>
+					<n text="3" value="3"/>
 				</object>
 			</c>
 			<c>
@@ -102,7 +102,7 @@
 			</c>
 			<c type="53">
 				<object id="2462">
-					<pos x="-1.5" y="7.25"/>
+					<pos x="-1.5" y="9.25"/>
 					<in1 component_id="2453"/>
 					<in2 component_id="2454"/>
 					<in3 component_id="2461"/>
@@ -110,15 +110,15 @@
 			</c>
 			<c type="53">
 				<object id="2463">
-					<pos x="0.25" y="7.25"/>
+					<pos x="0.25" y="9.25"/>
 					<in1 component_id="2462"/>
-					<in2 component_id="2474"/>
+					<in2 component_id="2451"/>
 					<in3 component_id="2459"/>
 				</object>
 			</c>
 			<c type="53">
 				<object id="2464">
-					<pos x="-1.5" y="9.25"/>
+					<pos x="-1.5" y="10.25"/>
 					<in1 component_id="2454"/>
 					<in2 component_id="2451"/>
 					<in3 component_id="2461"/>
@@ -126,15 +126,15 @@
 			</c>
 			<c type="53">
 				<object id="2465">
-					<pos x="0.25" y="9.25"/>
+					<pos x="0.25" y="10.25"/>
 					<in1 component_id="2464"/>
-					<in2 component_id="2472"/>
+					<in2 component_id="2453"/>
 					<in3 component_id="2459"/>
 				</object>
 			</c>
 			<c type="56">
 				<object id="2466" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
-ModN,ModB={},{}
+ModN,ModB,cache={},{},{}
 for i=1,3 do
 ModN[i],ModB[i]={},{}
 for j=3,32 do
@@ -142,6 +142,7 @@ ModN[i][j]=0
 ModB[i][j]=false
 end
 end
+cahcesize=0
 function onTick()
 	for i=1,3 do
 		if gN(1)==i then
@@ -156,13 +157,43 @@ function onTick()
 		sB(i,ModB[1][i] or ModB[2][i] or ModB[3][i])
 	end
 	for i=1,3 do
-		for j=4,22 do
+		for j=4,20 do
 			if ModN[i][3]%(2^(j+1))&gt;=2^j then
 				sN(j,ModN[i][j])
 			end
 		end
 	end
 	sN(3,ModN[1][3]+ModN[2][3]+ModN[3][3])
+	
+
+	if gN(1)==1 then
+		for i=1,3 do
+			for j=21,29,2 do
+				if ModN[i][j]~=0 then
+					cache[#cache+1]=ModN[i][j]
+					cache[#cache+1]=ModN[i][j+1]
+				end
+			end
+		end
+		if #cache&gt;=2 then
+			for i=1,5 do
+				if #cache&gt;=2 then
+					sN(i*2+19,cache[1])
+					sN(i*2+20,cache[2])
+					for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+					end
+					table.remove(cache,#cache)
+					table.remove(cache,#cache)
+				end
+			end
+		else
+			for i=1,5 do
+				sN(i*2+19,0)
+				sN(i*2+20,0)
+			end
+		end
+	end
 end
 ">
 					<pos x="2" y="11.5"/>
@@ -171,7 +202,7 @@ end
 			</c>
 			<c type="56">
 				<object id="2467" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
-ModN,ModB={},{}
+ModN,ModB,cache={},{},{}
 for i=1,3 do
 ModN[i],ModB[i]={},{}
 for j=3,32 do
@@ -179,6 +210,7 @@ ModN[i][j]=0
 ModB[i][j]=false
 end
 end
+cahcesize=0
 function onTick()
 	for i=1,3 do
 		if gN(1)==i then
@@ -193,22 +225,52 @@ function onTick()
 		sB(i,ModB[1][i] or ModB[2][i] or ModB[3][i])
 	end
 	for i=1,3 do
-		for j=4,22 do
+		for j=4,20 do
 			if ModN[i][3]%(2^(j+1))&gt;=2^j then
 				sN(j,ModN[i][j])
 			end
 		end
 	end
 	sN(3,ModN[1][3]+ModN[2][3]+ModN[3][3])
+	
+
+	if gN(1)==1 then
+		for i=1,3 do
+			for j=21,29,2 do
+				if ModN[i][j]~=0 then
+					cache[#cache+1]=ModN[i][j]
+					cache[#cache+1]=ModN[i][j+1]
+				end
+			end
+		end
+		if #cache&gt;=2 then
+			for i=1,5 do
+				if #cache&gt;=2 then
+					sN(i*2+19,cache[1])
+					sN(i*2+20,cache[2])
+					for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+					end
+					table.remove(cache,#cache)
+					table.remove(cache,#cache)
+				end
+			end
+		else
+			for i=1,5 do
+				sN(i*2+19,0)
+				sN(i*2+20,0)
+			end
+		end
+	end
 end
 ">
-					<pos x="2" y="9.5"/>
+					<pos x="2" y="10.5"/>
 					<in1 component_id="2465"/>
 				</object>
 			</c>
 			<c type="56">
 				<object id="2468" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
-ModN,ModB={},{}
+ModN,ModB,cache={},{},{}
 for i=1,3 do
 ModN[i],ModB[i]={},{}
 for j=3,32 do
@@ -216,6 +278,7 @@ ModN[i][j]=0
 ModB[i][j]=false
 end
 end
+cahcesize=0
 function onTick()
 	for i=1,3 do
 		if gN(1)==i then
@@ -230,16 +293,46 @@ function onTick()
 		sB(i,ModB[1][i] or ModB[2][i] or ModB[3][i])
 	end
 	for i=1,3 do
-		for j=4,22 do
+		for j=4,20 do
 			if ModN[i][3]%(2^(j+1))&gt;=2^j then
 				sN(j,ModN[i][j])
 			end
 		end
 	end
 	sN(3,ModN[1][3]+ModN[2][3]+ModN[3][3])
+	
+
+	if gN(1)==1 then
+		for i=1,3 do
+			for j=21,29,2 do
+				if ModN[i][j]~=0 then
+					cache[#cache+1]=ModN[i][j]
+					cache[#cache+1]=ModN[i][j+1]
+				end
+			end
+		end
+		if #cache&gt;=2 then
+			for i=1,5 do
+				if #cache&gt;=2 then
+					sN(i*2+19,cache[1])
+					sN(i*2+20,cache[2])
+					for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+					end
+					table.remove(cache,#cache)
+					table.remove(cache,#cache)
+				end
+			end
+		else
+			for i=1,5 do
+				sN(i*2+19,0)
+				sN(i*2+20,0)
+			end
+		end
+	end
 end
 ">
-					<pos x="2" y="7.5"/>
+					<pos x="2" y="9.5"/>
 					<in1 component_id="2463"/>
 				</object>
 			</c>
@@ -261,26 +354,8 @@ end
 			</c>
 			<c type="53">
 				<object id="2471">
-					<pos x="3.75" y="7.5"/>
+					<pos x="3.75" y="9.5"/>
 					<in2 component_id="2468"/>
-				</object>
-			</c>
-			<c type="53">
-				<object id="2472">
-					<pos x="-1.5" y="8.25"/>
-					<in2 component_id="2453"/>
-				</object>
-			</c>
-			<c type="53">
-				<object id="2473">
-					<pos x="-1.5" y="10.25"/>
-					<in2 component_id="2454"/>
-				</object>
-			</c>
-			<c type="53">
-				<object id="2474">
-					<pos x="-1.5" y="6.25"/>
-					<in2 component_id="2451"/>
 				</object>
 			</c>
 		</components>
@@ -293,12 +368,12 @@ end
 			</c>
 			<c type="4">
 				<object id="298">
-					<pos x="-5" y="7.75"/>
+					<pos x="-5" y="9.75"/>
 				</object>
 			</c>
 			<c type="4">
 				<object id="305">
-					<pos x="-5" y="9.75"/>
+					<pos x="-5" y="10.75"/>
 				</object>
 			</c>
 			<c type="4">
@@ -310,9 +385,9 @@ end
 		<groups/>
 		<component_states>
 			<c0 id="2451" count="1">
-				<pos x="-3.25" y="7.5"/>
-				<inc component_id="298"/>
-				<in1 component_id="2458"/>
+				<pos x="-3.25" y="11.5"/>
+				<inc component_id="316"/>
+				<in1 component_id="2456"/>
 			</c0>
 			<c1 id="2452">
 				<pos x="-1.5" y="11.25"/>
@@ -321,32 +396,32 @@ end
 				<in3 component_id="2461"/>
 			</c1>
 			<c2 id="2453" count="1">
-				<pos x="-3.25" y="11.5"/>
-				<inc component_id="316"/>
-				<in1 component_id="2456"/>
+				<pos x="-3.25" y="10.5"/>
+				<inc component_id="305"/>
+				<in1 component_id="2457"/>
 			</c2>
 			<c3 id="2454" count="1">
 				<pos x="-3.25" y="9.5"/>
-				<inc component_id="305"/>
-				<in1 component_id="2457"/>
+				<inc component_id="298"/>
+				<in1 component_id="2458"/>
 			</c3>
 			<c4 id="2455">
 				<pos x="0.25" y="11.25"/>
 				<in1 component_id="2452"/>
-				<in2 component_id="2473"/>
+				<in2 component_id="2454"/>
 				<in3 component_id="2459"/>
 			</c4>
 			<c5 id="2456">
 				<pos x="-5" y="11.25"/>
-				<n text="3" value="3"/>
+				<n text="1" value="1"/>
 			</c5>
 			<c6 id="2457">
-				<pos x="-5" y="9.25"/>
+				<pos x="-5" y="10.25"/>
 				<n text="2" value="2"/>
 			</c6>
 			<c7 id="2458">
-				<pos x="-5" y="7.25"/>
-				<n text="1" value="1"/>
+				<pos x="-5" y="9.25"/>
+				<n text="3" value="3"/>
 			</c7>
 			<c8 id="2459">
 				<pos x="-1.5" y="13.25"/>
@@ -362,31 +437,31 @@ end
 				<in2 component_id="2459"/>
 			</c10>
 			<c11 id="2462">
-				<pos x="-1.5" y="7.25"/>
+				<pos x="-1.5" y="9.25"/>
 				<in1 component_id="2453"/>
 				<in2 component_id="2454"/>
 				<in3 component_id="2461"/>
 			</c11>
 			<c12 id="2463">
-				<pos x="0.25" y="7.25"/>
+				<pos x="0.25" y="9.25"/>
 				<in1 component_id="2462"/>
-				<in2 component_id="2474"/>
+				<in2 component_id="2451"/>
 				<in3 component_id="2459"/>
 			</c12>
 			<c13 id="2464">
-				<pos x="-1.5" y="9.25"/>
+				<pos x="-1.5" y="10.25"/>
 				<in1 component_id="2454"/>
 				<in2 component_id="2451"/>
 				<in3 component_id="2461"/>
 			</c13>
 			<c14 id="2465">
-				<pos x="0.25" y="9.25"/>
+				<pos x="0.25" y="10.25"/>
 				<in1 component_id="2464"/>
-				<in2 component_id="2472"/>
+				<in2 component_id="2453"/>
 				<in3 component_id="2459"/>
 			</c14>
 			<c15 id="2466" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
-ModN,ModB={},{}
+ModN,ModB,cache={},{},{}
 for i=1,3 do
 ModN[i],ModB[i]={},{}
 for j=3,32 do
@@ -394,6 +469,7 @@ ModN[i][j]=0
 ModB[i][j]=false
 end
 end
+cahcesize=0
 function onTick()
 	for i=1,3 do
 		if gN(1)==i then
@@ -408,20 +484,50 @@ function onTick()
 		sB(i,ModB[1][i] or ModB[2][i] or ModB[3][i])
 	end
 	for i=1,3 do
-		for j=4,22 do
+		for j=4,20 do
 			if ModN[i][3]%(2^(j+1))&gt;=2^j then
 				sN(j,ModN[i][j])
 			end
 		end
 	end
 	sN(3,ModN[1][3]+ModN[2][3]+ModN[3][3])
+	
+
+	if gN(1)==1 then
+		for i=1,3 do
+			for j=21,29,2 do
+				if ModN[i][j]~=0 then
+					cache[#cache+1]=ModN[i][j]
+					cache[#cache+1]=ModN[i][j+1]
+				end
+			end
+		end
+		if #cache&gt;=2 then
+			for i=1,5 do
+				if #cache&gt;=2 then
+					sN(i*2+19,cache[1])
+					sN(i*2+20,cache[2])
+					for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+					end
+					table.remove(cache,#cache)
+					table.remove(cache,#cache)
+				end
+			end
+		else
+			for i=1,5 do
+				sN(i*2+19,0)
+				sN(i*2+20,0)
+			end
+		end
+	end
 end
 ">
 				<pos x="2" y="11.5"/>
 				<in1 component_id="2455"/>
 			</c15>
 			<c16 id="2467" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
-ModN,ModB={},{}
+ModN,ModB,cache={},{},{}
 for i=1,3 do
 ModN[i],ModB[i]={},{}
 for j=3,32 do
@@ -429,6 +535,7 @@ ModN[i][j]=0
 ModB[i][j]=false
 end
 end
+cahcesize=0
 function onTick()
 	for i=1,3 do
 		if gN(1)==i then
@@ -443,20 +550,50 @@ function onTick()
 		sB(i,ModB[1][i] or ModB[2][i] or ModB[3][i])
 	end
 	for i=1,3 do
-		for j=4,22 do
+		for j=4,20 do
 			if ModN[i][3]%(2^(j+1))&gt;=2^j then
 				sN(j,ModN[i][j])
 			end
 		end
 	end
 	sN(3,ModN[1][3]+ModN[2][3]+ModN[3][3])
+	
+
+	if gN(1)==1 then
+		for i=1,3 do
+			for j=21,29,2 do
+				if ModN[i][j]~=0 then
+					cache[#cache+1]=ModN[i][j]
+					cache[#cache+1]=ModN[i][j+1]
+				end
+			end
+		end
+		if #cache&gt;=2 then
+			for i=1,5 do
+				if #cache&gt;=2 then
+					sN(i*2+19,cache[1])
+					sN(i*2+20,cache[2])
+					for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+					end
+					table.remove(cache,#cache)
+					table.remove(cache,#cache)
+				end
+			end
+		else
+			for i=1,5 do
+				sN(i*2+19,0)
+				sN(i*2+20,0)
+			end
+		end
+	end
 end
 ">
-				<pos x="2" y="9.5"/>
+				<pos x="2" y="10.5"/>
 				<in1 component_id="2465"/>
 			</c16>
 			<c17 id="2468" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
-ModN,ModB={},{}
+ModN,ModB,cache={},{},{}
 for i=1,3 do
 ModN[i],ModB[i]={},{}
 for j=3,32 do
@@ -464,6 +601,7 @@ ModN[i][j]=0
 ModB[i][j]=false
 end
 end
+cahcesize=0
 function onTick()
 	for i=1,3 do
 		if gN(1)==i then
@@ -478,16 +616,46 @@ function onTick()
 		sB(i,ModB[1][i] or ModB[2][i] or ModB[3][i])
 	end
 	for i=1,3 do
-		for j=4,22 do
+		for j=4,20 do
 			if ModN[i][3]%(2^(j+1))&gt;=2^j then
 				sN(j,ModN[i][j])
 			end
 		end
 	end
 	sN(3,ModN[1][3]+ModN[2][3]+ModN[3][3])
+	
+
+	if gN(1)==1 then
+		for i=1,3 do
+			for j=21,29,2 do
+				if ModN[i][j]~=0 then
+					cache[#cache+1]=ModN[i][j]
+					cache[#cache+1]=ModN[i][j+1]
+				end
+			end
+		end
+		if #cache&gt;=2 then
+			for i=1,5 do
+				if #cache&gt;=2 then
+					sN(i*2+19,cache[1])
+					sN(i*2+20,cache[2])
+					for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+					end
+					table.remove(cache,#cache)
+					table.remove(cache,#cache)
+				end
+			end
+		else
+			for i=1,5 do
+				sN(i*2+19,0)
+				sN(i*2+20,0)
+			end
+		end
+	end
 end
 ">
-				<pos x="2" y="7.5"/>
+				<pos x="2" y="9.5"/>
 				<in1 component_id="2463"/>
 			</c17>
 			<c18 id="2469">
@@ -503,21 +671,9 @@ end
 				<in3 component_id="2459"/>
 			</c19>
 			<c20 id="2471">
-				<pos x="3.75" y="7.5"/>
+				<pos x="3.75" y="9.5"/>
 				<in2 component_id="2468"/>
 			</c20>
-			<c21 id="2472">
-				<pos x="-1.5" y="8.25"/>
-				<in2 component_id="2453"/>
-			</c21>
-			<c22 id="2473">
-				<pos x="-1.5" y="10.25"/>
-				<in2 component_id="2454"/>
-			</c22>
-			<c23 id="2474">
-				<pos x="-1.5" y="6.25"/>
-				<in2 component_id="2451"/>
-			</c23>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="293">
@@ -525,10 +681,10 @@ end
 				<in1 component_id="2470"/>
 			</c0>
 			<c1 id="298">
-				<pos x="-5" y="7.75"/>
+				<pos x="-5" y="9.75"/>
 			</c1>
 			<c2 id="305">
-				<pos x="-5" y="9.75"/>
+				<pos x="-5" y="10.75"/>
 			</c2>
 			<c3 id="316">
 				<pos x="-5" y="11.75"/>

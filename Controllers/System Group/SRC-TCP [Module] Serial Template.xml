@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="SRC-TCP [Module] Serial Template v1.4.0.0" width="2" length="2" id_counter="450" id_counter_node="35" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+	<nodes>
+		<n id="19" component_id="265">
+			<node label="Hub slot/Main Input" type="5" description="Outputs information to Hub/Main"/>
+		</n>
+		<n id="34" component_id="378">
+			<node label="Main Front" mode="1" type="5" description="Connects to Main Front in order to receive information from other cars">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="35" component_id="379">
+			<node label="Main Rear" mode="1" type="5" description="Connects to Main Rear in order to receive information from other cars">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="40">
+				<object id="405" count="2" offset="20">
+					<pos x="2.5" y="-0.5"/>
+					<in1 component_id="406"/>
+					<in2 component_id="425"/>
+				</object>
+			</c>
+			<c type="55">
+				<object id="406">
+					<pos x="0.75" y="-0.25"/>
+					<in1 component_id="407"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="407" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+
+function onTick()
+	enc(1,8,clamp(gN(1),0,255)) --encode target ID
+	enc(9,8,clamp(gN(2),0,255)) --encode my ID
+	enc(17,6,clamp(gN(3),0,63)) --encode target module ID
+	enc(23,6,clamp(gN(4),0,63)) --encode packet number
+end
+
+function enc(c,b,n)
+	for i=0,b-1 do
+		n = math.floor(n)
+		sB(c+i,n%2 == 1)
+		n = n/2
+	end
+end
+	
+function clamp(v,x,y) return math.min(math.max(v,x),y) end">
+					<pos x="-1" y="-0.5"/>
+					<in1 component_id="410"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="410" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+TmodID=3
+PacketNum=0
+clock=0
+function onTick()
+	MyID=gN(3)
+	Data=gN(4)
+	TargetID=gN(5)
+	
+	if clock&gt;=4 and Data~=0 then
+		clock=0
+		
+		sN(1,TargetID)
+		sN(2,MyID)
+		sN(3,TmodID)
+		sN(4,PacketNum)
+		sN(5,Data)
+		
+		PacketNum=PacketNum+1
+		if PacketNum&gt;=64 then
+			PacketNum=0
+		end
+		
+		sB(1,true)
+	else
+		clock=math.min(clock+1,4)
+		
+		for i=1,5 do
+			sN(i,0)
+		end
+		
+		sB(1,false)
+	end
+end">
+					<pos x="-2.75" y="-0.5"/>
+					<in1 component_id="415"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="415" count="2" offset="3">
+					<pos x="-4.5" y="-0.75"/>
+					<inc component_id="379"/>
+					<in1/>
+					<in2/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="416">
+					<pos x="-1" y="-2"/>
+					<in1 component_id="410"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="418" l="Packet send" on="on" off="off">
+					<pos x="0.75" y="-2"/>
+					<in1 component_id="416"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="424" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+TmodID=3
+DecBits={}
+function onTick()
+	ChannelOffset=0
+	MyID=gN(3)
+	for i=1,5 do
+		if gN(19+i*2)~=0 then
+			numberToBinary(gN(19+i*2))
+			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+				sN(1+(2*ChannelOffset),gN(19+i*2))
+				sN(2+(2*ChannelOffset),gN(20+i*2))
+				ChannelOffset=ChannelOffset+1
+			end
+		end
+	end
+end
+
+
+function numberToBinary(num)
+	num=('I'):unpack(('f'):pack(num))
+	for i=0,31 do
+		DecBits[1+i]=(num&amp;(1&lt;&lt;i))~=0
+	end
+end
+	
+function dec(c,b)
+	n = 0
+	for i=1,b do
+		n = n*2
+		n = n+(DecBits[c+b-i] and 1 or 0)
+	end
+	return n
+end">
+					<pos x="-4.5" y="-3.5"/>
+					<in1 component_id="379"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="425" i="4">
+					<pos x="0.75" y="-1"/>
+					<in1 component_id="426"/>
+				</object>
+			</c>
+			<c type="53">
+				<object id="426">
+					<pos x="-1" y="-1.5"/>
+					<in2 component_id="410"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="427" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+TmodID=3
+DecBits={}
+function onTick()
+	ChannelOffset=0
+	MyID=gN(3)
+	for i=1,5 do
+		if gN(19+i*2)~=0 then
+			numberToBinary(gN(19+i*2))
+			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+				sN(1+(2*ChannelOffset),gN(19+i*2))
+				sN(2+(2*ChannelOffset),gN(20+i*2))
+				ChannelOffset=ChannelOffset+1
+			end
+		end
+	end
+end
+
+
+function numberToBinary(num)
+	num=('I'):unpack(('f'):pack(num))
+	for i=0,31 do
+		DecBits[1+i]=(num&amp;(1&lt;&lt;i))~=0
+	end
+end
+	
+function dec(c,b)
+	n = 0
+	for i=1,b do
+		n = n*2
+		n = n+(DecBits[c+b-i] and 1 or 0)
+	end
+	return n
+end">
+					<pos x="-4.5" y="-4.5"/>
+					<in1 component_id="378"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="5">
+				<object id="265">
+					<pos x="4.25"/>
+					<in1 component_id="405"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="378">
+					<pos x="-6.25" y="-4.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="379">
+					<pos x="-6.25" y="-0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="405" count="2" offset="20">
+				<pos x="2.5" y="-0.5"/>
+				<in1 component_id="406"/>
+				<in2 component_id="425"/>
+			</c0>
+			<c1 id="406">
+				<pos x="0.75" y="-0.25"/>
+				<in1 component_id="407"/>
+			</c1>
+			<c2 id="407" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+
+function onTick()
+	enc(1,8,clamp(gN(1),0,255)) --encode target ID
+	enc(9,8,clamp(gN(2),0,255)) --encode my ID
+	enc(17,6,clamp(gN(3),0,63)) --encode target module ID
+	enc(23,6,clamp(gN(4),0,63)) --encode packet number
+end
+
+function enc(c,b,n)
+	for i=0,b-1 do
+		n = math.floor(n)
+		sB(c+i,n%2 == 1)
+		n = n/2
+	end
+end
+	
+function clamp(v,x,y) return math.min(math.max(v,x),y) end">
+				<pos x="-1" y="-0.5"/>
+				<in1 component_id="410"/>
+			</c2>
+			<c3 id="410" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+TmodID=3
+PacketNum=0
+clock=0
+function onTick()
+	MyID=gN(3)
+	Data=gN(4)
+	TargetID=gN(5)
+	
+	if clock&gt;=4 and Data~=0 then
+		clock=0
+		
+		sN(1,TargetID)
+		sN(2,MyID)
+		sN(3,TmodID)
+		sN(4,PacketNum)
+		sN(5,Data)
+		
+		PacketNum=PacketNum+1
+		if PacketNum&gt;=64 then
+			PacketNum=0
+		end
+		
+		sB(1,true)
+	else
+		clock=math.min(clock+1,4)
+		
+		for i=1,5 do
+			sN(i,0)
+		end
+		
+		sB(1,false)
+	end
+end">
+				<pos x="-2.75" y="-0.5"/>
+				<in1 component_id="415"/>
+			</c3>
+			<c4 id="415" count="2" offset="3">
+				<pos x="-4.5" y="-0.75"/>
+				<inc component_id="379"/>
+				<in1/>
+				<in2/>
+			</c4>
+			<c5 id="416">
+				<pos x="-1" y="-2"/>
+				<in1 component_id="410"/>
+			</c5>
+			<c6 id="418" l="Packet send" on="on" off="off">
+				<pos x="0.75" y="-2"/>
+				<in1 component_id="416"/>
+			</c6>
+			<c7 id="424" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+TmodID=3
+DecBits={}
+function onTick()
+	ChannelOffset=0
+	MyID=gN(3)
+	for i=1,5 do
+		if gN(19+i*2)~=0 then
+			numberToBinary(gN(19+i*2))
+			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+				sN(1+(2*ChannelOffset),gN(19+i*2))
+				sN(2+(2*ChannelOffset),gN(20+i*2))
+				ChannelOffset=ChannelOffset+1
+			end
+		end
+	end
+end
+
+
+function numberToBinary(num)
+	num=('I'):unpack(('f'):pack(num))
+	for i=0,31 do
+		DecBits[1+i]=(num&amp;(1&lt;&lt;i))~=0
+	end
+end
+	
+function dec(c,b)
+	n = 0
+	for i=1,b do
+		n = n*2
+		n = n+(DecBits[c+b-i] and 1 or 0)
+	end
+	return n
+end">
+				<pos x="-4.5" y="-3.5"/>
+				<in1 component_id="379"/>
+			</c7>
+			<c8 id="425" i="4">
+				<pos x="0.75" y="-1"/>
+				<in1 component_id="426"/>
+			</c8>
+			<c9 id="426">
+				<pos x="-1" y="-1.5"/>
+				<in2 component_id="410"/>
+			</c9>
+			<c10 id="427" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
+TmodID=3
+DecBits={}
+function onTick()
+	ChannelOffset=0
+	MyID=gN(3)
+	for i=1,5 do
+		if gN(19+i*2)~=0 then
+			numberToBinary(gN(19+i*2))
+			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+				sN(1+(2*ChannelOffset),gN(19+i*2))
+				sN(2+(2*ChannelOffset),gN(20+i*2))
+				ChannelOffset=ChannelOffset+1
+			end
+		end
+	end
+end
+
+
+function numberToBinary(num)
+	num=('I'):unpack(('f'):pack(num))
+	for i=0,31 do
+		DecBits[1+i]=(num&amp;(1&lt;&lt;i))~=0
+	end
+end
+	
+function dec(c,b)
+	n = 0
+	for i=1,b do
+		n = n*2
+		n = n+(DecBits[c+b-i] and 1 or 0)
+	end
+	return n
+end">
+				<pos x="-4.5" y="-4.5"/>
+				<in1 component_id="378"/>
+			</c10>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="265">
+				<pos x="4.25"/>
+				<in1 component_id="405"/>
+			</c0>
+			<c1 id="378">
+				<pos x="-6.25" y="-4.25"/>
+			</c1>
+			<c2 id="379">
+				<pos x="-6.25" y="-0.25"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+
