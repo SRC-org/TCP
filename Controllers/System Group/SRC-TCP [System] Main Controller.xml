@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Main Controller v1.4.0" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1658" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Main Controller v1.4.0.1" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1662" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="6" component_id="46">
 			<node label="Front Coupler" mode="1" type="5" description="Connects to front coupler">
@@ -105,37 +105,8 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
+	MyID=math.abs(ModulesIn[2])
 	
-	
-	RearConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Rear=RearConnector_f2%8192
-	RearConnectorID=RearConnector_f2-TMAS_key_Rear
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Rear==4200 then  --checks if rear is master
-
-		if RearConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end	
 	
 	--setup outputs
 	
@@ -163,7 +134,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -217,37 +188,7 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
-	
-	
-	RearConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Rear=RearConnector_f2%8192
-	RearConnectorID=RearConnector_f2-TMAS_key_Rear
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Rear==4200 then  --checks if rear is master
-
-		if RearConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end	
+	MyID=math.abs(ModulesIn[2])
 	
 	--setup outputs
 	
@@ -275,7 +216,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -358,37 +299,7 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
-	
-	
-	FrontConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Front=FrontConnector_f2%8192
-	FrontConnectorID=FrontConnector_f2-TMAS_key_Front
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Front==4200 then  --checks if rear is master
-
-		if FrontConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end
+	MyID=math.abs(ModulesIn[2])
 	
 	
 	--setup outputs
@@ -417,7 +328,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -470,37 +381,7 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
-	
-	
-	FrontConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Front=FrontConnector_f2%8192
-	FrontConnectorID=FrontConnector_f2-TMAS_key_Front
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Front==4200 then  --checks if rear is master
-
-		if FrontConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end	
+	MyID=math.abs(ModulesIn[2])
 	
 	--setup outputs
 	
@@ -528,7 +409,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -646,7 +527,7 @@ end">
 					<pos x="-12.5" y="3.75"/>
 					<inc component_id="59"/>
 					<in1 component_id="1657"/>
-					<in2 component_id="1547"/>
+					<in2 component_id="1659"/>
 				</object>
 			</c>
 			<c type="43">
@@ -1166,6 +1047,33 @@ end">
 					<n text="16032025" value="16032025"/>
 				</object>
 			</c>
+			<c type="10">
+				<object id="1659" e="(x+1)*y">
+					<pos x="-14.25" y="2.25"/>
+					<in1 component_id="1548"/>
+					<in2 component_id="1660"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="1660">
+					<pos x="-16" y="2"/>
+					<in1 component_id="1661"/>
+					<in2 component_id="1662"/>
+					<in3 component_id="1601"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="1661">
+					<pos x="-17.75" y="2.5"/>
+					<n text="1" value="1"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="1662">
+					<pos x="-17.75" y="2"/>
+					<n text="-1" value="-1"/>
+				</object>
+			</c>
 		</components>
 		<components_bridge>
 			<c type="4">
@@ -1270,37 +1178,8 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
+	MyID=math.abs(ModulesIn[2])
 	
-	
-	RearConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Rear=RearConnector_f2%8192
-	RearConnectorID=RearConnector_f2-TMAS_key_Rear
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Rear==4200 then  --checks if rear is master
-
-		if RearConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end	
 	
 	--setup outputs
 	
@@ -1328,7 +1207,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -1380,37 +1259,7 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
-	
-	
-	RearConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Rear=RearConnector_f2%8192
-	RearConnectorID=RearConnector_f2-TMAS_key_Rear
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Rear==4200 then  --checks if rear is master
-
-		if RearConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end	
+	MyID=math.abs(ModulesIn[2])
 	
 	--setup outputs
 	
@@ -1438,7 +1287,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -1511,37 +1360,7 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
-	
-	
-	FrontConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Front=FrontConnector_f2%8192
-	FrontConnectorID=FrontConnector_f2-TMAS_key_Front
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Front==4200 then  --checks if rear is master
-
-		if FrontConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end
+	MyID=math.abs(ModulesIn[2])
 	
 	
 	--setup outputs
@@ -1570,7 +1389,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -1621,37 +1440,7 @@ function onTick()
 		IamMaster=false
 	end
 	
-	MyID=ModulesIn[2]
-	
-	
-	FrontConnector_f2=MainbusIn[3]-MainbusIn[3]%4  --removes the first 2 bits
-	TMAS_key_Front=FrontConnector_f2%8192
-	FrontConnectorID=FrontConnector_f2-TMAS_key_Front
-	
-	if MainbusIn[2] ~= 0 and TMAS_key_Front==4200 then  --checks if rear is master
-
-		if FrontConnectorID==MyTMASID then
-	
-			Master_Has_Identical_OS=true
-		
-		else
-	
-			Master_Has_Identical_OS=false
-		
-		end
-		
-		Master_Key_Accepted=true
-	
-	else
-	
-	Master_Key_Accepted=false
-	Master_Has_Identical_OS=false
-		
-	end
-	
-	if IamMaster then
-		Master_Has_Identical_OS=true
-	end	
+	MyID=math.abs(ModulesIn[2])
 	
 	--setup outputs
 	
@@ -1679,7 +1468,7 @@ function onTick()
 	
 	
 	for i=4,22,1 do
-		if ModulesIn[3]%(2^(i+1))&gt;=2^i and Master_Has_Identical_OS then
+		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
@@ -1767,7 +1556,7 @@ end">
 				<pos x="-12.5" y="3.75"/>
 				<inc component_id="59"/>
 				<in1 component_id="1657"/>
-				<in2 component_id="1547"/>
+				<in2 component_id="1659"/>
 			</c24>
 			<c25 id="1550" l="My ID">
 				<pos x="-14.25" y="11"/>
@@ -2138,6 +1927,25 @@ end">
 				<pos x="-16" y="3.25"/>
 				<n text="16032025" value="16032025"/>
 			</c98>
+			<c99 id="1659" e="(x+1)*y">
+				<pos x="-14.25" y="2.25"/>
+				<in1 component_id="1548"/>
+				<in2 component_id="1660"/>
+			</c99>
+			<c100 id="1660">
+				<pos x="-16" y="2"/>
+				<in1 component_id="1661"/>
+				<in2 component_id="1662"/>
+				<in3 component_id="1601"/>
+			</c100>
+			<c101 id="1661">
+				<pos x="-17.75" y="2.5"/>
+				<n text="1" value="1"/>
+			</c101>
+			<c102 id="1662">
+				<pos x="-17.75" y="2"/>
+				<n text="-1" value="-1"/>
+			</c102>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="46">
