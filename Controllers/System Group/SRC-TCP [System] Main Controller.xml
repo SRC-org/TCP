@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Main Controller v1.4.0.1" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1662" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Main Controller v1.4.0.2" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1665" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="6" component_id="46">
 			<node label="Front Coupler" mode="1" type="5" description="Connects to front coupler">
@@ -70,6 +70,7 @@
 			<c type="56">
 				<object id="1524" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -88,10 +89,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -129,23 +158,19 @@ function onTick()
 		end
 	end
 	
+	
 	sB(1,MainbusInB[1] or ModulesInB[1])
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
 	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
-end
-">
+end">
 					<pos x="-7.25" y="5"/>
 					<in1 component_id="1523"/>
 				</object>
@@ -153,6 +178,7 @@ end
 			<c type="56">
 				<object id="1525" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -171,10 +197,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -215,17 +269,13 @@ function onTick()
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
-	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
+	end	
 end">
 					<pos x="-7.25" y="4"/>
 					<in1 component_id="1522"/>
@@ -264,6 +314,7 @@ end">
 			<c type="56">
 				<object id="1530" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -282,10 +333,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -327,17 +406,13 @@ function onTick()
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
-	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
+	end	
 end">
 					<pos x="-7.25" y="2.5"/>
 					<in1 component_id="1529"/>
@@ -346,6 +421,7 @@ end">
 			<c type="56">
 				<object id="1531" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -364,10 +440,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -408,17 +512,13 @@ function onTick()
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
 	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
 end">
 					<pos x="-7.25" y="1.5"/>
 					<in1 component_id="1528"/>
@@ -630,7 +730,7 @@ end">
 					<pos x="-19.5"/>
 					<in1 component_id="49"/>
 					<in2 component_id="1568"/>
-					<in3 component_id="1601"/>
+					<in3 component_id="1665"/>
 				</object>
 			</c>
 			<c type="53">
@@ -638,7 +738,7 @@ end">
 					<pos x="-19.5" y="-4.25"/>
 					<in1 component_id="46"/>
 					<in2 component_id="1564"/>
-					<in3 component_id="1601"/>
+					<in3 component_id="1665"/>
 				</object>
 			</c>
 			<c type="40">
@@ -856,15 +956,6 @@ end">
 					<e text="0.0001" value="0.0001"/>
 				</object>
 			</c>
-			<c type="46">
-				<object id="1601" e="(x&amp;y)|(z&amp;w)">
-					<pos x="-23" y="-2.5"/>
-					<in1 component_id="1599"/>
-					<in2 component_id="1594"/>
-					<in3 component_id="1593"/>
-					<in4 component_id="1600"/>
-				</object>
-			</c>
 			<c type="15">
 				<object id="1602">
 					<pos x="-16" y="3.75"/>
@@ -1059,7 +1150,7 @@ end">
 					<pos x="-16" y="2"/>
 					<in1 component_id="1661"/>
 					<in2 component_id="1662"/>
-					<in3 component_id="1601"/>
+					<in3 component_id="1665"/>
 				</object>
 			</c>
 			<c type="15">
@@ -1072,6 +1163,16 @@ end">
 				<object id="1662">
 					<pos x="-17.75" y="2"/>
 					<n text="-1" value="-1"/>
+				</object>
+			</c>
+			<c type="47">
+				<object id="1665" e="(x&amp;y)|(z&amp;w)|a">
+					<pos x="-23" y="-3.5"/>
+					<in1 component_id="1599"/>
+					<in2 component_id="1594"/>
+					<in3 component_id="1593"/>
+					<in4 component_id="1600"/>
+					<in5 component_id="1581"/>
 				</object>
 			</c>
 		</components>
@@ -1143,6 +1244,7 @@ end">
 			</c1>
 			<c2 id="1524" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -1161,10 +1263,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -1202,28 +1332,25 @@ function onTick()
 		end
 	end
 	
+	
 	sB(1,MainbusInB[1] or ModulesInB[1])
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
 	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
-end
-">
+end">
 				<pos x="-7.25" y="5"/>
 				<in1 component_id="1523"/>
 			</c2>
 			<c3 id="1525" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -1242,10 +1369,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -1286,17 +1441,13 @@ function onTick()
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
-	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
+	end	
 end">
 				<pos x="-7.25" y="4"/>
 				<in1 component_id="1522"/>
@@ -1325,6 +1476,7 @@ end">
 			</c7>
 			<c8 id="1530" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -1343,10 +1495,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -1388,23 +1568,20 @@ function onTick()
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
-	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
+	end	
 end">
 				<pos x="-7.25" y="2.5"/>
 				<in1 component_id="1529"/>
 			</c8>
 			<c9 id="1531" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
+cache={}
 MainbusIn={}
 ModulesIn={}
 MainbusInB={}
@@ -1423,10 +1600,38 @@ function onTick()
 			ModulesIn[i]=gN(i)
 			ModulesInB[i]=gB(i)
 		end
+		for i=21,29,2 do
+			if gN(i)~=0 then
+				cache[#cache+1]=gN(i)
+				cache[#cache+1]=gN(i+1)
+			end
+		end
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
 			MainbusInB[i]=gB(i)
+		end
+		
+		
+		for i=1,5 do
+			if #cache&gt;=2 and gN(2*i+19)==0 then
+				sN(2*i+19,cache[1])
+				sN(2*i+20,cache[2])
+				for i=1,#cache-1 do
+					cache[i]=cache[i+1]
+				end
+				table.remove(cache,#cache)
+				table.remove(cache,#cache)
+			else
+				sN(2*i+19,gN(2*i+19))
+				sN(2*i+20,gN(2*i+20))
+			end
+		end
+		
+		
+		
+		for i=4,32,1 do
+		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
 	end
 	
@@ -1467,17 +1672,13 @@ function onTick()
 	sB(2,MainbusInB[2] or ModulesInB[2])
 	
 	
-	for i=4,22,1 do
+	for i=4,20,1 do
 		if ModulesIn[3]%(2^(i+1))&gt;=2^i and (ModulesIn[2]&gt;=1 or IamMaster) then
 				sN(i,ModulesIn[i])
 		else
 				sN(i,MainbusIn[i])
 		end
 	end
-	for i=4,32,1 do
-		sB(i,MainbusInB[i] or ModulesInB[i])
-	end
-	
 end">
 				<pos x="-7.25" y="1.5"/>
 				<in1 component_id="1528"/>
@@ -1633,13 +1834,13 @@ end">
 				<pos x="-19.5"/>
 				<in1 component_id="49"/>
 				<in2 component_id="1568"/>
-				<in3 component_id="1601"/>
+				<in3 component_id="1665"/>
 			</c37>
 			<c38 id="1563">
 				<pos x="-19.5" y="-4.25"/>
 				<in1 component_id="46"/>
 				<in2 component_id="1564"/>
-				<in3 component_id="1601"/>
+				<in3 component_id="1665"/>
 			</c38>
 			<c39 id="1564" count="1" offset="4">
 				<pos x="-21.25" y="-4.25"/>
@@ -1792,71 +1993,64 @@ end">
 				<in2 component_id="1598"/>
 				<e text="0.0001" value="0.0001"/>
 			</c70>
-			<c71 id="1601" e="(x&amp;y)|(z&amp;w)">
-				<pos x="-23" y="-2.5"/>
-				<in1 component_id="1599"/>
-				<in2 component_id="1594"/>
-				<in3 component_id="1593"/>
-				<in4 component_id="1600"/>
-			</c71>
-			<c72 id="1602">
+			<c71 id="1602">
 				<pos x="-16" y="3.75"/>
 				<n text="-16032025" value="-16032025"/>
-			</c72>
-			<c73 id="1604">
+			</c71>
+			<c72 id="1604">
 				<pos x="-3.75" y="11.25"/>
 				<in1 component_id="1383"/>
-			</c73>
-			<c74 id="1605" i="1">
+			</c72>
+			<c73 id="1605" i="1">
 				<pos x="-3.75" y="9.5"/>
 				<in1 component_id="1383"/>
-			</c74>
-			<c75 id="1606" i="2">
+			</c73>
+			<c74 id="1606" i="2">
 				<pos x="-3.75" y="9"/>
 				<in1 component_id="1383"/>
-			</c75>
-			<c76 id="1607" i="3">
+			</c74>
+			<c75 id="1607" i="3">
 				<pos x="-3.75" y="8.5"/>
 				<in1 component_id="1383"/>
-			</c76>
-			<c77 id="1608">
+			</c75>
+			<c76 id="1608">
 				<pos x="-2" y="11.25"/>
 				<in1 component_id="1604"/>
-			</c77>
-			<c78 id="1609" ct="0">
+			</c76>
+			<c77 id="1609" ct="0">
 				<pos x="-0.25" y="11.25"/>
 				<in1 component_id="1608"/>
-			</c78>
-			<c79 id="1611" m="0">
+			</c77>
+			<c78 id="1611" m="0">
 				<pos x="1.5" y="11.25"/>
 				<in1 component_id="1609"/>
-			</c79>
-			<c80 id="1612" e="(x&amp;y&amp;!z)|(x&amp;w)">
+			</c78>
+			<c79 id="1612" e="(x&amp;y&amp;!z)|(x&amp;w)">
 				<pos x="3.25" y="10.5"/>
 				<in1 component_id="1611"/>
 				<in2 component_id="1613" node_index="1"/>
 				<in3 component_id="1586"/>
 				<in4 component_id="1606"/>
-			</c80>
-			<c81 id="1613">
+			</c79>
+			<c80 id="1613">
 				<pos x="1.5" y="10.5"/>
 				<in1 component_id="1615"/>
 				<in2 component_id="1608"/>
-			</c81>
-			<c82 id="1615">
+			</c80>
+			<c81 id="1615">
 				<pos x="-0.25" y="10.5"/>
 				<in1 component_id="1616"/>
 				<in2 component_id="1617"/>
-			</c82>
-			<c83 id="1616" i="1">
+			</c81>
+			<c82 id="1616" i="1">
 				<pos x="-2" y="10.75"/>
 				<in1 component_id="49"/>
-			</c83>
-			<c84 id="1617" i="1">
+			</c82>
+			<c83 id="1617" i="1">
 				<pos x="-2" y="10.25"/>
 				<in1 component_id="46"/>
-			</c84>
-			<c85 id="1618" e="w|(x&amp;(!b|(b&amp;!y)))|((c|d)&amp;!y)">
+			</c83>
+			<c84 id="1618" e="w|(x&amp;(!b|(b&amp;!y)))|((c|d)&amp;!y)">
 				<pos x="3.25" y="7.75"/>
 				<in1 component_id="1605"/>
 				<in2 component_id="1606"/>
@@ -1865,86 +2059,94 @@ end">
 				<in6 component_id="1632"/>
 				<in7 component_id="1622"/>
 				<in8 component_id="1623"/>
-			</c85>
-			<c86 id="1619">
+			</c84>
+			<c85 id="1619">
 				<pos x="-2" y="9"/>
 				<in1 component_id="1581"/>
 				<in2 component_id="1586"/>
-			</c86>
-			<c87 id="1620" dt="0">
+			</c85>
+			<c86 id="1620" dt="0">
 				<pos x="-2" y="8.5"/>
 				<in1 component_id="1619"/>
-			</c87>
-			<c88 id="1622">
+			</c86>
+			<c87 id="1622">
 				<pos x="1.5" y="7.5"/>
 				<in1 component_id="49"/>
-			</c88>
-			<c89 id="1623">
+			</c87>
+			<c88 id="1623">
 				<pos x="1.5" y="7"/>
 				<in1 component_id="46"/>
-			</c89>
-			<c90 id="1624" e="x&amp;(y|z)">
+			</c88>
+			<c89 id="1624" e="x&amp;(y|z)">
 				<pos x="3.25" y="6.5"/>
 				<in1 component_id="1606"/>
 				<in2 component_id="1622"/>
 				<in3 component_id="1623"/>
-			</c90>
-			<c91 id="1625">
+			</c89>
+			<c90 id="1625">
 				<pos x="5" y="7.25"/>
 				<in1 component_id="1624"/>
-			</c91>
-			<c92 id="1626" l="I am master" on="yes" off="no">
+			</c90>
+			<c91 id="1626" l="I am master" on="yes" off="no">
 				<pos x="5" y="10.5"/>
 				<in1 component_id="1581"/>
-			</c92>
-			<c93 id="1632" n="Lock release on lock master" on="Locked" off="Unlocked">
+			</c91>
+			<c92 id="1632" n="Lock release on lock master" on="Locked" off="Unlocked">
 				<pos x="1.5" y="8.25"/>
-			</c93>
-			<c94 id="1634" e="(x&amp;(!w&amp;!a))|(y&amp;!a)|z">
+			</c92>
+			<c93 id="1634" e="(x&amp;(!w&amp;!a))|(y&amp;!a)|z">
 				<pos x="-0.25" y="7.5"/>
 				<in1 component_id="1619"/>
 				<in2 component_id="1620"/>
 				<in3 component_id="1635"/>
 				<in4 component_id="1606"/>
 				<in5 component_id="1607"/>
-			</c94>
-			<c95 id="1635" dt="0">
+			</c93>
+			<c94 id="1635" dt="0">
 				<pos x="-2" y="8"/>
 				<in1 component_id="1620"/>
-			</c95>
-			<c96 id="1656">
+			</c94>
+			<c95 id="1656">
 				<pos x="-16" y="7.5"/>
 				<in1 component_id="1586"/>
 				<in2 component_id="1581"/>
-			</c96>
-			<c97 id="1657">
+			</c95>
+			<c96 id="1657">
 				<pos x="-14.25" y="3.25"/>
 				<in1 component_id="1602"/>
 				<in2 component_id="1658"/>
 				<in3 component_id="1581"/>
-			</c97>
-			<c98 id="1658">
+			</c96>
+			<c97 id="1658">
 				<pos x="-16" y="3.25"/>
 				<n text="16032025" value="16032025"/>
-			</c98>
-			<c99 id="1659" e="(x+1)*y">
+			</c97>
+			<c98 id="1659" e="(x+1)*y">
 				<pos x="-14.25" y="2.25"/>
 				<in1 component_id="1548"/>
 				<in2 component_id="1660"/>
-			</c99>
-			<c100 id="1660">
+			</c98>
+			<c99 id="1660">
 				<pos x="-16" y="2"/>
 				<in1 component_id="1661"/>
 				<in2 component_id="1662"/>
-				<in3 component_id="1601"/>
-			</c100>
-			<c101 id="1661">
+				<in3 component_id="1665"/>
+			</c99>
+			<c100 id="1661">
 				<pos x="-17.75" y="2.5"/>
 				<n text="1" value="1"/>
-			</c101>
-			<c102 id="1662">
+			</c100>
+			<c101 id="1662">
 				<pos x="-17.75" y="2"/>
 				<n text="-1" value="-1"/>
+			</c101>
+			<c102 id="1665" e="(x&amp;y)|(z&amp;w)|a">
+				<pos x="-23" y="-3.5"/>
+				<in1 component_id="1599"/>
+				<in2 component_id="1594"/>
+				<in3 component_id="1593"/>
+				<in4 component_id="1600"/>
+				<in5 component_id="1581"/>
 			</c102>
 		</component_states>
 		<component_bridge_states>
