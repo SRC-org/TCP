@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Main Controller v1.4.0.2" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1665" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Main Controller v1.4.0.4" description="The base for everything. Hubs or Modules can be connected to it." width="5" length="2" id_counter="1679" id_counter_node="22" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="6" component_id="46">
 			<node label="Front Coupler" mode="1" type="5" description="Connects to front coupler">
@@ -95,6 +95,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -122,6 +123,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -203,6 +206,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -230,6 +234,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -300,7 +306,7 @@ end">
 					<pos x="-9" y="1.25"/>
 					<in1 component_id="1534"/>
 					<in2 component_id="46"/>
-					<in3 component_id="1533"/>
+					<in3 component_id="1527"/>
 				</object>
 			</c>
 			<c type="53">
@@ -308,7 +314,7 @@ end">
 					<pos x="-9" y="2.25"/>
 					<in1 component_id="46"/>
 					<in2 component_id="1534"/>
-					<in3 component_id="1533"/>
+					<in3 component_id="1527"/>
 				</object>
 			</c>
 			<c type="56">
@@ -339,6 +345,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -366,6 +373,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -446,6 +455,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -473,6 +483,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -529,13 +541,7 @@ end">
 					<pos x="-5.5" y="2.25"/>
 					<in1 component_id="1530"/>
 					<in2 component_id="1531"/>
-					<in3 component_id="1533"/>
-				</object>
-			</c>
-			<c>
-				<object id="1533">
-					<pos x="-10.75" y="2.25"/>
-					<in1 component_id="1533"/>
+					<in3 component_id="1527"/>
 				</object>
 			</c>
 			<c type="41">
@@ -648,7 +654,7 @@ end">
 			<c type="40">
 				<object id="1552" count="3">
 					<pos x="-17.75" y="-5.75"/>
-					<inc component_id="1551"/>
+					<inc component_id="1679"/>
 					<in1 component_id="1570"/>
 					<in2 component_id="1574"/>
 					<in3 component_id="1547"/>
@@ -666,7 +672,7 @@ end">
 			<c type="40">
 				<object id="1554" count="3">
 					<pos x="-17.75" y="-1.5"/>
-					<inc component_id="1553"/>
+					<inc component_id="1677"/>
 					<in1 component_id="1570"/>
 					<in2 component_id="1574"/>
 					<in3 component_id="1547"/>
@@ -1175,6 +1181,81 @@ end">
 					<in5 component_id="1581"/>
 				</object>
 			</c>
+			<c type="2">
+				<object id="1666">
+					<pos x="-10.75" y="2"/>
+					<in1 component_id="1527"/>
+				</object>
+			</c>
+			<c type="53">
+				<object id="1667">
+					<pos x="-5.5" y="3.75"/>
+					<in1 component_id="1524"/>
+					<in2 component_id="1525"/>
+					<in3 component_id="1666"/>
+				</object>
+			</c>
+			<c type="53">
+				<object id="1668">
+					<pos x="-5.5" y="1.25"/>
+					<in1 component_id="1530"/>
+					<in2 component_id="1531"/>
+					<in3 component_id="1666"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="1670" i="30">
+					<pos x="-3.75" y="4.25"/>
+					<in1 component_id="1667"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="1671" e="x">
+					<pos x="-2" y="4.25"/>
+					<in1 component_id="1670"/>
+				</object>
+			</c>
+			<c type="36">
+				<object id="1673" e="max(x,max(y,max(z,w)))/2">
+					<pos x="-0.25" y="2.5"/>
+					<in1 component_id="1671"/>
+					<in2 component_id="1670"/>
+					<in3 component_id="1675"/>
+					<in4 component_id="1674"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="1674" e="x">
+					<pos x="-2" y="1.75"/>
+					<in1 component_id="1675"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="1675" i="30">
+					<pos x="-3.75" y="1.75"/>
+					<in1 component_id="1668"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="1676" l="Largest Cache Size">
+					<pos x="1.5" y="4"/>
+					<in1 component_id="1673"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="1677" count="1" offset="30">
+					<pos x="-16" y="0.25"/>
+					<inc component_id="1553"/>
+					<in1 component_id="1673"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="1679" count="1" offset="30">
+					<pos x="-16" y="-4"/>
+					<inc component_id="1551"/>
+					<in1 component_id="1673"/>
+				</object>
+			</c>
 		</components>
 		<components_bridge>
 			<c type="4">
@@ -1269,6 +1350,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -1296,6 +1378,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -1375,6 +1459,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -1402,6 +1487,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -1466,13 +1553,13 @@ end">
 				<pos x="-9" y="1.25"/>
 				<in1 component_id="1534"/>
 				<in2 component_id="46"/>
-				<in3 component_id="1533"/>
+				<in3 component_id="1527"/>
 			</c6>
 			<c7 id="1529">
 				<pos x="-9" y="2.25"/>
 				<in1 component_id="46"/>
 				<in2 component_id="1534"/>
-				<in3 component_id="1533"/>
+				<in3 component_id="1527"/>
 			</c7>
 			<c8 id="1530" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 MyTMASID=0
@@ -1501,6 +1588,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -1528,6 +1616,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -1606,6 +1696,7 @@ function onTick()
 				cache[#cache+1]=gN(i+1)
 			end
 		end
+		sN(31,#cache)
 	else
 		for i=1,32,1 do
 			MainbusIn[i]=gN(i)
@@ -1633,6 +1724,8 @@ function onTick()
 		for i=4,32,1 do
 		sB(i,MainbusInB[i] or ModulesInB[i])
 		end
+		sN(31,MainbusIn[31])
+		sN(32,MainbusIn[32])
 	end
 	
 
@@ -1687,370 +1780,366 @@ end">
 				<pos x="-5.5" y="2.25"/>
 				<in1 component_id="1530"/>
 				<in2 component_id="1531"/>
-				<in3 component_id="1533"/>
+				<in3 component_id="1527"/>
 			</c10>
-			<c11 id="1533">
-				<pos x="-10.75" y="2.25"/>
-				<in1 component_id="1533"/>
-			</c11>
-			<c12 id="1534" count="3">
+			<c11 id="1534" count="3">
 				<pos x="-10.75" y="3.5"/>
 				<inc component_id="1549"/>
 				<in1 component_id="1608"/>
 				<in2 component_id="1625"/>
 				<in3 component_id="1544"/>
-			</c12>
-			<c13 id="1536" e="x%4">
+			</c11>
+			<c12 id="1536" e="x%4">
 				<pos x="-24.75" y="10.75"/>
 				<in1 component_id="1541"/>
-			</c13>
-			<c14 id="1537">
+			</c12>
+			<c13 id="1537">
 				<pos x="-23" y="10.75"/>
 				<in1 component_id="1536"/>
 				<min text="2" value="2"/>
 				<max text="2" value="2"/>
-			</c14>
-			<c15 id="1538" e="x%4">
+			</c13>
+			<c14 id="1538" e="x%4">
 				<pos x="-24.75" y="10.25"/>
 				<in1 component_id="1540"/>
-			</c15>
-			<c16 id="1539">
+			</c14>
+			<c15 id="1539">
 				<pos x="-23" y="10.25"/>
 				<in1 component_id="1538"/>
 				<min text="1" value="1"/>
 				<max text="1" value="1"/>
-			</c16>
-			<c17 id="1540" i="2">
+			</c15>
+			<c16 id="1540" i="2">
 				<pos x="-26.5" y="10.25"/>
 				<in1 component_id="46"/>
-			</c17>
-			<c18 id="1541" i="2">
+			</c16>
+			<c17 id="1541" i="2">
 				<pos x="-26.5" y="10.75"/>
 				<in1 component_id="49"/>
-			</c18>
-			<c19 id="1543" e="(x|y)^(z&amp;w)">
+			</c17>
+			<c18 id="1543" e="(x|y)^(z&amp;w)">
 				<pos x="-21.25" y="10"/>
 				<in1 component_id="1537"/>
 				<in2 component_id="1539"/>
 				<in3 component_id="1544"/>
 				<in4 component_id="1581"/>
-			</c19>
-			<c20 id="1544" i="4">
+			</c18>
+			<c19 id="1544" i="4">
 				<pos x="-23" y="9.75"/>
 				<in1 component_id="1383"/>
-			</c20>
-			<c21 id="1546">
+			</c19>
+			<c20 id="1546">
 				<pos x="-19.5" y="10.75"/>
 				<in1 component_id="49"/>
 				<in2 component_id="46"/>
 				<in3 component_id="1543"/>
-			</c21>
-			<c22 id="1547" e="x+1">
+			</c20>
+			<c21 id="1547" e="x+1">
 				<pos x="-16" y="11.25"/>
 				<in1 component_id="1548"/>
-			</c22>
-			<c23 id="1548">
+			</c21>
+			<c22 id="1548">
 				<pos x="-17.75" y="11.25"/>
 				<in1 component_id="1546"/>
-			</c23>
-			<c24 id="1549" count="2">
+			</c22>
+			<c23 id="1549" count="2">
 				<pos x="-12.5" y="3.75"/>
 				<inc component_id="59"/>
 				<in1 component_id="1657"/>
 				<in2 component_id="1659"/>
-			</c24>
-			<c25 id="1550" l="My ID">
+			</c23>
+			<c24 id="1550" l="My ID">
 				<pos x="-14.25" y="11"/>
 				<in1 component_id="1547"/>
-			</c25>
-			<c26 id="1551" count="3">
+			</c24>
+			<c25 id="1551" count="3">
 				<pos x="-17.75" y="-4.5"/>
 				<inc component_id="1563"/>
 				<in1 component_id="1581"/>
 				<in2 component_id="1656"/>
 				<in3 component_id="1543"/>
-			</c26>
-			<c27 id="1552" count="3">
+			</c25>
+			<c26 id="1552" count="3">
 				<pos x="-17.75" y="-5.75"/>
-				<inc component_id="1551"/>
+				<inc component_id="1679"/>
 				<in1 component_id="1570"/>
 				<in2 component_id="1574"/>
 				<in3 component_id="1547"/>
-			</c27>
-			<c28 id="1553" count="3">
+			</c26>
+			<c27 id="1553" count="3">
 				<pos x="-17.75" y="-0.25"/>
 				<inc component_id="1562"/>
 				<in1 component_id="1581"/>
 				<in2 component_id="1656"/>
 				<in3 component_id="1543"/>
-			</c28>
-			<c29 id="1554" count="3">
+			</c27>
+			<c28 id="1554" count="3">
 				<pos x="-17.75" y="-1.5"/>
-				<inc component_id="1553"/>
+				<inc component_id="1677"/>
 				<in1 component_id="1570"/>
 				<in2 component_id="1574"/>
 				<in3 component_id="1547"/>
-			</c29>
-			<c30 id="1555">
+			</c28>
+			<c29 id="1555">
 				<pos x="-14.25" y="-2.75"/>
 				<in1 component_id="1554"/>
 				<in2 component_id="1552"/>
 				<in3 component_id="1557"/>
-			</c30>
-			<c31 id="1556">
+			</c29>
+			<c30 id="1556">
 				<pos x="-17.75" y="-3"/>
 				<in1 component_id="1558"/>
 				<e text="0.0001" value="0.0001"/>
-			</c31>
-			<c32 id="1557">
+			</c30>
+			<c31 id="1557">
 				<pos x="-16" y="-2.75"/>
 				<in1 component_id="1556"/>
-			</c32>
-			<c33 id="1558" i="1">
+			</c31>
+			<c32 id="1558" i="1">
 				<pos x="-19.5" y="-2.75"/>
 				<in1 component_id="49"/>
-			</c33>
-			<c34 id="1559">
+			</c32>
+			<c33 id="1559">
 				<pos x="-12.5" y="-2.75"/>
 				<in1 component_id="1561"/>
 				<in2 component_id="1555"/>
 				<in3 component_id="1581"/>
-			</c34>
-			<c35 id="1560" count="3">
+			</c33>
+			<c34 id="1560" count="3">
 				<pos x="-14.25" y="-1.5"/>
 				<inc component_id="59"/>
 				<in1 component_id="1570"/>
 				<in2 component_id="1574"/>
 				<in3 component_id="1547"/>
-			</c35>
-			<c36 id="1561" count="3">
+			</c34>
+			<c35 id="1561" count="3">
 				<pos x="-12.5" y="-1.5"/>
 				<inc component_id="1560"/>
 				<in1 component_id="1581"/>
 				<in2 component_id="1656"/>
 				<in3 component_id="1543"/>
-			</c36>
-			<c37 id="1562">
+			</c35>
+			<c36 id="1562">
 				<pos x="-19.5"/>
 				<in1 component_id="49"/>
 				<in2 component_id="1568"/>
 				<in3 component_id="1665"/>
-			</c37>
-			<c38 id="1563">
+			</c36>
+			<c37 id="1563">
 				<pos x="-19.5" y="-4.25"/>
 				<in1 component_id="46"/>
 				<in2 component_id="1564"/>
 				<in3 component_id="1665"/>
-			</c38>
-			<c39 id="1564" count="1" offset="4">
+			</c37>
+			<c38 id="1564" count="1" offset="4">
 				<pos x="-21.25" y="-4.25"/>
 				<in1 component_id="1565"/>
-			</c39>
-			<c40 id="1565" i="4">
+			</c38>
+			<c39 id="1565" i="4">
 				<pos x="-23" y="-4.25"/>
 				<in1 component_id="1566"/>
-			</c40>
-			<c41 id="1566">
+			</c39>
+			<c40 id="1566">
 				<pos x="-24.75" y="-4.75"/>
 				<in1 component_id="46"/>
 				<in3 component_id="1593"/>
-			</c41>
-			<c42 id="1567">
+			</c40>
+			<c41 id="1567">
 				<pos x="-24.75" y="-0.5"/>
 				<in1 component_id="49"/>
 				<in3 component_id="1594"/>
-			</c42>
-			<c43 id="1568" count="1" offset="4">
+			</c41>
+			<c42 id="1568" count="1" offset="4">
 				<pos x="-21.25"/>
 				<in1 component_id="1569"/>
-			</c43>
-			<c44 id="1569" i="4">
+			</c42>
+			<c43 id="1569" i="4">
 				<pos x="-23"/>
 				<in1 component_id="1567"/>
-			</c44>
-			<c45 id="1570" e="x+y+1">
+			</c43>
+			<c44 id="1570" e="x+y+1">
 				<pos x="-16" y="9.5"/>
 				<in1 component_id="1575"/>
 				<in2 component_id="1576"/>
-			</c45>
-			<c46 id="1571">
+			</c44>
+			<c45 id="1571">
 				<pos x="-19.5" y="8"/>
 				<in1 component_id="1577"/>
 				<e text="0.0001" value="0.0001"/>
-			</c46>
-			<c47 id="1573">
+			</c45>
+			<c46 id="1573">
 				<pos x="-17.75" y="8.25"/>
 				<in1 component_id="1578"/>
 				<in2 component_id="1577"/>
 				<in3 component_id="1571"/>
-			</c47>
-			<c48 id="1574">
+			</c46>
+			<c47 id="1574">
 				<pos x="-16" y="8.25"/>
 				<in1 component_id="1547"/>
 				<in2 component_id="1573"/>
 				<in3 component_id="1581"/>
-			</c48>
-			<c49 id="1575">
+			</c47>
+			<c48 id="1575">
 				<pos x="-17.75" y="10"/>
 				<in1 component_id="49"/>
-			</c49>
-			<c50 id="1576">
+			</c48>
+			<c49 id="1576">
 				<pos x="-17.75" y="9.5"/>
 				<in1 component_id="46"/>
-			</c50>
-			<c51 id="1577" i="1">
+			</c49>
+			<c50 id="1577" i="1">
 				<pos x="-21.25" y="8.75"/>
 				<in1 component_id="49"/>
-			</c51>
-			<c52 id="1578" i="1">
+			</c50>
+			<c51 id="1578" i="1">
 				<pos x="-21.25" y="8.25"/>
 				<in1 component_id="46"/>
-			</c52>
-			<c53 id="1579" l="Train Length">
+			</c51>
+			<c52 id="1579" l="Train Length">
 				<pos x="-14.25" y="9.75"/>
 				<in1 component_id="1570"/>
-			</c53>
-			<c54 id="1580" l="Master ID">
+			</c52>
+			<c53 id="1580" l="Master ID">
 				<pos x="-14.25" y="8.5"/>
 				<in1 component_id="1574"/>
-			</c54>
-			<c55 id="1581">
+			</c53>
+			<c54 id="1581">
 				<pos x="5" y="11"/>
 				<in1 component_id="1612"/>
 				<in2 component_id="1618"/>
-			</c55>
-			<c56 id="1583">
+			</c54>
+			<c55 id="1583">
 				<pos x="-19.5" y="7.25"/>
 				<in1 component_id="1578"/>
 				<e text="0.0001" value="0.0001"/>
-			</c56>
-			<c57 id="1586" e="!x|!y">
+			</c55>
+			<c56 id="1586" e="!x|!y">
 				<pos x="-17.75" y="7"/>
 				<in1 component_id="1571"/>
 				<in2 component_id="1583"/>
-			</c57>
-			<c58 id="1587">
+			</c56>
+			<c57 id="1587">
 				<pos x="-28.25" y="-2"/>
 				<in1 component_id="1588"/>
 				<min text="4200" value="4200"/>
 				<max text="4200" value="4200"/>
-			</c58>
-			<c59 id="1588" e="x%8192-x%4">
+			</c57>
+			<c58 id="1588" e="x%8192-x%4">
 				<pos x="-28.25" y="-1.5"/>
 				<in1 component_id="1541"/>
-			</c59>
-			<c60 id="1589">
+			</c58>
+			<c59 id="1589">
 				<pos x="-28.25" y="-4.75"/>
 				<in1 component_id="1590"/>
 				<min text="4200" value="4200"/>
 				<max text="4200" value="4200"/>
-			</c60>
-			<c61 id="1590" e="x%8192-x%4">
+			</c59>
+			<c60 id="1590" e="x%8192-x%4">
 				<pos x="-28.25" y="-4.25"/>
 				<in1 component_id="1540"/>
-			</c61>
-			<c62 id="1591">
+			</c60>
+			<c61 id="1591">
 				<pos x="-28.25" y="-0.75"/>
 				<in1 component_id="1577"/>
 				<e text="0.0001" value="0.0001"/>
-			</c62>
-			<c63 id="1592">
+			</c61>
+			<c62 id="1592">
 				<pos x="-28.25" y="-3.5"/>
 				<in1 component_id="1578"/>
 				<e text="0.0001" value="0.0001"/>
-			</c63>
-			<c64 id="1593" e="!x&amp;y">
+			</c62>
+			<c63 id="1593" e="!x&amp;y">
 				<pos x="-26.5" y="-4"/>
 				<in1 component_id="1592"/>
 				<in2 component_id="1589"/>
-			</c64>
-			<c65 id="1594" e="!x&amp;y">
+			</c63>
+			<c64 id="1594" e="!x&amp;y">
 				<pos x="-26.5" y="-1.25"/>
 				<in1 component_id="1591"/>
 				<in2 component_id="1587"/>
-			</c65>
-			<c66 id="1596" e="floor(x/8192)">
+			</c64>
+			<c65 id="1596" e="floor(x/8192)">
 				<pos x="-26.5" y="-1.75"/>
 				<in1 component_id="1541"/>
-			</c66>
-			<c67 id="1597" e="floor(x/8192)">
+			</c65>
+			<c66 id="1597" e="floor(x/8192)">
 				<pos x="-26.5" y="-2.25"/>
 				<in1 component_id="1540"/>
-			</c67>
-			<c68 id="1598">
+			</c66>
+			<c67 id="1598">
 				<pos x="-26.5" y="-2.75"/>
 				<n text="0"/>
-			</c68>
-			<c69 id="1599">
+			</c67>
+			<c68 id="1599">
 				<pos x="-24.75" y="-2"/>
 				<in1 component_id="1596"/>
 				<in2 component_id="1598"/>
 				<e text="0.0001" value="0.0001"/>
-			</c69>
-			<c70 id="1600">
+			</c68>
+			<c69 id="1600">
 				<pos x="-24.75" y="-2.75"/>
 				<in1 component_id="1597"/>
 				<in2 component_id="1598"/>
 				<e text="0.0001" value="0.0001"/>
-			</c70>
-			<c71 id="1602">
+			</c69>
+			<c70 id="1602">
 				<pos x="-16" y="3.75"/>
 				<n text="-16032025" value="-16032025"/>
-			</c71>
-			<c72 id="1604">
+			</c70>
+			<c71 id="1604">
 				<pos x="-3.75" y="11.25"/>
 				<in1 component_id="1383"/>
-			</c72>
-			<c73 id="1605" i="1">
+			</c71>
+			<c72 id="1605" i="1">
 				<pos x="-3.75" y="9.5"/>
 				<in1 component_id="1383"/>
-			</c73>
-			<c74 id="1606" i="2">
+			</c72>
+			<c73 id="1606" i="2">
 				<pos x="-3.75" y="9"/>
 				<in1 component_id="1383"/>
-			</c74>
-			<c75 id="1607" i="3">
+			</c73>
+			<c74 id="1607" i="3">
 				<pos x="-3.75" y="8.5"/>
 				<in1 component_id="1383"/>
-			</c75>
-			<c76 id="1608">
+			</c74>
+			<c75 id="1608">
 				<pos x="-2" y="11.25"/>
 				<in1 component_id="1604"/>
-			</c76>
-			<c77 id="1609" ct="0">
+			</c75>
+			<c76 id="1609" ct="0">
 				<pos x="-0.25" y="11.25"/>
 				<in1 component_id="1608"/>
-			</c77>
-			<c78 id="1611" m="0">
+			</c76>
+			<c77 id="1611" m="0">
 				<pos x="1.5" y="11.25"/>
 				<in1 component_id="1609"/>
-			</c78>
-			<c79 id="1612" e="(x&amp;y&amp;!z)|(x&amp;w)">
+			</c77>
+			<c78 id="1612" e="(x&amp;y&amp;!z)|(x&amp;w)">
 				<pos x="3.25" y="10.5"/>
 				<in1 component_id="1611"/>
 				<in2 component_id="1613" node_index="1"/>
 				<in3 component_id="1586"/>
 				<in4 component_id="1606"/>
-			</c79>
-			<c80 id="1613">
+			</c78>
+			<c79 id="1613">
 				<pos x="1.5" y="10.5"/>
 				<in1 component_id="1615"/>
 				<in2 component_id="1608"/>
-			</c80>
-			<c81 id="1615">
+			</c79>
+			<c80 id="1615">
 				<pos x="-0.25" y="10.5"/>
 				<in1 component_id="1616"/>
 				<in2 component_id="1617"/>
-			</c81>
-			<c82 id="1616" i="1">
+			</c80>
+			<c81 id="1616" i="1">
 				<pos x="-2" y="10.75"/>
 				<in1 component_id="49"/>
-			</c82>
-			<c83 id="1617" i="1">
+			</c81>
+			<c82 id="1617" i="1">
 				<pos x="-2" y="10.25"/>
 				<in1 component_id="46"/>
-			</c83>
-			<c84 id="1618" e="w|(x&amp;(!b|(b&amp;!y)))|((c|d)&amp;!y)">
+			</c82>
+			<c83 id="1618" e="w|(x&amp;(!b|(b&amp;!y)))|((c|d)&amp;!y)">
 				<pos x="3.25" y="7.75"/>
 				<in1 component_id="1605"/>
 				<in2 component_id="1606"/>
@@ -2059,95 +2148,148 @@ end">
 				<in6 component_id="1632"/>
 				<in7 component_id="1622"/>
 				<in8 component_id="1623"/>
-			</c84>
-			<c85 id="1619">
+			</c83>
+			<c84 id="1619">
 				<pos x="-2" y="9"/>
 				<in1 component_id="1581"/>
 				<in2 component_id="1586"/>
-			</c85>
-			<c86 id="1620" dt="0">
+			</c84>
+			<c85 id="1620" dt="0">
 				<pos x="-2" y="8.5"/>
 				<in1 component_id="1619"/>
-			</c86>
-			<c87 id="1622">
+			</c85>
+			<c86 id="1622">
 				<pos x="1.5" y="7.5"/>
 				<in1 component_id="49"/>
-			</c87>
-			<c88 id="1623">
+			</c86>
+			<c87 id="1623">
 				<pos x="1.5" y="7"/>
 				<in1 component_id="46"/>
-			</c88>
-			<c89 id="1624" e="x&amp;(y|z)">
+			</c87>
+			<c88 id="1624" e="x&amp;(y|z)">
 				<pos x="3.25" y="6.5"/>
 				<in1 component_id="1606"/>
 				<in2 component_id="1622"/>
 				<in3 component_id="1623"/>
-			</c89>
-			<c90 id="1625">
+			</c88>
+			<c89 id="1625">
 				<pos x="5" y="7.25"/>
 				<in1 component_id="1624"/>
-			</c90>
-			<c91 id="1626" l="I am master" on="yes" off="no">
+			</c89>
+			<c90 id="1626" l="I am master" on="yes" off="no">
 				<pos x="5" y="10.5"/>
 				<in1 component_id="1581"/>
-			</c91>
-			<c92 id="1632" n="Lock release on lock master" on="Locked" off="Unlocked">
+			</c90>
+			<c91 id="1632" n="Lock release on lock master" on="Locked" off="Unlocked">
 				<pos x="1.5" y="8.25"/>
-			</c92>
-			<c93 id="1634" e="(x&amp;(!w&amp;!a))|(y&amp;!a)|z">
+			</c91>
+			<c92 id="1634" e="(x&amp;(!w&amp;!a))|(y&amp;!a)|z">
 				<pos x="-0.25" y="7.5"/>
 				<in1 component_id="1619"/>
 				<in2 component_id="1620"/>
 				<in3 component_id="1635"/>
 				<in4 component_id="1606"/>
 				<in5 component_id="1607"/>
-			</c93>
-			<c94 id="1635" dt="0">
+			</c92>
+			<c93 id="1635" dt="0">
 				<pos x="-2" y="8"/>
 				<in1 component_id="1620"/>
-			</c94>
-			<c95 id="1656">
+			</c93>
+			<c94 id="1656">
 				<pos x="-16" y="7.5"/>
 				<in1 component_id="1586"/>
 				<in2 component_id="1581"/>
-			</c95>
-			<c96 id="1657">
+			</c94>
+			<c95 id="1657">
 				<pos x="-14.25" y="3.25"/>
 				<in1 component_id="1602"/>
 				<in2 component_id="1658"/>
 				<in3 component_id="1581"/>
-			</c96>
-			<c97 id="1658">
+			</c95>
+			<c96 id="1658">
 				<pos x="-16" y="3.25"/>
 				<n text="16032025" value="16032025"/>
-			</c97>
-			<c98 id="1659" e="(x+1)*y">
+			</c96>
+			<c97 id="1659" e="(x+1)*y">
 				<pos x="-14.25" y="2.25"/>
 				<in1 component_id="1548"/>
 				<in2 component_id="1660"/>
-			</c98>
-			<c99 id="1660">
+			</c97>
+			<c98 id="1660">
 				<pos x="-16" y="2"/>
 				<in1 component_id="1661"/>
 				<in2 component_id="1662"/>
 				<in3 component_id="1665"/>
-			</c99>
-			<c100 id="1661">
+			</c98>
+			<c99 id="1661">
 				<pos x="-17.75" y="2.5"/>
 				<n text="1" value="1"/>
-			</c100>
-			<c101 id="1662">
+			</c99>
+			<c100 id="1662">
 				<pos x="-17.75" y="2"/>
 				<n text="-1" value="-1"/>
-			</c101>
-			<c102 id="1665" e="(x&amp;y)|(z&amp;w)|a">
+			</c100>
+			<c101 id="1665" e="(x&amp;y)|(z&amp;w)|a">
 				<pos x="-23" y="-3.5"/>
 				<in1 component_id="1599"/>
 				<in2 component_id="1594"/>
 				<in3 component_id="1593"/>
 				<in4 component_id="1600"/>
 				<in5 component_id="1581"/>
+			</c101>
+			<c102 id="1666">
+				<pos x="-10.75" y="2"/>
+				<in1 component_id="1527"/>
 			</c102>
+			<c103 id="1667">
+				<pos x="-5.5" y="3.75"/>
+				<in1 component_id="1524"/>
+				<in2 component_id="1525"/>
+				<in3 component_id="1666"/>
+			</c103>
+			<c104 id="1668">
+				<pos x="-5.5" y="1.25"/>
+				<in1 component_id="1530"/>
+				<in2 component_id="1531"/>
+				<in3 component_id="1666"/>
+			</c104>
+			<c105 id="1670" i="30">
+				<pos x="-3.75" y="4.25"/>
+				<in1 component_id="1667"/>
+			</c105>
+			<c106 id="1671" e="x">
+				<pos x="-2" y="4.25"/>
+				<in1 component_id="1670"/>
+			</c106>
+			<c107 id="1673" e="max(x,max(y,max(z,w)))/2">
+				<pos x="-0.25" y="2.5"/>
+				<in1 component_id="1671"/>
+				<in2 component_id="1670"/>
+				<in3 component_id="1675"/>
+				<in4 component_id="1674"/>
+			</c107>
+			<c108 id="1674" e="x">
+				<pos x="-2" y="1.75"/>
+				<in1 component_id="1675"/>
+			</c108>
+			<c109 id="1675" i="30">
+				<pos x="-3.75" y="1.75"/>
+				<in1 component_id="1668"/>
+			</c109>
+			<c110 id="1676" l="Largest Cache Size">
+				<pos x="1.5" y="4"/>
+				<in1 component_id="1673"/>
+			</c110>
+			<c111 id="1677" count="1" offset="30">
+				<pos x="-16" y="0.25"/>
+				<inc component_id="1553"/>
+				<in1 component_id="1673"/>
+			</c111>
+			<c112 id="1679" count="1" offset="30">
+				<pos x="-16" y="-4"/>
+				<inc component_id="1551"/>
+				<in1 component_id="1673"/>
+			</c112>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="46">
