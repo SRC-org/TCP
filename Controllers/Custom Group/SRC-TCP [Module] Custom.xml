@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Module] Custom v1.4.0.0" width="2" length="2" id_counter="485" id_counter_node="36" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Module] Custom v1.4.0.4" width="2" length="2" id_counter="487" id_counter_node="36" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="19" component_id="265">
 			<node label="Hub slot/Main Input" type="5" description="Outputs information to Hub/Main"/>
@@ -38,10 +38,11 @@
 				<object id="407" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 
 function onTick()
-	enc(1,8,clamp(gN(1),0,255)) --encode target ID
-	enc(9,8,clamp(gN(2),0,255)) --encode my ID
-	enc(17,6,clamp(gN(3),0,63)) --encode target module ID
-	enc(23,6,clamp(gN(4),0,63)) --encode packet number
+	--enc(1,4,gN(32)) --encode packet type
+	enc(5,6,clamp(gN(2),0,63)) --encode target module ID
+	enc(11,8,clamp(gN(3),0,255)) --encode target ID
+	enc(19,8,clamp(gN(4),0,255)) --encode sender ID
+	enc(27,6,clamp(gN(5),0,63)) --encode packet number
 end
 
 function enc(c,b,n)
@@ -63,20 +64,21 @@ TmodID=3
 CmodID=property.getNumber("Custom Module ID")
 PacketNum=0
 clock=0
+timeoutL=11
 function onTick()
 	MyID=gN(3)
 	Data=gN(4)
 	TargetID=gN(5)
 	
-	if clock&gt;=11 and Data~=0 then
+	if clock&gt;=(timeoutL+math.floor(gN(31)/5)) and Data~=0 then
 		clock=0
 		
-		sN(1,TargetID)
-		sN(2,MyID)
-		sN(3,TmodID)
-		sN(4,PacketNum)
-		sN(5,Data)
-		sN(6,CmodID)
+		sN(2,TmodID)		
+		sN(3,TargetID)
+		sN(4,MyID)
+		sN(5,PacketNum)
+		sN(6,Data)
+		sN(7,CmodID)
 		
 		PacketNum=PacketNum+1
 		if PacketNum&gt;=64 then
@@ -85,7 +87,7 @@ function onTick()
 		
 		sB(1,true)
 	else
-		clock=math.min(clock+1,4)
+		clock=math.min(clock+1,timeoutL+math.floor(gN(31)/5)+1)
 		
 		for i=1,6 do
 			sN(i,0)
@@ -129,7 +131,7 @@ function onTick()
 	for i=1,5 do
 		if gN(19+i*2)~=0 then
 			numberToBinary(gN(19+i*2))
-			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+			if (dec(11,8)==myID or dec(11,8)==0) and dec(5,6)==TmodID then
 				numberToBinary(gN(20+i*2))
 				if dec(1,16)==CmodID then
 					cache[#cache+1]=gN(19+i*2)
@@ -180,7 +182,7 @@ function onTick()
 	for i=1,5 do
 		if gN(19+i*2)~=0 then
 			numberToBinary(gN(19+i*2))
-			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+			if (dec(11,8)==myID or dec(11,8)==0) and dec(5,6)==TmodID then
 				numberToBinary(gN(20+i*2))
 				if dec(1,16)==CmodID then
 					cache[#cache+1]=gN(19+i*2)
@@ -230,8 +232,8 @@ end'>
 				<object id="452" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 
 function onTick()
-	enc(1,16,clamp(gN(6),0,65536)) --encode target ID
-	enc(17,16,clamp(gN(5),0,65536)) --encode my ID
+	enc(1,16,clamp(gN(7),0,65536)) --encode target CID
+	enc(17,16,clamp(gN(6),0,65536)) --encode my ID
 end
 
 function enc(c,b,n)
@@ -270,8 +272,8 @@ function dec(c,b)
 	return n
 end
 function onTick()
-	output.setNumber(1, dec(9,8))
-	output.setNumber(2, dec(23,6))
+	output.setNumber(1, dec(19,8))
+	output.setNumber(2, dec(27,6))
 end">
 					<pos x="6" y="-3.5"/>
 					<in1 component_id="458"/>
@@ -320,7 +322,7 @@ end
 function onTick()
 	output.setNumber(1, dec(17,16))
 end">
-					<pos x="6" y="-4.25"/>
+					<pos x="6" y="-5"/>
 					<in1 component_id="469"/>
 				</object>
 			</c>
@@ -440,10 +442,11 @@ end">
 			<c2 id="407" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 
 function onTick()
-	enc(1,8,clamp(gN(1),0,255)) --encode target ID
-	enc(9,8,clamp(gN(2),0,255)) --encode my ID
-	enc(17,6,clamp(gN(3),0,63)) --encode target module ID
-	enc(23,6,clamp(gN(4),0,63)) --encode packet number
+	--enc(1,4,gN(32)) --encode packet type
+	enc(5,6,clamp(gN(2),0,63)) --encode target module ID
+	enc(11,8,clamp(gN(3),0,255)) --encode target ID
+	enc(19,8,clamp(gN(4),0,255)) --encode sender ID
+	enc(27,6,clamp(gN(5),0,63)) --encode packet number
 end
 
 function enc(c,b,n)
@@ -463,20 +466,21 @@ TmodID=3
 CmodID=property.getNumber("Custom Module ID")
 PacketNum=0
 clock=0
+timeoutL=11
 function onTick()
 	MyID=gN(3)
 	Data=gN(4)
 	TargetID=gN(5)
 	
-	if clock&gt;=11 and Data~=0 then
+	if clock&gt;=(timeoutL+math.floor(gN(31)/5)) and Data~=0 then
 		clock=0
 		
-		sN(1,TargetID)
-		sN(2,MyID)
-		sN(3,TmodID)
-		sN(4,PacketNum)
-		sN(5,Data)
-		sN(6,CmodID)
+		sN(2,TmodID)		
+		sN(3,TargetID)
+		sN(4,MyID)
+		sN(5,PacketNum)
+		sN(6,Data)
+		sN(7,CmodID)
 		
 		PacketNum=PacketNum+1
 		if PacketNum&gt;=64 then
@@ -485,7 +489,7 @@ function onTick()
 		
 		sB(1,true)
 	else
-		clock=math.min(clock+1,4)
+		clock=math.min(clock+1,timeoutL+math.floor(gN(31)/5)+1)
 		
 		for i=1,6 do
 			sN(i,0)
@@ -521,7 +525,7 @@ function onTick()
 	for i=1,5 do
 		if gN(19+i*2)~=0 then
 			numberToBinary(gN(19+i*2))
-			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+			if (dec(11,8)==myID or dec(11,8)==0) and dec(5,6)==TmodID then
 				numberToBinary(gN(20+i*2))
 				if dec(1,16)==CmodID then
 					cache[#cache+1]=gN(19+i*2)
@@ -570,7 +574,7 @@ function onTick()
 	for i=1,5 do
 		if gN(19+i*2)~=0 then
 			numberToBinary(gN(19+i*2))
-			if (dec(1,8)==myID or dec(1,8)==0) and dec(17,6)==TmodID then
+			if (dec(11,8)==myID or dec(11,8)==0) and dec(5,6)==TmodID then
 				numberToBinary(gN(20+i*2))
 				if dec(1,16)==CmodID then
 					cache[#cache+1]=gN(19+i*2)
@@ -616,8 +620,8 @@ end'>
 			<c10 id="452" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
 
 function onTick()
-	enc(1,16,clamp(gN(6),0,65536)) --encode target ID
-	enc(17,16,clamp(gN(5),0,65536)) --encode my ID
+	enc(1,16,clamp(gN(7),0,65536)) --encode target CID
+	enc(17,16,clamp(gN(6),0,65536)) --encode my ID
 end
 
 function enc(c,b,n)
@@ -650,8 +654,8 @@ function dec(c,b)
 	return n
 end
 function onTick()
-	output.setNumber(1, dec(9,8))
-	output.setNumber(2, dec(23,6))
+	output.setNumber(1, dec(19,8))
+	output.setNumber(2, dec(27,6))
 end">
 				<pos x="6" y="-3.5"/>
 				<in1 component_id="458"/>
@@ -688,7 +692,7 @@ end
 function onTick()
 	output.setNumber(1, dec(17,16))
 end">
-				<pos x="6" y="-4.25"/>
+				<pos x="6" y="-5"/>
 				<in1 component_id="469"/>
 			</c19>
 			<c20 id="473" count="4">

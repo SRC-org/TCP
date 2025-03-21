@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [System] Hub v1.4.0.3" description="Can be used to connect multiple modules to the main controller. Multiple Hubs can be chained" width="1" length="4" id_counter="2471" id_counter_node="41" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [System] Hub v1.4.0.4" description="Can be used to connect multiple modules to the main controller. Multiple Hubs can be chained" width="1" length="4" id_counter="2474" id_counter_node="41" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="20" component_id="293">
 			<node label="Main Input" type="5" description="To Main Input on Main Controller (or other hub if chaining)"/>
@@ -28,9 +28,9 @@
 		<components>
 			<c type="40">
 				<object id="2451" count="1">
-					<pos x="-3.25" y="11.5"/>
-					<inc component_id="316"/>
-					<in1 component_id="2456"/>
+					<pos x="-3.25" y="7.5"/>
+					<inc component_id="298"/>
+					<in1 component_id="2458"/>
 				</object>
 			</c>
 			<c type="53">
@@ -43,42 +43,42 @@
 			</c>
 			<c type="40">
 				<object id="2453" count="1">
-					<pos x="-3.25" y="10.5"/>
-					<inc component_id="305"/>
-					<in1 component_id="2457"/>
+					<pos x="-3.25" y="11.5"/>
+					<inc component_id="316"/>
+					<in1 component_id="2456"/>
 				</object>
 			</c>
 			<c type="40">
 				<object id="2454" count="1">
 					<pos x="-3.25" y="9.5"/>
-					<inc component_id="298"/>
-					<in1 component_id="2458"/>
+					<inc component_id="305"/>
+					<in1 component_id="2457"/>
 				</object>
 			</c>
 			<c type="53">
 				<object id="2455">
 					<pos x="0.25" y="11.25"/>
 					<in1 component_id="2452"/>
-					<in2 component_id="2454"/>
+					<in2 component_id="2473"/>
 					<in3 component_id="2459"/>
 				</object>
 			</c>
 			<c type="15">
 				<object id="2456">
 					<pos x="-5" y="11.25"/>
-					<n text="1" value="1"/>
+					<n text="3" value="3"/>
 				</object>
 			</c>
 			<c type="15">
 				<object id="2457">
-					<pos x="-5" y="10.25"/>
+					<pos x="-5" y="9.25"/>
 					<n text="2" value="2"/>
 				</object>
 			</c>
 			<c type="15">
 				<object id="2458">
-					<pos x="-5" y="9.25"/>
-					<n text="3" value="3"/>
+					<pos x="-5" y="7.25"/>
+					<n text="1" value="1"/>
 				</object>
 			</c>
 			<c>
@@ -102,7 +102,7 @@
 			</c>
 			<c type="53">
 				<object id="2462">
-					<pos x="-1.5" y="9.25"/>
+					<pos x="-1.5" y="7.25"/>
 					<in1 component_id="2453"/>
 					<in2 component_id="2454"/>
 					<in3 component_id="2461"/>
@@ -110,15 +110,15 @@
 			</c>
 			<c type="53">
 				<object id="2463">
-					<pos x="0.25" y="9.25"/>
+					<pos x="0.25" y="7.25"/>
 					<in1 component_id="2462"/>
-					<in2 component_id="2451"/>
+					<in2 component_id="2474"/>
 					<in3 component_id="2459"/>
 				</object>
 			</c>
 			<c type="53">
 				<object id="2464">
-					<pos x="-1.5" y="10.25"/>
+					<pos x="-1.5" y="9.25"/>
 					<in1 component_id="2454"/>
 					<in2 component_id="2451"/>
 					<in3 component_id="2461"/>
@@ -126,9 +126,9 @@
 			</c>
 			<c type="53">
 				<object id="2465">
-					<pos x="0.25" y="10.25"/>
+					<pos x="0.25" y="9.25"/>
 					<in1 component_id="2464"/>
-					<in2 component_id="2453"/>
+					<in2 component_id="2472"/>
 					<in3 component_id="2459"/>
 				</object>
 			</c>
@@ -264,7 +264,7 @@ function onTick()
 	end
 end
 ">
-					<pos x="2" y="10.5"/>
+					<pos x="2" y="9.5"/>
 					<in1 component_id="2465"/>
 				</object>
 			</c>
@@ -332,7 +332,7 @@ function onTick()
 	end
 end
 ">
-					<pos x="2" y="9.5"/>
+					<pos x="2" y="7.5"/>
 					<in1 component_id="2463"/>
 				</object>
 			</c>
@@ -354,8 +354,26 @@ end
 			</c>
 			<c type="53">
 				<object id="2471">
-					<pos x="3.75" y="9.5"/>
+					<pos x="3.75" y="7.5"/>
 					<in2 component_id="2468"/>
+				</object>
+			</c>
+			<c type="53">
+				<object id="2472">
+					<pos x="-1.5" y="8.25"/>
+					<in2 component_id="2453"/>
+				</object>
+			</c>
+			<c type="53">
+				<object id="2473">
+					<pos x="-1.5" y="10.25"/>
+					<in2 component_id="2454"/>
+				</object>
+			</c>
+			<c type="53">
+				<object id="2474">
+					<pos x="-1.5" y="6.25"/>
+					<in2 component_id="2451"/>
 				</object>
 			</c>
 		</components>
@@ -368,12 +386,12 @@ end
 			</c>
 			<c type="4">
 				<object id="298">
-					<pos x="-5" y="9.75"/>
+					<pos x="-5" y="7.75"/>
 				</object>
 			</c>
 			<c type="4">
 				<object id="305">
-					<pos x="-5" y="10.75"/>
+					<pos x="-5" y="9.75"/>
 				</object>
 			</c>
 			<c type="4">
@@ -385,9 +403,9 @@ end
 		<groups/>
 		<component_states>
 			<c0 id="2451" count="1">
-				<pos x="-3.25" y="11.5"/>
-				<inc component_id="316"/>
-				<in1 component_id="2456"/>
+				<pos x="-3.25" y="7.5"/>
+				<inc component_id="298"/>
+				<in1 component_id="2458"/>
 			</c0>
 			<c1 id="2452">
 				<pos x="-1.5" y="11.25"/>
@@ -396,32 +414,32 @@ end
 				<in3 component_id="2461"/>
 			</c1>
 			<c2 id="2453" count="1">
-				<pos x="-3.25" y="10.5"/>
-				<inc component_id="305"/>
-				<in1 component_id="2457"/>
+				<pos x="-3.25" y="11.5"/>
+				<inc component_id="316"/>
+				<in1 component_id="2456"/>
 			</c2>
 			<c3 id="2454" count="1">
 				<pos x="-3.25" y="9.5"/>
-				<inc component_id="298"/>
-				<in1 component_id="2458"/>
+				<inc component_id="305"/>
+				<in1 component_id="2457"/>
 			</c3>
 			<c4 id="2455">
 				<pos x="0.25" y="11.25"/>
 				<in1 component_id="2452"/>
-				<in2 component_id="2454"/>
+				<in2 component_id="2473"/>
 				<in3 component_id="2459"/>
 			</c4>
 			<c5 id="2456">
 				<pos x="-5" y="11.25"/>
-				<n text="1" value="1"/>
+				<n text="3" value="3"/>
 			</c5>
 			<c6 id="2457">
-				<pos x="-5" y="10.25"/>
+				<pos x="-5" y="9.25"/>
 				<n text="2" value="2"/>
 			</c6>
 			<c7 id="2458">
-				<pos x="-5" y="9.25"/>
-				<n text="3" value="3"/>
+				<pos x="-5" y="7.25"/>
+				<n text="1" value="1"/>
 			</c7>
 			<c8 id="2459">
 				<pos x="-1.5" y="13.25"/>
@@ -437,27 +455,27 @@ end
 				<in2 component_id="2459"/>
 			</c10>
 			<c11 id="2462">
-				<pos x="-1.5" y="9.25"/>
+				<pos x="-1.5" y="7.25"/>
 				<in1 component_id="2453"/>
 				<in2 component_id="2454"/>
 				<in3 component_id="2461"/>
 			</c11>
 			<c12 id="2463">
-				<pos x="0.25" y="9.25"/>
+				<pos x="0.25" y="7.25"/>
 				<in1 component_id="2462"/>
-				<in2 component_id="2451"/>
+				<in2 component_id="2474"/>
 				<in3 component_id="2459"/>
 			</c12>
 			<c13 id="2464">
-				<pos x="-1.5" y="10.25"/>
+				<pos x="-1.5" y="9.25"/>
 				<in1 component_id="2454"/>
 				<in2 component_id="2451"/>
 				<in3 component_id="2461"/>
 			</c13>
 			<c14 id="2465">
-				<pos x="0.25" y="10.25"/>
+				<pos x="0.25" y="9.25"/>
 				<in1 component_id="2464"/>
-				<in2 component_id="2453"/>
+				<in2 component_id="2472"/>
 				<in3 component_id="2459"/>
 			</c14>
 			<c15 id="2466" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
@@ -589,7 +607,7 @@ function onTick()
 	end
 end
 ">
-				<pos x="2" y="10.5"/>
+				<pos x="2" y="9.5"/>
 				<in1 component_id="2465"/>
 			</c16>
 			<c17 id="2468" script="gN,gB,sN,sB=input.getNumber,input.getBool,output.setNumber,output.setBool
@@ -655,7 +673,7 @@ function onTick()
 	end
 end
 ">
-				<pos x="2" y="9.5"/>
+				<pos x="2" y="7.5"/>
 				<in1 component_id="2463"/>
 			</c17>
 			<c18 id="2469">
@@ -671,9 +689,21 @@ end
 				<in3 component_id="2459"/>
 			</c19>
 			<c20 id="2471">
-				<pos x="3.75" y="9.5"/>
+				<pos x="3.75" y="7.5"/>
 				<in2 component_id="2468"/>
 			</c20>
+			<c21 id="2472">
+				<pos x="-1.5" y="8.25"/>
+				<in2 component_id="2453"/>
+			</c21>
+			<c22 id="2473">
+				<pos x="-1.5" y="10.25"/>
+				<in2 component_id="2454"/>
+			</c22>
+			<c23 id="2474">
+				<pos x="-1.5" y="6.25"/>
+				<in2 component_id="2451"/>
+			</c23>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="293">
@@ -681,10 +711,10 @@ end
 				<in1 component_id="2470"/>
 			</c0>
 			<c1 id="298">
-				<pos x="-5" y="9.75"/>
+				<pos x="-5" y="7.75"/>
 			</c1>
 			<c2 id="305">
-				<pos x="-5" y="10.75"/>
+				<pos x="-5" y="9.75"/>
 			</c2>
 			<c3 id="316">
 				<pos x="-5" y="11.75"/>
