@@ -36,6 +36,7 @@ swXMLBuilder = new XMLBuilder({ignoreAttributes: false, format: true, indentBy: 
 //swXMLBuilder = new XMLBuilder()
 
 // node updateUtility -args
+// -a:  auto, runs d,g,s only on updated controllers automatically
 // -d:	updates database and controllers
 // -g:	generates illustrations, thumbnails and descriptions from database
 // -s: 	updates steam workshop items
@@ -43,6 +44,10 @@ swXMLBuilder = new XMLBuilder({ignoreAttributes: false, format: true, indentBy: 
 
 async function start() {
 	//if (args.indexOf("-c") > -1) await execCopy()
+	if (args.indexOf("-a") > -1) {
+		await execAuto()
+		return
+	}
 	if (args.indexOf("-d") > -1) await execDatabase()
 	if (args.indexOf("-g") > -1) await execImages()
 	if (args.indexOf("-s") > -1) await execSteam()
@@ -73,8 +78,13 @@ async function start() {
 	await Promise.all(promises)
 }*/
 
+// Auto
+async function execAuto() {
+
+}
+
 // Database
-async function execDatabase() {
+async function execDatabase(auto) {
 	let dirs = fs.readdirSync(cPath, {withFileTypes: true}).filter(d => d.isDirectory()).map(d => d.name).filter(d => d.endsWith("Group"))
 	let promises = []
 	let controllers = []
@@ -165,7 +175,7 @@ async function execDatabase() {
 }
 
 // Images
-async function execImages() {
+async function execImages(auto) {
 
 	if (!fs.existsSync(mPath + "Export/")) fs.mkdirSync(mPath + "Export/")
 	if (!fs.existsSync(mPath + "Export/Thumbnails/")) fs.mkdirSync(mPath + "Export/Thumbnails/")
@@ -235,7 +245,7 @@ async function execImages() {
 }
 
 // Steam
-async function execSteam() {
+async function execSteam(auto) {
 
 	// setup folders
 	let sPath = path.join(__dirname, ".steam/")
@@ -289,6 +299,7 @@ async function execSteam() {
 
 }
 
+// Export
 async function execExport(index) {
 	let wrongFormat = () => console.log("\x1b[33m%s\x1b[0m", "wrong format, please use: -e {composite} {csv}")
 
