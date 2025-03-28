@@ -11,6 +11,7 @@
     "@svgdotjs/svg.js": "^3.2.4",
     "dotenv": "^16.4.7",
     "fast-xml-parser": "^4.5.1",
+    "semver": "^7.7.1",
     "svgdom": "^0.1.14",
     "text-to-svg": "^3.1.5",
     "vdf-parser": "^1.2.1"

@@ -9,6 +9,7 @@ const { execSync, spawnSync } = require('child_process');
 const { XMLParser, XMLBuilder } = require("fast-xml-parser")
 const { Resvg } = require('@resvg/resvg-js')
 const readline = require("readline")
+const semver = require('semver')
 
 let appdataPath = process.env.APPDATA
 if (os.platform() === "win32") {
@@ -44,6 +45,7 @@ swXMLBuilder = new XMLBuilder({ignoreAttributes: false, format: true, indentBy: 
 
 async function start() {
 	//if (args.indexOf("-c") > -1) await execCopy()
+
 	if (args.indexOf("-a") > -1) {
 		await execAuto()
 		return
@@ -80,19 +82,23 @@ async function start() {
 
 // Auto
 async function execAuto() {
-
+	database.auto.controllers = [] // remove this line if you want the script to remember to be updated controllers, if they weren't updated
+	await execDatabase(true)
+	console.log(database.auto.controllers)
+	if (database.auto.controllers.length === 0) return;
+	await execImages(true)
+	await execSteam(true)
 }
 
 // Database
 async function execDatabase(auto) {
 	let dirs = fs.readdirSync(cPath, {withFileTypes: true}).filter(d => d.isDirectory()).map(d => d.name).filter(d => d.endsWith("Group"))
-	let promises = []
 	let controllers = []
 	dirs.forEach(dir => fs.readdirSync(cPath + dir + "/").filter(file => file.startsWith("SRC-TCP") && file.endsWith(".xml")).forEach(file => controllers.push({
 		path: cPath + dir + "/",
 		file: file,
 		group: dir.replace(" Group", ""),
-		nameData: interpretName(file)
+		fileNameData: interpretName(file)
 	})))
 
 	controllers.forEach(c => {
@@ -109,7 +115,7 @@ async function execDatabase(auto) {
 			let mode = n["@_mode"] === "1"
 			let type = Number(n["@_type"]) || 0
 			// TODO: improve handling of automatic channel documentation generation (option for manual + check common too) or smth like that
-			let channels = [c.group + "." + c.nameData.name.replaceAll(" ", ""), c.group, "Any"].map(d => (c => (database.connections.primary[c] ?? database.connections.redirects[c]) ? c : undefined)(d + "#" + label.replaceAll(" ", ""))).reduce((p, c) => p ?? c, undefined)
+			let channels = [c.group + "." + c.fileNameData.name.replaceAll(" ", ""), c.group, "Any"].map(d => (c => (database.connections.primary[c] ?? database.connections.redirects[c]) ? c : undefined)(d + "#" + label.replaceAll(" ", ""))).reduce((p, c) => p ?? c, undefined)
 			if (channels) n["@_description"] = placeholders(n["@_description"] + " // {$c" + (mode ? "i" : "o") + channels + "}")
 			nodes.push({
 				label: n["@_label"] || "",
@@ -124,7 +130,9 @@ async function execDatabase(auto) {
 			})
 		})
 
-		c.data = mergeJSON(interpretName(xml.microprocessor["@_name"]), {
+		let dataFromName = interpretName(xml.microprocessor["@_name"])
+
+		c.data = mergeJSON(dataFromName, {
 			group: c.group,
 			description: xml.microprocessor["@_description"],
 			width: xml.microprocessor["@_width"],
@@ -135,7 +143,18 @@ async function execDatabase(auto) {
 		buffer = swXMLBuilder.build(xml)
 		buffer = buffer.replaceAll(" \/\/ \"", "\"") // fix empty channel lists
 
-		if (c.nameData.identifier !== c.data.identifier) return console.log("\x1b[33m%s\x1b[0m", "identifier mismatch: \"" + c.identifier + "\" (filename) // \"" + c.data.identifier + "\" (name in xml file)")
+		if (c.fileNameData.identifier !== c.data.identifier) return console.log("\x1b[33m%s\x1b[0m", "identifier mismatch: \"" + c.identifier + "\" (filename) // \"" + c.data.identifier + "\" (name in xml file)")
+
+		let newVersion = dataFromName.version
+		let oldVersion = database.controllers[c.data.identifier]?.version
+
+		if (!newVersion) return console.log("\x1b[33m%s\x1b[0m", "version missing for: \"" + c.data.identifier + "\"")
+		if(!semver.valid(newVersion)) return console.log("\x1b[33m%s\x1b[0m", "invalid version \"" + newVersion + "\" for: \"" + c.data.identifier + "\"")
+
+		if (!semver.prerelease(newVersion) && semver.gt(newVersion, semver.valid(oldVersion) ?? "1.0.0"))
+			database.auto.controllers.push(c.data.identifier)
+
+		// if (!auto || autoControllers.contains(c.data.identifier)) // In case database should only be updated if new version, but for now i think it should always be updated
 		database.controllers[c.data.identifier] = mergeJSON(database.controllers[c.data.identifier] ?? {}, c.data)
 
 		fs.writeFileSync(c.path + c.file, buffer.replace(/\r\n/g, "\n"))
@@ -192,13 +211,17 @@ async function execImages(auto) {
 	let PNGs = []
 
 	Object.values(database.controllers).forEach(c => {
-		/*SVGs.push(mergeJSON(genControllerThumbnail(c), {
+
+		if (auto && !database.auto.controllers.includes(c.identifier)) return;
+		console.log("generating images for " + c.identifier + "...")
+
+		SVGs.push(mergeJSON(genControllerThumbnail(c), {
 			path: mPath + "Export/Thumbnails/" + c.identifier
-		}))*/
+		}))
 		SVGs.push(mergeJSON(genControllerCard(c), {
 			path: mPath + "Export/Cards/" + c.identifier
 		}))
-		/**if (c.group !== "System") SVGs.push(mergeJSON(genControllerLayout(c), {
+		/*if (c.group !== "System") SVGs.push(mergeJSON(genControllerLayout(c), {
 			path: mPath + "Export/Layout/" + c.identifier
 		}))*/
 		SVGs.push(mergeJSON(genControllerNodes(c), {
@@ -215,7 +238,7 @@ async function execImages(auto) {
 		}))
 	})
 
-	Object.values(database.groups).forEach(g => {
+	if (!auto) Object.values(database.groups).forEach(g => {
 		/*SVGs.push(mergeJSON(genGroupThumbnail(g), {
 			path: mPath + "Export/Thumbnails/" + g.identifier
 		}))
@@ -254,7 +277,7 @@ async function execSteam(auto) {
 	fs.mkdirSync(sPath + "temp/")
 
 	// filter controllers
-	let controllers = Object.values(database.controllers).filter(c => c.workshopID && c.workshopID !== "")
+	let controllers = Object.values(database.controllers).filter(c => c.workshopID && c.workshopID !== "").filter(c => !auto || database.auto.controllers.includes(c.identifier))
 	if (controllers.length === 0) return;
 
 	let vdfTemplate = fs.readFileSync(sPath + "template.vdf", "utf-8")
@@ -291,6 +314,8 @@ async function execSteam(auto) {
 	try {
 		let TFA = await prompt("Steam guard code? ")
 		execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\" " + TFA + " " + commandChain + "+quit", {stdio: "inherit"})
+		//database.auto.controllers = []
+		console.log("upload successful")
 	} catch (e) {
 		console.error(e)
 	}
@@ -342,7 +367,7 @@ async function execExport(index) {
 
 interpretName = name => {
 	//let info = name.matchAll(/SRC-TCP *\[(.*?)\] *(.*?(?= *v\d| *\.| *\(| *$)) *(\((.*?)\))? *v?([0-9._]*[0-9])?/gm).next().value
-	let info = name.matchAll(/\[(.*?)\] *(.*?(?= *v\d| *\.| *\(| *$)) *(\((.*?)\))? *v?([0-9._]*[0-9])?/gm).next().value
+	let info = name.matchAll(/\[(.*?)\] *(.*?(?= *v\d| *\.| *\(| *$)) *(\((.*?)\))? *(?:v([0-9a-zA-Z.-]*))?/gm).next().value
 	return {
 		identifier: "[" + info[1] + "] " + info[2] + (info[3] ? " (" + info[4] + ")" : ""),
 		type: info[1],
