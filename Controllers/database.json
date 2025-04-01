@@ -259,11 +259,12 @@
 						"13": "Rear Fog Lights (toggle)",
 						"14": "Front Ditch Lights (toggle)",
 						"15": "Rear Ditch Lights (toggle)",
-						"16": "Work Lights (toggle)",
-						"17": "Warning Lights (toggle)",
-						"18": "Decorative Lights (toggle)",
-						"19": "Front Unobstructed",
-						"20": "Rear Unobstructed"
+						"16": "Front Lights Flashing (toggle)",
+						"17": "Work Lights (toggle)",
+						"18": "Warning Lights (toggle)",
+						"19": "Decorative Lights (toggle)",
+						"20": "Front Unobstructed",
+						"21": "Rear Unobstructed"
 					},
 					"number": {
 						"4": "Front Light Red (0-1)",
