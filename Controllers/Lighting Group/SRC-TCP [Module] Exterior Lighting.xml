@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4.0-dev2" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="3" id_counter="1322" id_counter_node="63" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4.0-dev3" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="3" id_counter="1332" id_counter_node="63" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="33" component_id="264">
 			<node label="Main Both" mode="1" type="5"/>
@@ -162,7 +162,7 @@
 				</object>
 			</c>
 			<c type="41">
-				<object id="964" count="21" offset="3">
+				<object id="964" count="18" offset="3">
 					<pos x="8.75" y="-2"/>
 					<inc component_id="969"/>
 					<in1 component_id="958"/>
@@ -174,18 +174,15 @@
 					<in7 component_id="1321"/>
 					<in8 component_id="1320"/>
 					<in9 component_id="1319"/>
-					<in10/>
-					<in11 component_id="1318"/>
-					<in12 component_id="1317"/>
-					<in13 component_id="1316"/>
-					<in14 component_id="1315"/>
-					<in15 component_id="1314"/>
-					<in16 component_id="1322"/>
-					<in17 component_id="902"/>
-					<in18 component_id="903"/>
-					<in19 component_id="904"/>
-					<in20 component_id="1166"/>
-					<in21 component_id="1167"/>
+					<in10 component_id="1318"/>
+					<in11 component_id="1317"/>
+					<in12 component_id="1316"/>
+					<in13 component_id="1322"/>
+					<in14 component_id="902"/>
+					<in15 component_id="903"/>
+					<in16 component_id="904"/>
+					<in17 component_id="1166"/>
+					<in18 component_id="1167"/>
 				</object>
 			</c>
 			<c type="47">
@@ -393,6 +390,9 @@
 						</i>
 						<i l="Head and Tail lights">
 							<v text="2" value="2"/>
+						</i>
+						<i l="Reverse lights">
+							<v text="3" value="3"/>
 						</i>
 					</items>
 				</object>
@@ -1074,16 +1074,6 @@ end'>
 				</object>
 			</c>
 			<c type="33">
-				<object id="1314">
-					<pos x="6.25" y="-1.5"/>
-				</object>
-			</c>
-			<c type="33">
-				<object id="1315">
-					<pos x="6.25" y="-1"/>
-				</object>
-			</c>
-			<c type="33">
 				<object id="1316" n="Rear Ditch Lights">
 					<pos x="6.25" y="-0.5"/>
 				</object>
@@ -1114,8 +1104,72 @@ end'>
 				</object>
 			</c>
 			<c type="33">
-				<object id="1322" n="Ditch Lights Flashing">
-					<pos x="6.25" y="-2"/>
+				<object id="1322" n="Flash Front Lights">
+					<pos x="6.25" y="-1"/>
+				</object>
+			</c>
+			<c type="20">
+				<object id="1328" name="Parking Light Mode">
+					<pos x="-8" y="-4.5"/>
+					<items>
+						<i l="None">
+							<v text="0"/>
+						</i>
+						<i l="Taillights on both ends">
+							<v text="1" value="1"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="20">
+				<object id="1329" name="Shunting Light Mode">
+					<pos x="-8" y="-5.25"/>
+					<items>
+						<i l="None">
+							<v text="0"/>
+						</i>
+						<i l="Headlights on both ends">
+							<v text="1" value="1"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="20">
+				<object id="1330" name="Running Light Mode">
+					<pos x="-8" y="-6"/>
+					<items>
+						<i l="None">
+							<v text="0"/>
+						</i>
+						<i l="Running lights off when headlights on">
+							<v text="1" value="1"/>
+						</i>
+						<i l="Running lights on when headlights on">
+							<v text="2" value="2"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="20">
+				<object id="1331" name="Fog Light Mode">
+					<pos x="-8" y="-6.75"/>
+					<items>
+						<i l="None">
+							<v text="0"/>
+						</i>
+						<i l="Disable headlights with fog lights">
+							<v text="1" value="1"/>
+						</i>
+						<i l="Headlights and fog lights">
+							<v text="2" value="2"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="20">
+				<object id="1332" name="Ditch Light Mode">
+					<pos x="-8" y="-7.5"/>
+					<items/>
 				</object>
 			</c>
 		</components>
@@ -1243,7 +1297,7 @@ end'>
 				<in5 component_id="1209"/>
 				<in6 component_id="1162"/>
 			</c18>
-			<c19 id="964" count="21" offset="3">
+			<c19 id="964" count="18" offset="3">
 				<pos x="8.75" y="-2"/>
 				<inc component_id="969"/>
 				<in1 component_id="958"/>
@@ -1255,18 +1309,15 @@ end'>
 				<in7 component_id="1321"/>
 				<in8 component_id="1320"/>
 				<in9 component_id="1319"/>
-				<in10/>
-				<in11 component_id="1318"/>
-				<in12 component_id="1317"/>
-				<in13 component_id="1316"/>
-				<in14 component_id="1315"/>
-				<in15 component_id="1314"/>
-				<in16 component_id="1322"/>
-				<in17 component_id="902"/>
-				<in18 component_id="903"/>
-				<in19 component_id="904"/>
-				<in20 component_id="1166"/>
-				<in21 component_id="1167"/>
+				<in10 component_id="1318"/>
+				<in11 component_id="1317"/>
+				<in12 component_id="1316"/>
+				<in13 component_id="1322"/>
+				<in14 component_id="902"/>
+				<in15 component_id="903"/>
+				<in16 component_id="904"/>
+				<in17 component_id="1166"/>
+				<in18 component_id="1167"/>
 			</c19>
 			<c20 id="958" e="(((x|y)&amp;a)|(b&amp;z))&amp;w">
 				<pos x="1.75" y="1.25"/>
@@ -1422,6 +1473,9 @@ end'>
 					</i>
 					<i l="Head and Tail lights">
 						<v text="2" value="2"/>
+					</i>
+					<i l="Reverse lights">
+						<v text="3" value="3"/>
 					</i>
 				</items>
 			</c45>
@@ -1929,33 +1983,81 @@ end'>
 				<pos x="-4.25" y="18.5"/>
 				<n text="128" value="128"/>
 			</c131>
-			<c132 id="1314">
-				<pos x="6.25" y="-1.5"/>
-			</c132>
-			<c133 id="1315">
-				<pos x="6.25" y="-1"/>
-			</c133>
-			<c134 id="1316" n="Rear Ditch Lights">
+			<c132 id="1316" n="Rear Ditch Lights">
 				<pos x="6.25" y="-0.5"/>
-			</c134>
-			<c135 id="1317" n="Front Ditch Lights">
+			</c132>
+			<c133 id="1317" n="Front Ditch Lights">
 				<pos x="6.25"/>
-			</c135>
-			<c136 id="1318" n="Rear Fog Lights">
+			</c133>
+			<c134 id="1318" n="Rear Fog Lights">
 				<pos x="6.25" y="0.5"/>
-			</c136>
-			<c137 id="1319" n="Front Fog Lights">
+			</c134>
+			<c135 id="1319" n="Front Fog Lights">
 				<pos x="6.25" y="1"/>
-			</c137>
-			<c138 id="1320" n="Rear Running Lights">
+			</c135>
+			<c136 id="1320" n="Rear Running Lights">
 				<pos x="6.25" y="1.5"/>
-			</c138>
-			<c139 id="1321" n="Front Running Lights">
+			</c136>
+			<c137 id="1321" n="Front Running Lights">
 				<pos x="6.25" y="2"/>
+			</c137>
+			<c138 id="1322" n="Flash Front Lights">
+				<pos x="6.25" y="-1"/>
+			</c138>
+			<c139 id="1328" name="Parking Light Mode">
+				<pos x="-8" y="-4.5"/>
+				<items>
+					<i l="None">
+						<v text="0"/>
+					</i>
+					<i l="Taillights on both ends">
+						<v text="1" value="1"/>
+					</i>
+				</items>
 			</c139>
-			<c140 id="1322" n="Ditch Lights Flashing">
-				<pos x="6.25" y="-2"/>
+			<c140 id="1329" name="Shunting Light Mode">
+				<pos x="-8" y="-5.25"/>
+				<items>
+					<i l="None">
+						<v text="0"/>
+					</i>
+					<i l="Headlights on both ends">
+						<v text="1" value="1"/>
+					</i>
+				</items>
 			</c140>
+			<c141 id="1330" name="Running Light Mode">
+				<pos x="-8" y="-6"/>
+				<items>
+					<i l="None">
+						<v text="0"/>
+					</i>
+					<i l="Running lights off when headlights on">
+						<v text="1" value="1"/>
+					</i>
+					<i l="Running lights on when headlights on">
+						<v text="2" value="2"/>
+					</i>
+				</items>
+			</c141>
+			<c142 id="1331" name="Fog Light Mode">
+				<pos x="-8" y="-6.75"/>
+				<items>
+					<i l="None">
+						<v text="0"/>
+					</i>
+					<i l="Disable headlights with fog lights">
+						<v text="1" value="1"/>
+					</i>
+					<i l="Headlights and fog lights">
+						<v text="2" value="2"/>
+					</i>
+				</items>
+			</c142>
+			<c143 id="1332" name="Ditch Light Mode">
+				<pos x="-8" y="-7.5"/>
+				<items/>
+			</c143>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="264">
