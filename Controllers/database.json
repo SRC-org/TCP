@@ -253,11 +253,17 @@
 						"7": "Rear Taillights (toggle",
 						"8": "Front Highbeams (toggle)",
 						"9": "Rear Highbeams (toggle)",
-						"10": "Work Lights (toggle)",
-						"11": "Warning Lights (toggle)",
-						"12": "Decorative Lights (toggle)",
-						"13": "Front Unobstructed",
-						"14": "Rear Unobstructed"
+						"10": "Front Running Lights (toggle)",
+						"11": "Rear Running Lights (toggle)",
+						"12": "Front Fog Lights (toggle)",
+						"13": "Rear Fog Lights (toggle)",
+						"14": "Front Ditch Lights (toggle)",
+						"15": "Rear Ditch Lights (toggle)",
+						"16": "Work Lights (toggle)",
+						"17": "Warning Lights (toggle)",
+						"18": "Decorative Lights (toggle)",
+						"19": "Front Unobstructed",
+						"20": "Rear Unobstructed"
 					},
 					"number": {
 						"4": "Front Light Red (0-1)",

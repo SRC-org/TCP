@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4.0-dev1" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="3" id_counter="1313" id_counter_node="63" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4.0-dev2" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="3" id_counter="1322" id_counter_node="63" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="33" component_id="264">
 			<node label="Main Both" mode="1" type="5"/>
@@ -162,8 +162,8 @@
 				</object>
 			</c>
 			<c type="41">
-				<object id="964" count="11" offset="3">
-					<pos x="7" y="0.5"/>
+				<object id="964" count="21" offset="3">
+					<pos x="8.75" y="-2"/>
 					<inc component_id="969"/>
 					<in1 component_id="958"/>
 					<in2 component_id="963"/>
@@ -171,11 +171,21 @@
 					<in4 component_id="967"/>
 					<in5 component_id="1277"/>
 					<in6 component_id="1278"/>
-					<in7 component_id="902"/>
-					<in8 component_id="903"/>
-					<in9 component_id="904"/>
-					<in10 component_id="1166"/>
-					<in11 component_id="1167"/>
+					<in7 component_id="1321"/>
+					<in8 component_id="1320"/>
+					<in9 component_id="1319"/>
+					<in10/>
+					<in11 component_id="1318"/>
+					<in12 component_id="1317"/>
+					<in13 component_id="1316"/>
+					<in14 component_id="1315"/>
+					<in15 component_id="1314"/>
+					<in16 component_id="1322"/>
+					<in17 component_id="902"/>
+					<in18 component_id="903"/>
+					<in19 component_id="904"/>
+					<in20 component_id="1166"/>
+					<in21 component_id="1167"/>
 				</object>
 			</c>
 			<c type="47">
@@ -1063,6 +1073,51 @@ end'>
 					<n text="128" value="128"/>
 				</object>
 			</c>
+			<c type="33">
+				<object id="1314">
+					<pos x="6.25" y="-1.5"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1315">
+					<pos x="6.25" y="-1"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1316" n="Rear Ditch Lights">
+					<pos x="6.25" y="-0.5"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1317" n="Front Ditch Lights">
+					<pos x="6.25"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1318" n="Rear Fog Lights">
+					<pos x="6.25" y="0.5"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1319" n="Front Fog Lights">
+					<pos x="6.25" y="1"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1320" n="Rear Running Lights">
+					<pos x="6.25" y="1.5"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1321" n="Front Running Lights">
+					<pos x="6.25" y="2"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1322" n="Ditch Lights Flashing">
+					<pos x="6.25" y="-2"/>
+				</object>
+			</c>
 		</components>
 		<components_bridge>
 			<c type="4">
@@ -1083,7 +1138,7 @@ end'>
 			</c>
 			<c type="5">
 				<object id="920">
-					<pos x="8.75" y="3.25"/>
+					<pos x="10" y="3.25"/>
 					<in1 component_id="964"/>
 				</object>
 			</c>
@@ -1188,8 +1243,8 @@ end'>
 				<in5 component_id="1209"/>
 				<in6 component_id="1162"/>
 			</c18>
-			<c19 id="964" count="11" offset="3">
-				<pos x="7" y="0.5"/>
+			<c19 id="964" count="21" offset="3">
+				<pos x="8.75" y="-2"/>
 				<inc component_id="969"/>
 				<in1 component_id="958"/>
 				<in2 component_id="963"/>
@@ -1197,11 +1252,21 @@ end'>
 				<in4 component_id="967"/>
 				<in5 component_id="1277"/>
 				<in6 component_id="1278"/>
-				<in7 component_id="902"/>
-				<in8 component_id="903"/>
-				<in9 component_id="904"/>
-				<in10 component_id="1166"/>
-				<in11 component_id="1167"/>
+				<in7 component_id="1321"/>
+				<in8 component_id="1320"/>
+				<in9 component_id="1319"/>
+				<in10/>
+				<in11 component_id="1318"/>
+				<in12 component_id="1317"/>
+				<in13 component_id="1316"/>
+				<in14 component_id="1315"/>
+				<in15 component_id="1314"/>
+				<in16 component_id="1322"/>
+				<in17 component_id="902"/>
+				<in18 component_id="903"/>
+				<in19 component_id="904"/>
+				<in20 component_id="1166"/>
+				<in21 component_id="1167"/>
 			</c19>
 			<c20 id="958" e="(((x|y)&amp;a)|(b&amp;z))&amp;w">
 				<pos x="1.75" y="1.25"/>
@@ -1864,6 +1929,33 @@ end'>
 				<pos x="-4.25" y="18.5"/>
 				<n text="128" value="128"/>
 			</c131>
+			<c132 id="1314">
+				<pos x="6.25" y="-1.5"/>
+			</c132>
+			<c133 id="1315">
+				<pos x="6.25" y="-1"/>
+			</c133>
+			<c134 id="1316" n="Rear Ditch Lights">
+				<pos x="6.25" y="-0.5"/>
+			</c134>
+			<c135 id="1317" n="Front Ditch Lights">
+				<pos x="6.25"/>
+			</c135>
+			<c136 id="1318" n="Rear Fog Lights">
+				<pos x="6.25" y="0.5"/>
+			</c136>
+			<c137 id="1319" n="Front Fog Lights">
+				<pos x="6.25" y="1"/>
+			</c137>
+			<c138 id="1320" n="Rear Running Lights">
+				<pos x="6.25" y="1.5"/>
+			</c138>
+			<c139 id="1321" n="Front Running Lights">
+				<pos x="6.25" y="2"/>
+			</c139>
+			<c140 id="1322" n="Ditch Lights Flashing">
+				<pos x="6.25" y="-2"/>
+			</c140>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="264">
@@ -1877,7 +1969,7 @@ end'>
 				<pos x="-12.25" y="13.5"/>
 			</c2>
 			<c3 id="920">
-				<pos x="8.75" y="3.25"/>
+				<pos x="10" y="3.25"/>
 				<in1 component_id="964"/>
 			</c3>
 			<c4 id="966">
