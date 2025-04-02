@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4.0-dev4" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="3" id_counter="1332" id_counter_node="63" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4.0-dev5" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="3" id_counter="1344" id_counter_node="63" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="33" component_id="264">
 			<node label="Main Both" mode="1" type="5"/>
@@ -108,7 +108,7 @@
 				</object>
 			</c>
 			<c type="41">
-				<object id="964" count="18" offset="3">
+				<object id="964" count="20" offset="3">
 					<pos x="8.75" y="-2"/>
 					<inc component_id="969"/>
 					<in1 component_id="958"/>
@@ -123,12 +123,14 @@
 					<in10 component_id="1318"/>
 					<in11 component_id="1317"/>
 					<in12 component_id="1316"/>
-					<in13 component_id="1322"/>
-					<in14 component_id="1304"/>
-					<in15 component_id="1305"/>
-					<in16 component_id="1306"/>
-					<in17 component_id="1166"/>
-					<in18 component_id="1167"/>
+					<in13 component_id="1341"/>
+					<in14 component_id="1342"/>
+					<in15 component_id="1322"/>
+					<in16 component_id="1304"/>
+					<in17 component_id="1305"/>
+					<in18 component_id="1306"/>
+					<in19 component_id="1166"/>
+					<in20 component_id="1167"/>
 				</object>
 			</c>
 			<c type="47">
@@ -325,7 +327,7 @@
 				</object>
 			</c>
 			<c type="20">
-				<object id="1076" name="Reversing Light Mode">
+				<object id="1076" name="Reversing Light Mode" i="3">
 					<pos x="-5.25" y="-4.75"/>
 					<items>
 						<i l="None">
@@ -345,7 +347,7 @@
 			</c>
 			<c type="12">
 				<object id="1077">
-					<pos x="-5.25" y="-5.25"/>
+					<pos x="-5.25" y="-5.75"/>
 					<in1 component_id="1076"/>
 					<min text="2" value="2"/>
 					<max text="2" value="2"/>
@@ -353,7 +355,7 @@
 			</c>
 			<c type="12">
 				<object id="1078">
-					<pos x="-5.25" y="-6.25"/>
+					<pos x="-5.25" y="-6.75"/>
 					<in1 component_id="1076"/>
 					<min text="0"/>
 					<max text="0"/>
@@ -372,7 +374,7 @@
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="128" value="128"/>
+					<v text="147" value="147"/>
 				</object>
 			</c>
 			<c type="19">
@@ -381,7 +383,7 @@
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="190" value="190"/>
+					<v text="218" value="218"/>
 				</object>
 			</c>
 			<c type="19">
@@ -390,7 +392,7 @@
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="190" value="190"/>
+					<v text="230" value="230"/>
 				</object>
 			</c>
 			<c type="19">
@@ -399,7 +401,7 @@
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="142" value="142"/>
+					<v text="230" value="230"/>
 				</object>
 			</c>
 			<c type="19">
@@ -417,7 +419,7 @@
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="35" value="35"/>
+					<v text="0"/>
 				</object>
 			</c>
 			<c type="46">
@@ -486,7 +488,7 @@
 			</c>
 			<c type="12">
 				<object id="1198">
-					<pos x="-5.25" y="-5.75"/>
+					<pos x="-5.25" y="-6.25"/>
 					<in1 component_id="1076"/>
 					<min text="1" value="1"/>
 					<max text="1" value="1"/>
@@ -499,23 +501,25 @@
 				</object>
 			</c>
 			<c type="47">
-				<object id="1208" e="((x!^y)&amp;z)|(w&amp;!y)|(a&amp;!y)">
+				<object id="1208" e="((x!^y)&amp;z)|(w&amp;!y)|(a&amp;!y)|(b&amp;!y)">
 					<pos x="-1.75" y="-2.75"/>
 					<in1 component_id="1311"/>
 					<in2 component_id="1294"/>
 					<in3 component_id="1198"/>
 					<in4 component_id="1078"/>
 					<in5 component_id="1077"/>
+					<in6 component_id="1339"/>
 				</object>
 			</c>
 			<c type="47">
-				<object id="1209" e="((x^y)&amp;z)|(w&amp;y)|(a&amp;y)">
+				<object id="1209" e="((x^y)&amp;z)|(w&amp;y)|(a&amp;y)|(b&amp;y)">
 					<pos x="-1.75" y="-5.25"/>
 					<in1 component_id="1311"/>
 					<in2 component_id="1294"/>
 					<in3 component_id="1198"/>
 					<in4 component_id="1078"/>
 					<in5 component_id="1077"/>
+					<in6 component_id="1339"/>
 				</object>
 			</c>
 			<c type="56">
@@ -879,19 +883,19 @@ end'>
 			</c>
 			<c type="29">
 				<object id="1304" i="3">
-					<pos x="6.25" y="-1.5"/>
+					<pos x="6.25" y="-2.5"/>
 					<in1 component_id="1307"/>
 				</object>
 			</c>
 			<c type="29">
 				<object id="1305" i="4">
-					<pos x="6.25" y="-2"/>
+					<pos x="6.25" y="-3"/>
 					<in1 component_id="1307"/>
 				</object>
 			</c>
 			<c type="29">
 				<object id="1306" i="5">
-					<pos x="6.25" y="-2.5"/>
+					<pos x="6.25" y="-3.5"/>
 					<in1 component_id="1307"/>
 				</object>
 			</c>
@@ -962,8 +966,8 @@ end'>
 				</object>
 			</c>
 			<c type="33">
-				<object id="1322" n="Flash Front Lights">
-					<pos x="6.25" y="-1"/>
+				<object id="1322" n="Flash Headlights">
+					<pos x="6.25" y="-2"/>
 				</object>
 			</c>
 			<c type="20">
@@ -1002,14 +1006,11 @@ end'>
 				</object>
 			</c>
 			<c type="20">
-				<object id="1330" name="Running Light Mode">
-					<pos x="-8" y="-6"/>
+				<object id="1330" name="Headlight Mode">
+					<pos x="-8" y="-6.75"/>
 					<items>
-						<i l="None">
-							<v text="0"/>
-						</i>
 						<i l="Running lights off with headlights">
-							<v text="1" value="1"/>
+							<v text="0"/>
 						</i>
 						<i l="Running lights on with headlights">
 							<v text="2" value="2"/>
@@ -1019,7 +1020,7 @@ end'>
 			</c>
 			<c type="20">
 				<object id="1331" name="Fog Light Mode">
-					<pos x="-8" y="-6.75"/>
+					<pos x="-8" y="-7.5"/>
 					<items>
 						<i l="None">
 							<v text="0"/>
@@ -1031,6 +1032,56 @@ end'>
 							<v text="2" value="2"/>
 						</i>
 					</items>
+				</object>
+			</c>
+			<c type="20">
+				<object id="1333" name="Running Light Mode">
+					<pos x="-8" y="-6"/>
+					<items>
+						<i l="Running lights not installed">
+							<v text="0"/>
+						</i>
+						<i l="Activate running lights from rom node">
+							<v text="1" value="1"/>
+						</i>
+						<i l="Activate running lights when this car is master">
+							<v text="2" value="2"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1334" n="Front reverse lights">
+					<pos x="5" y="-1"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="1335" n="Rear reverse lights">
+					<pos x="5" y="-1.5"/>
+				</object>
+			</c>
+			<c type="12">
+				<object id="1339">
+					<pos x="-5.25" y="-5.25"/>
+					<in1 component_id="1076"/>
+					<min text="3" value="3"/>
+					<max text="3" value="3"/>
+				</object>
+			</c>
+			<c type="47">
+				<object id="1341" e="x&amp;y&amp;z">
+					<pos x="6.25" y="-6"/>
+					<in1 component_id="1087"/>
+					<in2 component_id="968"/>
+					<in3 component_id="1339"/>
+				</object>
+			</c>
+			<c type="47">
+				<object id="1342" e="x&amp;y&amp;z">
+					<pos x="6.25" y="-8.25"/>
+					<in1 component_id="1087"/>
+					<in2 component_id="967"/>
+					<in3 component_id="1339"/>
 				</object>
 			</c>
 		</components>
@@ -1122,7 +1173,7 @@ end'>
 				<in5 component_id="1209"/>
 				<in6 component_id="1162"/>
 			</c9>
-			<c10 id="964" count="18" offset="3">
+			<c10 id="964" count="20" offset="3">
 				<pos x="8.75" y="-2"/>
 				<inc component_id="969"/>
 				<in1 component_id="958"/>
@@ -1137,12 +1188,14 @@ end'>
 				<in10 component_id="1318"/>
 				<in11 component_id="1317"/>
 				<in12 component_id="1316"/>
-				<in13 component_id="1322"/>
-				<in14 component_id="1304"/>
-				<in15 component_id="1305"/>
-				<in16 component_id="1306"/>
-				<in17 component_id="1166"/>
-				<in18 component_id="1167"/>
+				<in13 component_id="1341"/>
+				<in14 component_id="1342"/>
+				<in15 component_id="1322"/>
+				<in16 component_id="1304"/>
+				<in17 component_id="1305"/>
+				<in18 component_id="1306"/>
+				<in19 component_id="1166"/>
+				<in20 component_id="1167"/>
 			</c10>
 			<c11 id="958" e="(((x|y)&amp;a)|(b&amp;z))&amp;w">
 				<pos x="1.75" y="1.25"/>
@@ -1287,7 +1340,7 @@ end'>
 				<in2 component_id="1291"/>
 				<e text="0.0001" value="0.0001"/>
 			</c35>
-			<c36 id="1076" name="Reversing Light Mode">
+			<c36 id="1076" name="Reversing Light Mode" i="3">
 				<pos x="-5.25" y="-4.75"/>
 				<items>
 					<i l="None">
@@ -1305,13 +1358,13 @@ end'>
 				</items>
 			</c36>
 			<c37 id="1077">
-				<pos x="-5.25" y="-5.25"/>
+				<pos x="-5.25" y="-5.75"/>
 				<in1 component_id="1076"/>
 				<min text="2" value="2"/>
 				<max text="2" value="2"/>
 			</c37>
 			<c38 id="1078">
-				<pos x="-5.25" y="-6.25"/>
+				<pos x="-5.25" y="-6.75"/>
 				<in1 component_id="1076"/>
 				<min text="0"/>
 				<max text="0"/>
@@ -1326,28 +1379,28 @@ end'>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="128" value="128"/>
+				<v text="147" value="147"/>
 			</c40>
 			<c41 id="1155" name="Headlight Colour (G)">
 				<pos x="1.75" y="13.25"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="190" value="190"/>
+				<v text="218" value="218"/>
 			</c41>
 			<c42 id="1156" name="Headlight Colour (B)">
 				<pos x="1.75" y="12.75"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="190" value="190"/>
+				<v text="230" value="230"/>
 			</c42>
 			<c43 id="1157" name="Taillight Colour (R)">
 				<pos x="3.5" y="13.75"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="142" value="142"/>
+				<v text="230" value="230"/>
 			</c43>
 			<c44 id="1158" name="Taillight Colour (G)">
 				<pos x="3.5" y="13.25"/>
@@ -1361,7 +1414,7 @@ end'>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="35" value="35"/>
+				<v text="0"/>
 			</c45>
 			<c46 id="1162" e="x&amp;(y|z)">
 				<pos x="-1.75" y="-6.75"/>
@@ -1410,7 +1463,7 @@ end'>
 				<in1 component_id="1167"/>
 			</c54>
 			<c55 id="1198">
-				<pos x="-5.25" y="-5.75"/>
+				<pos x="-5.25" y="-6.25"/>
 				<in1 component_id="1076"/>
 				<min text="1" value="1"/>
 				<max text="1" value="1"/>
@@ -1419,21 +1472,23 @@ end'>
 				<pos x="-5.25" y="-4"/>
 				<in1 component_id="1078"/>
 			</c56>
-			<c57 id="1208" e="((x!^y)&amp;z)|(w&amp;!y)|(a&amp;!y)">
+			<c57 id="1208" e="((x!^y)&amp;z)|(w&amp;!y)|(a&amp;!y)|(b&amp;!y)">
 				<pos x="-1.75" y="-2.75"/>
 				<in1 component_id="1311"/>
 				<in2 component_id="1294"/>
 				<in3 component_id="1198"/>
 				<in4 component_id="1078"/>
 				<in5 component_id="1077"/>
+				<in6 component_id="1339"/>
 			</c57>
-			<c58 id="1209" e="((x^y)&amp;z)|(w&amp;y)|(a&amp;y)">
+			<c58 id="1209" e="((x^y)&amp;z)|(w&amp;y)|(a&amp;y)|(b&amp;y)">
 				<pos x="-1.75" y="-5.25"/>
 				<in1 component_id="1311"/>
 				<in2 component_id="1294"/>
 				<in3 component_id="1198"/>
 				<in4 component_id="1078"/>
 				<in5 component_id="1077"/>
+				<in6 component_id="1339"/>
 			</c58>
 			<c59 id="1210" script='colors={w={85,90,90},w2={70,75,75},b={10,10,10},b2={8,8,8},acc={69,12,10}}
 labels = {"Auto","Head","High","Work","Warn","Deco"}
@@ -1707,15 +1762,15 @@ end'>
 				<in3 component_id="1292"/>
 			</c102>
 			<c103 id="1304" i="3">
-				<pos x="6.25" y="-1.5"/>
+				<pos x="6.25" y="-2.5"/>
 				<in1 component_id="1307"/>
 			</c103>
 			<c104 id="1305" i="4">
-				<pos x="6.25" y="-2"/>
+				<pos x="6.25" y="-3"/>
 				<in1 component_id="1307"/>
 			</c104>
 			<c105 id="1306" i="5">
-				<pos x="6.25" y="-2.5"/>
+				<pos x="6.25" y="-3.5"/>
 				<in1 component_id="1307"/>
 			</c105>
 			<c106 id="1307">
@@ -1762,8 +1817,8 @@ end'>
 			<c116 id="1321" n="Front Running Lights">
 				<pos x="6.25" y="2"/>
 			</c116>
-			<c117 id="1322" n="Flash Front Lights">
-				<pos x="6.25" y="-1"/>
+			<c117 id="1322" n="Flash Headlights">
+				<pos x="6.25" y="-2"/>
 			</c117>
 			<c118 id="1328" name="Parking Light Mode">
 				<pos x="-8" y="-4.5"/>
@@ -1796,14 +1851,11 @@ end'>
 					</i>
 				</items>
 			</c119>
-			<c120 id="1330" name="Running Light Mode">
-				<pos x="-8" y="-6"/>
+			<c120 id="1330" name="Headlight Mode">
+				<pos x="-8" y="-6.75"/>
 				<items>
-					<i l="None">
-						<v text="0"/>
-					</i>
 					<i l="Running lights off with headlights">
-						<v text="1" value="1"/>
+						<v text="0"/>
 					</i>
 					<i l="Running lights on with headlights">
 						<v text="2" value="2"/>
@@ -1811,7 +1863,7 @@ end'>
 				</items>
 			</c120>
 			<c121 id="1331" name="Fog Light Mode">
-				<pos x="-8" y="-6.75"/>
+				<pos x="-8" y="-7.5"/>
 				<items>
 					<i l="None">
 						<v text="0"/>
@@ -1824,6 +1876,44 @@ end'>
 					</i>
 				</items>
 			</c121>
+			<c122 id="1333" name="Running Light Mode">
+				<pos x="-8" y="-6"/>
+				<items>
+					<i l="Running lights not installed">
+						<v text="0"/>
+					</i>
+					<i l="Activate running lights from rom node">
+						<v text="1" value="1"/>
+					</i>
+					<i l="Activate running lights when this car is master">
+						<v text="2" value="2"/>
+					</i>
+				</items>
+			</c122>
+			<c123 id="1334" n="Front reverse lights">
+				<pos x="5" y="-1"/>
+			</c123>
+			<c124 id="1335" n="Rear reverse lights">
+				<pos x="5" y="-1.5"/>
+			</c124>
+			<c125 id="1339">
+				<pos x="-5.25" y="-5.25"/>
+				<in1 component_id="1076"/>
+				<min text="3" value="3"/>
+				<max text="3" value="3"/>
+			</c125>
+			<c126 id="1341" e="x&amp;y&amp;z">
+				<pos x="6.25" y="-6"/>
+				<in1 component_id="1087"/>
+				<in2 component_id="968"/>
+				<in3 component_id="1339"/>
+			</c126>
+			<c127 id="1342" e="x&amp;y&amp;z">
+				<pos x="6.25" y="-8.25"/>
+				<in1 component_id="1087"/>
+				<in2 component_id="967"/>
+				<in3 component_id="1339"/>
+			</c127>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="264">
