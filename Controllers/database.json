@@ -232,11 +232,18 @@
 							"label": "Auto Lights (toggle)",
 							"visibility": 0
 						},
-						"5": "Head Lights (toggle)",
+						"5": "Headlights (toggle)",
 						"6": "High Beams (toggle)",
-						"7": "Work Lights (toggle)",
-						"8": "Warning Lights (toggle)",
-						"9": "Decorative Lights (toggle)"
+						"7": "Running Lights (toggle)",
+						"8": "Fog Lights (toggle)",
+						"9": "Ditch Lights (toggle)",
+						"10": "Flash Front Lights (toggle)",
+						"11": "Work Lights (toggle)",
+						"12": "Warning Lights (toggle)",
+						"13": "Decorative Lights (toggle)",
+						"14": "Reverse Light Mode (toggle)",
+						"15": "Parking Light Mode (toggle)",
+						"16": "Shunting Light Mode (toggle)"
 					}
 				}
 			},
