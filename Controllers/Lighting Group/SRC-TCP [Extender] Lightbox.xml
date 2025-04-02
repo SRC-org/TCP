@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Extender] Lightbox v1.3" description="Interacts with TCP Lighting Interface to control train lights" width="3" length="4" id_counter="612" id_counter_node="51" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Extender] Lightbox v1.4.0-dev2" description="Interacts with TCP Lighting Interface to control train lights" width="3" length="4" id_counter="612" id_counter_node="51" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="38" component_id="554">
 			<node label="Interface" mode="1" type="5" description="Communicates with lighting interface"/>
@@ -119,7 +119,7 @@
 				</object>
 			</c>
 			<c type="29">
-				<object id="589" i="9">
+				<object id="589" i="16">
 					<pos x="-1.25" y="-3"/>
 					<in1 component_id="554"/>
 				</object>
@@ -161,13 +161,13 @@
 				</object>
 			</c>
 			<c type="29">
-				<object id="600" i="10">
+				<object id="600" i="17">
 					<pos x="-1.25" y="-3.5"/>
 					<in1 component_id="554"/>
 				</object>
 			</c>
 			<c type="29">
-				<object id="601" i="11">
+				<object id="601" i="18">
 					<pos x="-1.25" y="-4"/>
 					<in1 component_id="554"/>
 				</object>
@@ -338,7 +338,7 @@
 				<pos x="-1.25" y="-2.25"/>
 				<in1 component_id="554"/>
 			</c7>
-			<c8 id="589" i="9">
+			<c8 id="589" i="16">
 				<pos x="-1.25" y="-3"/>
 				<in1 component_id="554"/>
 			</c8>
@@ -366,11 +366,11 @@
 				<pos x="-1.25" y="-7.75"/>
 				<in1 component_id="554"/>
 			</c14>
-			<c15 id="600" i="10">
+			<c15 id="600" i="17">
 				<pos x="-1.25" y="-3.5"/>
 				<in1 component_id="554"/>
 			</c15>
-			<c16 id="601" i="11">
+			<c16 id="601" i="18">
 				<pos x="-1.25" y="-4"/>
 				<in1 component_id="554"/>
 			</c16>
@@ -463,3 +463,4 @@
 		<group_states/>
 	</group>
 </microprocessor>
+
