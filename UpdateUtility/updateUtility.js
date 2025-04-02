@@ -5,7 +5,7 @@ database = require("../Controllers/database.json")
 require("./mediaElements")
 require("dotenv").config({ path: path.join(__dirname, "./.env") });
 
-const { execSync, spawnSync } = require('child_process');
+const { exec, execSync, spawn, spawnSync } = require('child_process');
 const { XMLParser, XMLBuilder } = require("fast-xml-parser")
 const { Resvg } = require('@resvg/resvg-js')
 const readline = require("readline")
@@ -53,6 +53,7 @@ async function start() {
 	if (args.indexOf("-d") > -1) await execDatabase()
 	if (args.indexOf("-g") > -1) await execImages()
 	if (args.indexOf("-s") > -1) await execSteam()
+	if (args.indexOf("-t") > -1) await execTest()
 	if (args.indexOf("-e") > -1) await execExport(args.indexOf("-e"))
 }
 
@@ -321,7 +322,35 @@ async function execSteam(auto) {
 	}
 
 	if (fs.existsSync(sPath + "temp/")) fs.rmSync(sPath + "temp/", {recursive: true})
+}
 
+/*TODO:
+   - test workaround using double promting
+   - see if only TFA is affected by the input bug
+ */
+
+async function execTest() {
+	//execSync(process.env.steamCMDPath + "steamcmd.exe +login", {stdio: "inherit"})
+
+	execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\"", {stdio: "inherit"})
+	let TFA = await prompt("Steam guard code? ")
+	execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\" " + TFA + " +quit", {stdio: "inherit"})
+
+	//this might work too (from: https://stackoverflow.com/questions/53376908/capture-input-in-the-child-process-after-spawn-in-node)
+	/*let command = process.env.steamCMDPath + "steamcmd.exe";
+
+	//execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
+
+	let child = spawn(command);
+
+	process.stdin.pipe(child.stdin);
+	child.stdout.pipe(process.stdout);
+	child.stderr.pipe(process.stderr);
+
+	await new Promise( (resolve) => {
+		child.on('exit', resolve)
+	})*/
+	//child.on('exit', () => process.exit())
 }
 
 // Export
