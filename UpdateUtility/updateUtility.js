@@ -313,9 +313,10 @@ async function execSteam(auto) {
 
 	// execute command
 	try {
-		let TFA = await prompt("Steam guard code? ")
+		/*let TFA = await prompt("Steam guard code? ")
 		execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\" " + TFA + " " + commandChain + "+quit", {stdio: "inherit"})
-		//database.auto.controllers = []
+		//database.auto.controllers = []*/
+		await runSteamCommand(commandChain)
 		console.log("upload successful")
 	} catch (e) {
 		console.error(e)
@@ -324,34 +325,9 @@ async function execSteam(auto) {
 	if (fs.existsSync(sPath + "temp/")) fs.rmSync(sPath + "temp/", {recursive: true})
 }
 
-/*TODO:
-   - test workaround using double promting
-   - see if only TFA is affected by the input bug
+/* TODO:
+    https://github.com/microsoft/node-pty might also work
  */
-
-async function execTest() {
-	//execSync(process.env.steamCMDPath + "steamcmd.exe +login", {stdio: "inherit"})
-
-	execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\"", {stdio: "inherit"})
-	let TFA = await prompt("Steam guard code? ")
-	execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\" " + TFA + " +quit", {stdio: "inherit"})
-
-	//this might work too (from: https://stackoverflow.com/questions/53376908/capture-input-in-the-child-process-after-spawn-in-node)
-	/*let command = process.env.steamCMDPath + "steamcmd.exe";
-
-	//execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
-
-	let child = spawn(command);
-
-	process.stdin.pipe(child.stdin);
-	child.stdout.pipe(process.stdout);
-	child.stderr.pipe(process.stderr);
-
-	await new Promise( (resolve) => {
-		child.on('exit', resolve)
-	})*/
-	//child.on('exit', () => process.exit())
-}
 
 // Export
 async function execExport(index) {
@@ -392,6 +368,24 @@ async function execExport(index) {
 		for (let i = 0; i < 32; i++) file += groups[group].entries[i]+"\n"
 		fs.writeFileSync(path.join(__dirname, "/.export/" + group + ".csv"), file, "utf-8")
 	}
+}
+
+runSteamCommand = async command => {
+
+	const child = exec(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\" +quit")
+
+	const success = new Promise(resolve => child.on('close', resolve))
+	const timeout = new Promise(resolve => setTimeout(() => resolve("TFA"), 10000))
+
+	// race either child process ending on its own, or some timer; if timer then ask for 2FA, otherwise just log in without 2FA.
+	const res = await Promise.race([success, timeout])
+	let TFA = ""
+	if (res === "TFA") {
+		child.kill();
+		TFA = await prompt("2FA code (email, if none press enter): ")
+	}
+
+	execSync(process.env.steamCMDPath + "steamcmd.exe +login \"" + process.env.steamLogin + "\" \"" + process.env.steamPassword + "\" " + TFA + " " + command + " +quit", {stdio: "inherit"})
 }
 
 interpretName = name => {
