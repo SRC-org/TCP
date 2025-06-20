@@ -1,0 +1,19 @@
+{
+	"name": "tcp",
+	"version": "1.3.2",
+	"description": "",
+	"scripts": {
+		"setup": "npm run setup:git && npm run setup:tcptools",
+		"setup:git": "git config submodule.recurse true && git submodule update --init",
+		"setup:tcptools": "cd tcptools && npm i"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/SRC-org/TCP.git"
+	},
+	"author": "Stormworks Rail Committee",
+	"bugs": {
+		"url": "https://github.com/SRC-org/TCP/issues"
+	},
+	"homepage": "https://github.com/SRC-org/TCP#readme"
+}
