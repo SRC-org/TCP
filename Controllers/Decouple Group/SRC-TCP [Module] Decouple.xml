@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Module] Decouple v1.4.0" description="Enables decoupling of cars" width="2" length="2" id_counter="425" id_counter_node="38" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Module] Decouple v1.4-C0.dev" description="Connects to decouple module and connectors to decouple cars" width="2" length="3" id_counter="937" id_counter_node="42" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
-		<n id="19" component_id="265">
-			<node label="Hub slot/Main Input" type="5" description="Outputs information to Hub/Main"/>
-		</n>
-		<n id="20" component_id="268">
-			<node label="Main Both" mode="1" type="5" description="Connects to Main Both for information from other cars">
+		<n id="17" component_id="111">
+			<node label="Hub slot/Main Input" type="5" description="Outputs information to Hub/Main">
 				<position x="1"/>
 			</node>
 		</n>
-		<n id="31" component_id="313">
-			<node label="Module -&gt; Interface" type="5" description="Communicates with Decouple Interface">
+		<n id="33" component_id="264">
+			<node label="Main Both" mode="1" type="5" description="Connects to Main Both for information from other cars"/>
+		</n>
+		<n id="37" component_id="760">
+			<node label="UI" mode="1" type="5" description="Connects to instruments or Display Controller // Channels: B4: Decouple (push); N7: Car to decouple;">
+				<position z="2"/>
+			</node>
+		</n>
+		<n id="38" component_id="770">
+			<node label="Decouple Front" description="Connects to front coupler to disconnect">
 				<position z="1"/>
 			</node>
 		</n>
-		<n id="36" component_id="389">
-			<node label="Interface -&gt; Module" mode="1" type="5" description="Communicates with Decouple Interface">
+		<n id="39" component_id="791">
+			<node label="Decouple Rear" description="Connects to rear coupler to disconnect">
 				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="40" component_id="819">
+			<node label="Video Out" type="6" description="To Display Controller">
+				<position x="1" z="2"/>
 			</node>
 		</n>
 	</nodes>
@@ -26,205 +36,983 @@
 			<outputs/>
 		</data>
 		<components>
-			<c type="29">
-				<object id="390">
-					<pos x="0.25" y="-0.25"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="29">
-				<object id="391" i="1">
-					<pos x="0.25" y="-0.75"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="29">
-				<object id="392" i="2">
-					<pos x="0.25" y="-1.25"/>
-					<in1 component_id="268"/>
+			<c type="56">
+				<object id="806" script='colors={w={85,90,90},w2={70,75,75},b={10,10,10},b2={8,8,8},acc={69,12,10}}
+scroll = 0
+wagon = 20
+pNumWagons = 0
+
+function touch(x,y,w,h) return t.x&gt;=x and t.y&gt;=y and t.x&lt;x+w and t.y&lt;y+h end
+function onTouch(x,y,w,h) return touch(x,y,w,h) and press end
+function onRelease(x,y,w,h) return touch(x,y,w,h) and pre and not press end
+function onPress(x,y,w,h) return touch(x,y,w,h) and press and not pre end
+
+function setC(v)
+	sC(v[1],v[2],v[3])
+end
+
+gN=input.getNumber;gB=input.getBool;sN=output.setNumber;sB=output.setBool;
+function onTick()
+	press = gB(1)
+	d={w=gN(1),h=gN(2)}
+	t={x=gN(3),y=gN(4)}
+	
+	night = gB(3)
+	nTCPFront = gB(5)
+	nTCPRear = gB(6)
+	
+	numWagons = gN(8)
+	masterID = gN(9)
+	myID = gN(10)
+	
+	-- manual
+	manCar = gN(7)
+	manDec = gB(4) and manCar ~= myID
+	
+	if night then
+		theme={bg=colors.b,bg2=colors.b2,fg=colors.w,acc=colors.acc}
+	else
+		theme={bg=colors.w,bg2=colors.w2,fg=colors.b,acc=colors.acc}
+	end
+	
+	minD = nTCPFront and 0 or 1
+	maxD = nTCPRear and numWagons or numWagons-1
+	numWagons2 = maxD - minD + 2 -- including non tcp cars
+	
+	if not detach or updateDetach then
+		detach = myID
+		detach = clamp(detach,minD,maxD)
+	end
+	updateDetach = numWagons &gt; pNumWagons -- reset position to my car
+	
+	sDec = maxD &gt;= minD or pDec
+	sLeft = detach &gt; minD or pLeft
+	sRight = detach &lt; maxD or pRight
+
+	if (onPress(d.w/2-16,36,7,9)) and detach &gt; minD then
+		detach = detach-1
+	end
+	
+	if (onPress(d.w/2+9,36,7,9)) and detach &lt; maxD then
+		detach = detach+1
+	end
+	
+	if manDec then detach = manCar &lt; myID and manCar or manCar-1 end -- update with manual val
+
+	detach = clamp(detach,minD,maxD) -- is this necessary?
+	
+	sN(1,detach+1)
+	sB(1,onTouch(d.w/2-22,48,44,9) or manDec)
+	sB(2,detach == myID or detach+1 == myID)
+	
+	pNumWagons = numWagons
+	pre = gB(1)
+end
+
+function dLoco(x,y,n)
+	dL(x+3,y,x+17,y)
+	dL(x+3,y+8,x+17,y+8)
+	dL(x,y+6,x+3,y+9)
+	dL(x+17,y+8,x+20,y+5)
+	dL(x,y+5,x+2,y+1)
+	dL(x+18,y+2,x+20,y+6)
+	dRF(x+2,y+1,1,1)
+	dRF(x+17,y+1,1,1)
+	dTB(x,y,20,9,math.floor(n),0,0)
+end
+
+function dCar(x,y,n)
+	dR(x,y,19,8)
+	dTB(x,y,20,9,math.floor(n),0,0)
+	setC(theme.bg2)
+	dRF(x,y,1,1)
+	dRF(x+19,y,1,1)
+end
+
+function dnTCP(x,y,l)
+	setC(theme.bg)
+	dR(x,y,19,8)
+	dTB(x,y,20,9,"x",0,0)
+	setC(theme.bg2)
+	dRF(l and x+19 or x,y,1,1)
+	dR(l and x+3 or x+13,y-1,3,10)
+	dL(l and x+1 or x+18,y,l and x+1 or x+18,y+9)
+	dL(l and x or x+19,y+1,l and x or x+19,y+8)
+end
+
+s=screen;sC=s.setColor;dTF=s.drawTriangleF;dR=s.drawRect;dRF=s.drawRectF;dT=s.drawText;dTB=s.drawTextBox;dL=s.drawLine;
+function onDraw()	
+	w = s.getWidth()
+    h = s.getHeight()
+	--fit = math.floor((w-12)/(wagon+1))
+	
+	-- background
+	setC(theme.bg2)
+	dRF(0,0,w,h)
+	
+	-- decouple button
+	pDec = onTouch(d.w/2-22,48,44,9) and sDec
+	if pDec then
+		setC(theme.acc)
+		dRF(w/2-22,48,44,9)
+		setC(theme.bg2)
+	else
+		setC(sDec and theme.acc or theme.bg)
+		dL(w/2-22,48,w/2-22,57)
+		setC(sDec and theme.fg or theme.bg)
+	end
+	dT(w/2-19,50,"decouple")
+	
+	-- left button
+	setC(sLeft and (onTouch(d.w/2-16,36,7,9) and theme.acc or theme.fg) or theme.bg)
+	dTF(w/2-12,38,w/2-14,41,w/2-11,44)
+	pLeft = onTouch(d.w/2-16,36,7,9) and sLeft
+	
+	-- right button
+	setC(sRight and (onTouch(d.w/2+9,36,7,9) and theme.acc or theme.fg) or theme.bg)
+	dTF(w/2+11,38,w/2+14,41,w/2+10,44)
+	pRight = onTouch(d.w/2+9,36,7,9) and sRight
+	
+	-- offset - position of the first car
+	o = w/2-(detach+1-minD)*(wagon+1)
+	if (detach == 0) then
+		o = o-wagon/2
+	end
+	if (detach == numWagons) then
+		o = o+wagon/2+1
+	end
+	
+	-- direction arrow
+	setC(theme.fg)
+	x = math.max(6,o+(1-minD)*(wagon+1))
+	dL(x,20,x+12,20)
+	dL(x,20,x+3,17)
+	
+	-- detach line
+	setC(theme.acc)
+	x = w/2 + (detach == 0 and -10 or detach == numWagons and 9 or -1)
+	dL(x,36,x,41)
+	
+	-- draw cars and line
+	x = o
+	for i=minD,maxD+1 do
+		setC(i == myID and theme.acc or theme.fg)
+		if i == 0 or i == numWagons+1 then
+			--dnTCP(x,24,i == 0)
+		elseif i == masterID then
+			dLoco(x,24,i)
+		else
+			dCar(x,24,i)
+		end
+		x = x+(wagon+1)
+	end
+end
+
+function clamp(v,x,y) return math.min(math.max(v,x),y) end'>
+					<pos x="4.25"/>
+					<in1 component_id="820"/>
 				</object>
 			</c>
 			<c type="31">
-				<object id="393">
-					<pos x="0.25" y="-2"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="31">
-				<object id="394" i="1">
-					<pos x="0.25" y="-2.5"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="31">
-				<object id="395" i="2">
-					<pos x="0.25" y="-3"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="31">
-				<object id="396" i="10">
-					<pos x="0.25" y="-3.5"/>
-					<in1 component_id="268"/>
+				<object id="812">
+					<pos x="6" y="0.25"/>
+					<in1 component_id="806"/>
 				</object>
 			</c>
 			<c type="40">
-				<object id="398" count="1" offset="2">
-					<pos x="10.75" y="-2"/>
-					<inc component_id="413"/>
-					<in1 component_id="424"/>
+				<object id="820" count="3" offset="7">
+					<pos x="2.5" y="-0.5"/>
+					<inc component_id="886"/>
+					<in1 component_id="834"/>
+					<in2 component_id="835"/>
+					<in3 component_id="836"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="822">
+					<pos x="6" y="-1.25"/>
+					<in1 component_id="806"/>
+				</object>
+			</c>
+			<c type="26">
+				<object id="823" ct="0.3" dt="0">
+					<pos x="7.75" y="-0.75"/>
+					<in1 component_id="919"/>
+				</object>
+			</c>
+			<c type="48">
+				<object id="824">
+					<pos x="7.75" y="-0.25"/>
+					<in1 component_id="823"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="833" i="2">
+					<pos x="2.5" y="-1.75"/>
+					<in1 component_id="934"/>
 				</object>
 			</c>
 			<c type="31">
-				<object id="399">
-					<pos x="0.25" y="-4.5"/>
-					<in1 component_id="389"/>
+				<object id="834">
+					<pos x="0.75" y="-2.5"/>
+					<in1 component_id="934"/>
 				</object>
 			</c>
-			<c type="41">
-				<object id="400" count="3">
-					<pos x="2" y="-0.75"/>
-					<in1 component_id="390"/>
-					<in2 component_id="391"/>
-					<in3 component_id="392"/>
+			<c type="31">
+				<object id="835" i="1">
+					<pos x="0.75" y="-3"/>
+					<in1 component_id="934"/>
 				</object>
 			</c>
-			<c type="40">
-				<object id="412" count="4">
-					<pos x="2" y="-2.75"/>
-					<inc component_id="400"/>
-					<in1 component_id="393"/>
-					<in2 component_id="394"/>
-					<in3 component_id="395"/>
-					<in4 component_id="396"/>
+			<c type="31">
+				<object id="836" i="2">
+					<pos x="0.75" y="-3.5"/>
+					<in1 component_id="934"/>
 				</object>
 			</c>
-			<c type="40">
-				<object id="413" count="1" offset="10">
-					<pos x="9" y="-4.5"/>
-					<in1 component_id="399"/>
+			<c type="31">
+				<object id="837" i="3">
+					<pos x="0.75" y="-4"/>
+					<in1 component_id="934"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="839" l="My ID">
+					<pos x="-1" y="-3.75"/>
+					<in1 component_id="836"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="841" l="Number of wagons">
+					<pos x="-1" y="-2.75"/>
+					<in1 component_id="834"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="843">
+					<pos x="7.75" y="-3.25"/>
+					<in1 component_id="845"/>
+					<in2 component_id="879"/>
+				</object>
+			</c>
+			<c type="50">
+				<object id="844">
+					<pos x="7.75" y="-4"/>
+					<in1 component_id="845"/>
+					<in2 component_id="879"/>
+				</object>
+			</c>
+			<c type="25">
+				<object id="845">
+					<pos x="6" y="-3.25"/>
+					<in1 component_id="852"/>
+					<in2 component_id="843"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="847">
+					<pos x="7.75" y="-5"/>
+					<in1 component_id="849"/>
+					<in2 component_id="879"/>
+				</object>
+			</c>
+			<c type="50">
+				<object id="848">
+					<pos x="7.75" y="-5.75"/>
+					<in1 component_id="849"/>
+					<in2 component_id="879"/>
+				</object>
+			</c>
+			<c type="25">
+				<object id="849">
+					<pos x="6" y="-5"/>
+					<in1 component_id="853"/>
+					<in2 component_id="847"/>
+				</object>
+			</c>
+			<c type="46">
+				<object id="852" e="((!x&amp;y)|(x&amp;z))&amp;w">
+					<pos x="4.25" y="-3.75"/>
+					<in1 component_id="833"/>
+					<in2 component_id="906"/>
+					<in3 component_id="907"/>
+					<in4 component_id="917"/>
+				</object>
+			</c>
+			<c type="46">
+				<object id="853" e="((x&amp;y)|(!x&amp;z))&amp;w">
+					<pos x="4.25" y="-5.5"/>
+					<in1 component_id="833"/>
+					<in2 component_id="906"/>
+					<in3 component_id="907"/>
+					<in4 component_id="917"/>
+				</object>
+			</c>
+			<c type="21">
+				<object id="865">
+					<pos x="11.25" y="-0.5"/>
+					<in1 component_id="866"/>
+					<in2 component_id="868"/>
 				</object>
 			</c>
 			<c type="22">
-				<object id="424">
-					<pos x="9" y="-2.5"/>
-					<in1 component_id="425"/>
-					<in3 component_id="390"/>
+				<object id="866">
+					<pos x="9.5" y="-0.25"/>
+					<in1 component_id="812"/>
+					<in3 component_id="824"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="868" i="1">
+					<pos x="6" y="-0.5"/>
+					<in1 component_id="806"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="870">
+					<pos x="0.75" y="-1.5"/>
+					<in1 component_id="934"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="871">
+					<pos x="0.75" y="-5"/>
+					<in1 component_id="865"/>
+					<in2 component_id="837"/>
+					<in3 component_id="870"/>
+				</object>
+			</c>
+			<c type="19">
+				<object id="879" name="Time to stay disconnected">
+					<pos x="6" y="-5.75"/>
+					<min text="1" value="1"/>
+					<max text="10" value="10"/>
+					<int text="1" value="1"/>
+					<v text="3" value="3"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="880" l="value going to other cars" m="1">
+					<pos x="11.25" y="-2"/>
+					<in1 component_id="865" node_index="1"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="881" l="value going to itself" m="1">
+					<pos x="11.25" y="-1.25"/>
+					<in1 component_id="865"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="842" l="Received decouple number" m="1">
+					<pos x="-1" y="-4.25"/>
+					<in1 component_id="837"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="886" count="2" offset="4">
+					<pos x="0.75" y="-0.25"/>
+					<inc component_id="760"/>
+					<in1 component_id="913"/>
+					<in2 component_id="913"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="906">
+					<pos x="2.5" y="-3.5"/>
+					<in1 component_id="871"/>
+					<in2 component_id="836"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="907">
+					<pos x="2.5" y="-5.5"/>
+					<in1 component_id="836"/>
+					<in2 component_id="908"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="908" e="x-1">
+					<pos x="0.75" y="-5.5"/>
+					<in1 component_id="871"/>
+				</object>
+			</c>
+			<c type="16">
+				<object id="913">
+					<pos x="-1" y="-0.25"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="917">
+					<pos x="2.5" y="-4.5"/>
+					<in1 component_id="836"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="919">
+					<pos x="7.75" y="-1.5"/>
+					<in1 component_id="822"/>
+					<in2 component_id="870"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="924">
+					<pos x="-7.5" y="1.75"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="925" i="1">
+					<pos x="-7.5" y="1.25"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="926" i="2">
+					<pos x="-7.5" y="0.75"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="927">
+					<pos x="-7.5"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="928" i="1">
+					<pos x="-7.5" y="-0.5"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="929" i="2">
+					<pos x="-7.5" y="-1"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="930" i="10">
+					<pos x="-7.5" y="-1.5"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="931" count="1" offset="2">
+					<pos x="14.5" y="2"/>
+					<inc component_id="935"/>
+					<in1 component_id="936"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="933" count="3">
+					<pos x="-5.75" y="1.25"/>
+					<in1 component_id="924"/>
+					<in2 component_id="925"/>
+					<in3 component_id="926"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="934" count="4">
+					<pos x="-5.75" y="-0.75"/>
+					<inc component_id="933"/>
+					<in1 component_id="927"/>
+					<in2 component_id="928"/>
+					<in3 component_id="929"/>
+					<in4 component_id="930"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="935" count="1" offset="10">
+					<pos x="12.75" y="-0.5"/>
+					<in1 component_id="865" node_index="1"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="936">
+					<pos x="12.75" y="1.5"/>
+					<in1 component_id="937"/>
+					<in3 component_id="924"/>
 				</object>
 			</c>
 			<c type="15">
-				<object id="425">
-					<pos x="7.25" y="-2"/>
+				<object id="937">
+					<pos x="11" y="2"/>
 					<n text="2048" value="2048"/>
 				</object>
 			</c>
 		</components>
 		<components_bridge>
 			<c type="5">
-				<object id="265">
-					<pos x="12.5" y="-1.75"/>
-					<in1 component_id="398"/>
+				<object id="111">
+					<pos x="15.75" y="2.25"/>
+					<in1 component_id="931"/>
 				</object>
 			</c>
 			<c type="4">
-				<object id="268">
-					<pos x="-1.5" y="-0.25"/>
-				</object>
-			</c>
-			<c type="5">
-				<object id="313">
-					<pos x="3.75" y="-1.75"/>
-					<in1 component_id="412"/>
+				<object id="264">
+					<pos x="-9.75" y="0.25"/>
 				</object>
 			</c>
 			<c type="4">
-				<object id="389">
-					<pos x="-1.5" y="-4.5"/>
+				<object id="760">
+					<pos x="-1" y="0.25"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="770">
+					<pos x="9.5" y="-3.75"/>
+					<in1 component_id="844"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="791">
+					<pos x="9.5" y="-5.5"/>
+					<in1 component_id="848"/>
+				</object>
+			</c>
+			<c type="7">
+				<object id="819">
+					<pos x="4.25" y="0.75"/>
+					<in1 component_id="806" node_index="1"/>
 				</object>
 			</c>
 		</components_bridge>
 		<groups/>
 		<component_states>
-			<c0 id="390">
-				<pos x="0.25" y="-0.25"/>
-				<in1 component_id="268"/>
+			<c0 id="806" script='colors={w={85,90,90},w2={70,75,75},b={10,10,10},b2={8,8,8},acc={69,12,10}}
+scroll = 0
+wagon = 20
+pNumWagons = 0
+
+function touch(x,y,w,h) return t.x&gt;=x and t.y&gt;=y and t.x&lt;x+w and t.y&lt;y+h end
+function onTouch(x,y,w,h) return touch(x,y,w,h) and press end
+function onRelease(x,y,w,h) return touch(x,y,w,h) and pre and not press end
+function onPress(x,y,w,h) return touch(x,y,w,h) and press and not pre end
+
+function setC(v)
+	sC(v[1],v[2],v[3])
+end
+
+gN=input.getNumber;gB=input.getBool;sN=output.setNumber;sB=output.setBool;
+function onTick()
+	press = gB(1)
+	d={w=gN(1),h=gN(2)}
+	t={x=gN(3),y=gN(4)}
+	
+	night = gB(3)
+	nTCPFront = gB(5)
+	nTCPRear = gB(6)
+	
+	numWagons = gN(8)
+	masterID = gN(9)
+	myID = gN(10)
+	
+	-- manual
+	manCar = gN(7)
+	manDec = gB(4) and manCar ~= myID
+	
+	if night then
+		theme={bg=colors.b,bg2=colors.b2,fg=colors.w,acc=colors.acc}
+	else
+		theme={bg=colors.w,bg2=colors.w2,fg=colors.b,acc=colors.acc}
+	end
+	
+	minD = nTCPFront and 0 or 1
+	maxD = nTCPRear and numWagons or numWagons-1
+	numWagons2 = maxD - minD + 2 -- including non tcp cars
+	
+	if not detach or updateDetach then
+		detach = myID
+		detach = clamp(detach,minD,maxD)
+	end
+	updateDetach = numWagons &gt; pNumWagons -- reset position to my car
+	
+	sDec = maxD &gt;= minD or pDec
+	sLeft = detach &gt; minD or pLeft
+	sRight = detach &lt; maxD or pRight
+
+	if (onPress(d.w/2-16,36,7,9)) and detach &gt; minD then
+		detach = detach-1
+	end
+	
+	if (onPress(d.w/2+9,36,7,9)) and detach &lt; maxD then
+		detach = detach+1
+	end
+	
+	if manDec then detach = manCar &lt; myID and manCar or manCar-1 end -- update with manual val
+
+	detach = clamp(detach,minD,maxD) -- is this necessary?
+	
+	sN(1,detach+1)
+	sB(1,onTouch(d.w/2-22,48,44,9) or manDec)
+	sB(2,detach == myID or detach+1 == myID)
+	
+	pNumWagons = numWagons
+	pre = gB(1)
+end
+
+function dLoco(x,y,n)
+	dL(x+3,y,x+17,y)
+	dL(x+3,y+8,x+17,y+8)
+	dL(x,y+6,x+3,y+9)
+	dL(x+17,y+8,x+20,y+5)
+	dL(x,y+5,x+2,y+1)
+	dL(x+18,y+2,x+20,y+6)
+	dRF(x+2,y+1,1,1)
+	dRF(x+17,y+1,1,1)
+	dTB(x,y,20,9,math.floor(n),0,0)
+end
+
+function dCar(x,y,n)
+	dR(x,y,19,8)
+	dTB(x,y,20,9,math.floor(n),0,0)
+	setC(theme.bg2)
+	dRF(x,y,1,1)
+	dRF(x+19,y,1,1)
+end
+
+function dnTCP(x,y,l)
+	setC(theme.bg)
+	dR(x,y,19,8)
+	dTB(x,y,20,9,"x",0,0)
+	setC(theme.bg2)
+	dRF(l and x+19 or x,y,1,1)
+	dR(l and x+3 or x+13,y-1,3,10)
+	dL(l and x+1 or x+18,y,l and x+1 or x+18,y+9)
+	dL(l and x or x+19,y+1,l and x or x+19,y+8)
+end
+
+s=screen;sC=s.setColor;dTF=s.drawTriangleF;dR=s.drawRect;dRF=s.drawRectF;dT=s.drawText;dTB=s.drawTextBox;dL=s.drawLine;
+function onDraw()	
+	w = s.getWidth()
+    h = s.getHeight()
+	--fit = math.floor((w-12)/(wagon+1))
+	
+	-- background
+	setC(theme.bg2)
+	dRF(0,0,w,h)
+	
+	-- decouple button
+	pDec = onTouch(d.w/2-22,48,44,9) and sDec
+	if pDec then
+		setC(theme.acc)
+		dRF(w/2-22,48,44,9)
+		setC(theme.bg2)
+	else
+		setC(sDec and theme.acc or theme.bg)
+		dL(w/2-22,48,w/2-22,57)
+		setC(sDec and theme.fg or theme.bg)
+	end
+	dT(w/2-19,50,"decouple")
+	
+	-- left button
+	setC(sLeft and (onTouch(d.w/2-16,36,7,9) and theme.acc or theme.fg) or theme.bg)
+	dTF(w/2-12,38,w/2-14,41,w/2-11,44)
+	pLeft = onTouch(d.w/2-16,36,7,9) and sLeft
+	
+	-- right button
+	setC(sRight and (onTouch(d.w/2+9,36,7,9) and theme.acc or theme.fg) or theme.bg)
+	dTF(w/2+11,38,w/2+14,41,w/2+10,44)
+	pRight = onTouch(d.w/2+9,36,7,9) and sRight
+	
+	-- offset - position of the first car
+	o = w/2-(detach+1-minD)*(wagon+1)
+	if (detach == 0) then
+		o = o-wagon/2
+	end
+	if (detach == numWagons) then
+		o = o+wagon/2+1
+	end
+	
+	-- direction arrow
+	setC(theme.fg)
+	x = math.max(6,o+(1-minD)*(wagon+1))
+	dL(x,20,x+12,20)
+	dL(x,20,x+3,17)
+	
+	-- detach line
+	setC(theme.acc)
+	x = w/2 + (detach == 0 and -10 or detach == numWagons and 9 or -1)
+	dL(x,36,x,41)
+	
+	-- draw cars and line
+	x = o
+	for i=minD,maxD+1 do
+		setC(i == myID and theme.acc or theme.fg)
+		if i == 0 or i == numWagons+1 then
+			--dnTCP(x,24,i == 0)
+		elseif i == masterID then
+			dLoco(x,24,i)
+		else
+			dCar(x,24,i)
+		end
+		x = x+(wagon+1)
+	end
+end
+
+function clamp(v,x,y) return math.min(math.max(v,x),y) end'>
+				<pos x="4.25"/>
+				<in1 component_id="820"/>
 			</c0>
-			<c1 id="391" i="1">
-				<pos x="0.25" y="-0.75"/>
-				<in1 component_id="268"/>
+			<c1 id="812">
+				<pos x="6" y="0.25"/>
+				<in1 component_id="806"/>
 			</c1>
-			<c2 id="392" i="2">
-				<pos x="0.25" y="-1.25"/>
-				<in1 component_id="268"/>
+			<c2 id="820" count="3" offset="7">
+				<pos x="2.5" y="-0.5"/>
+				<inc component_id="886"/>
+				<in1 component_id="834"/>
+				<in2 component_id="835"/>
+				<in3 component_id="836"/>
 			</c2>
-			<c3 id="393">
-				<pos x="0.25" y="-2"/>
-				<in1 component_id="268"/>
+			<c3 id="822">
+				<pos x="6" y="-1.25"/>
+				<in1 component_id="806"/>
 			</c3>
-			<c4 id="394" i="1">
-				<pos x="0.25" y="-2.5"/>
-				<in1 component_id="268"/>
+			<c4 id="823" ct="0.3" dt="0">
+				<pos x="7.75" y="-0.75"/>
+				<in1 component_id="919"/>
 			</c4>
-			<c5 id="395" i="2">
-				<pos x="0.25" y="-3"/>
-				<in1 component_id="268"/>
+			<c5 id="824">
+				<pos x="7.75" y="-0.25"/>
+				<in1 component_id="823"/>
 			</c5>
-			<c6 id="396" i="10">
-				<pos x="0.25" y="-3.5"/>
-				<in1 component_id="268"/>
+			<c6 id="833" i="2">
+				<pos x="2.5" y="-1.75"/>
+				<in1 component_id="934"/>
 			</c6>
-			<c7 id="398" count="1" offset="2">
-				<pos x="10.75" y="-2"/>
-				<inc component_id="413"/>
-				<in1 component_id="424"/>
+			<c7 id="834">
+				<pos x="0.75" y="-2.5"/>
+				<in1 component_id="934"/>
 			</c7>
-			<c8 id="399">
-				<pos x="0.25" y="-4.5"/>
-				<in1 component_id="389"/>
+			<c8 id="835" i="1">
+				<pos x="0.75" y="-3"/>
+				<in1 component_id="934"/>
 			</c8>
-			<c9 id="400" count="3">
-				<pos x="2" y="-0.75"/>
-				<in1 component_id="390"/>
-				<in2 component_id="391"/>
-				<in3 component_id="392"/>
+			<c9 id="836" i="2">
+				<pos x="0.75" y="-3.5"/>
+				<in1 component_id="934"/>
 			</c9>
-			<c10 id="412" count="4">
-				<pos x="2" y="-2.75"/>
-				<inc component_id="400"/>
-				<in1 component_id="393"/>
-				<in2 component_id="394"/>
-				<in3 component_id="395"/>
-				<in4 component_id="396"/>
+			<c10 id="837" i="3">
+				<pos x="0.75" y="-4"/>
+				<in1 component_id="934"/>
 			</c10>
-			<c11 id="413" count="1" offset="10">
-				<pos x="9" y="-4.5"/>
-				<in1 component_id="399"/>
+			<c11 id="839" l="My ID">
+				<pos x="-1" y="-3.75"/>
+				<in1 component_id="836"/>
 			</c11>
-			<c12 id="424">
-				<pos x="9" y="-2.5"/>
-				<in1 component_id="425"/>
-				<in3 component_id="390"/>
+			<c12 id="841" l="Number of wagons">
+				<pos x="-1" y="-2.75"/>
+				<in1 component_id="834"/>
 			</c12>
-			<c13 id="425">
-				<pos x="7.25" y="-2"/>
-				<n text="2048" value="2048"/>
+			<c13 id="843">
+				<pos x="7.75" y="-3.25"/>
+				<in1 component_id="845"/>
+				<in2 component_id="879"/>
 			</c13>
+			<c14 id="844">
+				<pos x="7.75" y="-4"/>
+				<in1 component_id="845"/>
+				<in2 component_id="879"/>
+			</c14>
+			<c15 id="845">
+				<pos x="6" y="-3.25"/>
+				<in1 component_id="852"/>
+				<in2 component_id="843"/>
+			</c15>
+			<c16 id="847">
+				<pos x="7.75" y="-5"/>
+				<in1 component_id="849"/>
+				<in2 component_id="879"/>
+			</c16>
+			<c17 id="848">
+				<pos x="7.75" y="-5.75"/>
+				<in1 component_id="849"/>
+				<in2 component_id="879"/>
+			</c17>
+			<c18 id="849">
+				<pos x="6" y="-5"/>
+				<in1 component_id="853"/>
+				<in2 component_id="847"/>
+			</c18>
+			<c19 id="852" e="((!x&amp;y)|(x&amp;z))&amp;w">
+				<pos x="4.25" y="-3.75"/>
+				<in1 component_id="833"/>
+				<in2 component_id="906"/>
+				<in3 component_id="907"/>
+				<in4 component_id="917"/>
+			</c19>
+			<c20 id="853" e="((x&amp;y)|(!x&amp;z))&amp;w">
+				<pos x="4.25" y="-5.5"/>
+				<in1 component_id="833"/>
+				<in2 component_id="906"/>
+				<in3 component_id="907"/>
+				<in4 component_id="917"/>
+			</c20>
+			<c21 id="865">
+				<pos x="11.25" y="-0.5"/>
+				<in1 component_id="866"/>
+				<in2 component_id="868"/>
+			</c21>
+			<c22 id="866">
+				<pos x="9.5" y="-0.25"/>
+				<in1 component_id="812"/>
+				<in3 component_id="824"/>
+			</c22>
+			<c23 id="868" i="1">
+				<pos x="6" y="-0.5"/>
+				<in1 component_id="806"/>
+			</c23>
+			<c24 id="870">
+				<pos x="0.75" y="-1.5"/>
+				<in1 component_id="934"/>
+			</c24>
+			<c25 id="871">
+				<pos x="0.75" y="-5"/>
+				<in1 component_id="865"/>
+				<in2 component_id="837"/>
+				<in3 component_id="870"/>
+			</c25>
+			<c26 id="879" name="Time to stay disconnected">
+				<pos x="6" y="-5.75"/>
+				<min text="1" value="1"/>
+				<max text="10" value="10"/>
+				<int text="1" value="1"/>
+				<v text="3" value="3"/>
+			</c26>
+			<c27 id="880" l="value going to other cars" m="1">
+				<pos x="11.25" y="-2"/>
+				<in1 component_id="865" node_index="1"/>
+			</c27>
+			<c28 id="881" l="value going to itself" m="1">
+				<pos x="11.25" y="-1.25"/>
+				<in1 component_id="865"/>
+			</c28>
+			<c29 id="842" l="Received decouple number" m="1">
+				<pos x="-1" y="-4.25"/>
+				<in1 component_id="837"/>
+			</c29>
+			<c30 id="886" count="2" offset="4">
+				<pos x="0.75" y="-0.25"/>
+				<inc component_id="760"/>
+				<in1 component_id="913"/>
+				<in2 component_id="913"/>
+			</c30>
+			<c31 id="906">
+				<pos x="2.5" y="-3.5"/>
+				<in1 component_id="871"/>
+				<in2 component_id="836"/>
+				<e text="0.0001" value="0.0001"/>
+			</c31>
+			<c32 id="907">
+				<pos x="2.5" y="-5.5"/>
+				<in1 component_id="836"/>
+				<in2 component_id="908"/>
+				<e text="0.0001" value="0.0001"/>
+			</c32>
+			<c33 id="908" e="x-1">
+				<pos x="0.75" y="-5.5"/>
+				<in1 component_id="871"/>
+			</c33>
+			<c34 id="913">
+				<pos x="-1" y="-0.25"/>
+			</c34>
+			<c35 id="917">
+				<pos x="2.5" y="-4.5"/>
+				<in1 component_id="836"/>
+			</c35>
+			<c36 id="919">
+				<pos x="7.75" y="-1.5"/>
+				<in1 component_id="822"/>
+				<in2 component_id="870"/>
+			</c36>
+			<c37 id="924">
+				<pos x="-7.5" y="1.75"/>
+				<in1 component_id="264"/>
+			</c37>
+			<c38 id="925" i="1">
+				<pos x="-7.5" y="1.25"/>
+				<in1 component_id="264"/>
+			</c38>
+			<c39 id="926" i="2">
+				<pos x="-7.5" y="0.75"/>
+				<in1 component_id="264"/>
+			</c39>
+			<c40 id="927">
+				<pos x="-7.5"/>
+				<in1 component_id="264"/>
+			</c40>
+			<c41 id="928" i="1">
+				<pos x="-7.5" y="-0.5"/>
+				<in1 component_id="264"/>
+			</c41>
+			<c42 id="929" i="2">
+				<pos x="-7.5" y="-1"/>
+				<in1 component_id="264"/>
+			</c42>
+			<c43 id="930" i="10">
+				<pos x="-7.5" y="-1.5"/>
+				<in1 component_id="264"/>
+			</c43>
+			<c44 id="931" count="1" offset="2">
+				<pos x="14.5" y="2"/>
+				<inc component_id="935"/>
+				<in1 component_id="936"/>
+			</c44>
+			<c45 id="933" count="3">
+				<pos x="-5.75" y="1.25"/>
+				<in1 component_id="924"/>
+				<in2 component_id="925"/>
+				<in3 component_id="926"/>
+			</c45>
+			<c46 id="934" count="4">
+				<pos x="-5.75" y="-0.75"/>
+				<inc component_id="933"/>
+				<in1 component_id="927"/>
+				<in2 component_id="928"/>
+				<in3 component_id="929"/>
+				<in4 component_id="930"/>
+			</c46>
+			<c47 id="935" count="1" offset="10">
+				<pos x="12.75" y="-0.5"/>
+				<in1 component_id="865" node_index="1"/>
+			</c47>
+			<c48 id="936">
+				<pos x="12.75" y="1.5"/>
+				<in1 component_id="937"/>
+				<in3 component_id="924"/>
+			</c48>
+			<c49 id="937">
+				<pos x="11" y="2"/>
+				<n text="2048" value="2048"/>
+			</c49>
 		</component_states>
 		<component_bridge_states>
-			<c0 id="265">
-				<pos x="12.5" y="-1.75"/>
-				<in1 component_id="398"/>
+			<c0 id="111">
+				<pos x="15.75" y="2.25"/>
+				<in1 component_id="931"/>
 			</c0>
-			<c1 id="268">
-				<pos x="-1.5" y="-0.25"/>
+			<c1 id="264">
+				<pos x="-9.75" y="0.25"/>
 			</c1>
-			<c2 id="313">
-				<pos x="3.75" y="-1.75"/>
-				<in1 component_id="412"/>
+			<c2 id="760">
+				<pos x="-1" y="0.25"/>
 			</c2>
-			<c3 id="389">
-				<pos x="-1.5" y="-4.5"/>
+			<c3 id="770">
+				<pos x="9.5" y="-3.75"/>
+				<in1 component_id="844"/>
 			</c3>
+			<c4 id="791">
+				<pos x="9.5" y="-5.5"/>
+				<in1 component_id="848"/>
+			</c4>
+			<c5 id="819">
+				<pos x="4.25" y="0.75"/>
+				<in1 component_id="806" node_index="1"/>
+			</c5>
 		</component_bridge_states>
 		<group_states/>
 	</group>

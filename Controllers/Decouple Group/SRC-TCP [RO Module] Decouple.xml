@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [RO Module] Decouple v1.3" description="Communicates with main and decouple interface." width="2" length="1" id_counter="443" id_counter_node="38" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [RO Module] Decouple v1.4-c0.dev" description="Enables the (remote) decoupling of specific cars." width="3" length="1" id_counter="920" id_counter_node="43" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
-		<n id="20" component_id="268">
-			<node label="Main Both" mode="1" type="5" description="Connects to Main Both for information from other cars"/>
+		<n id="33" component_id="264">
+			<node label="Main Both" mode="1" type="5" description="[TODO]"/>
 		</n>
-		<n id="31" component_id="313">
-			<node label="Module -&gt; Interface" type="5" description="Communicates with Decouple Interface">
+		<n id="38" component_id="770">
+			<node label="Decouple Front" description="Connects to front coupler to disconnect">
 				<position x="1"/>
+			</node>
+		</n>
+		<n id="39" component_id="791">
+			<node label="Decouple Rear" description="Connects to rear coupler to disconnect">
+				<position x="2"/>
 			</node>
 		</n>
 	</nodes>
@@ -17,153 +22,392 @@
 		</data>
 		<components>
 			<c type="29">
-				<object id="419">
-					<pos x="-3.25" y="-2.75"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="29">
-				<object id="420" i="1">
-					<pos x="-3.25" y="-3.25"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="29">
-				<object id="421" i="2">
-					<pos x="-3.25" y="-3.75"/>
-					<in1 component_id="268"/>
+				<object id="859" i="2">
+					<pos x="-4.5" y="-12.25"/>
+					<in1 component_id="920"/>
 				</object>
 			</c>
 			<c type="31">
-				<object id="422">
-					<pos x="-3.25" y="-4.5"/>
-					<in1 component_id="268"/>
+				<object id="860">
+					<pos x="-6.25" y="-13"/>
+					<in1 component_id="920"/>
 				</object>
 			</c>
 			<c type="31">
-				<object id="423" i="1">
-					<pos x="-3.25" y="-5"/>
-					<in1 component_id="268"/>
+				<object id="861" i="1">
+					<pos x="-6.25" y="-13.5"/>
+					<in1 component_id="920"/>
 				</object>
 			</c>
 			<c type="31">
-				<object id="424" i="2">
-					<pos x="-3.25" y="-5.5"/>
-					<in1 component_id="268"/>
+				<object id="862" i="2">
+					<pos x="-6.25" y="-14"/>
+					<in1 component_id="920"/>
 				</object>
 			</c>
 			<c type="31">
-				<object id="425" i="10">
-					<pos x="-3.25" y="-6"/>
-					<in1 component_id="268"/>
-				</object>
-			</c>
-			<c type="41">
-				<object id="428" count="3">
-					<pos x="-1.5" y="-3.25"/>
-					<in1 component_id="419"/>
-					<in2 component_id="420"/>
-					<in3 component_id="421"/>
-				</object>
-			</c>
-			<c type="15">
-				<object id="429">
-					<pos x="-5" y="-1.75"/>
-					<n text="7" value="7"/>
+				<object id="863" i="3">
+					<pos x="-6.25" y="-14.5"/>
+					<in1 component_id="920"/>
 				</object>
 			</c>
 			<c type="43">
-				<object id="430" l="Module ID">
-					<pos x="-3.25" y="-2"/>
-					<in1 component_id="429"/>
+				<object id="864" l="My ID">
+					<pos x="-8" y="-14.25"/>
+					<in1 component_id="862"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="865" l="Number of wagons">
+					<pos x="-8" y="-13.25"/>
+					<in1 component_id="860"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="866">
+					<pos x="0.75" y="-13.75"/>
+					<in1 component_id="868"/>
+					<in2 component_id="882"/>
+				</object>
+			</c>
+			<c type="50">
+				<object id="867">
+					<pos x="0.75" y="-14.5"/>
+					<in1 component_id="868"/>
+					<in2 component_id="882"/>
+				</object>
+			</c>
+			<c type="25">
+				<object id="868">
+					<pos x="-1" y="-13.75"/>
+					<in1 component_id="872"/>
+					<in2 component_id="866"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="869">
+					<pos x="0.75" y="-15.5"/>
+					<in1 component_id="871"/>
+					<in2 component_id="882"/>
+				</object>
+			</c>
+			<c type="50">
+				<object id="870">
+					<pos x="0.75" y="-16.25"/>
+					<in1 component_id="871"/>
+					<in2 component_id="882"/>
+				</object>
+			</c>
+			<c type="25">
+				<object id="871">
+					<pos x="-1" y="-15.5"/>
+					<in1 component_id="873"/>
+					<in2 component_id="869"/>
+				</object>
+			</c>
+			<c type="46">
+				<object id="872" e="((!x&amp;y)|(x&amp;z))&amp;w">
+					<pos x="-2.75" y="-14.25"/>
+					<in1 component_id="859"/>
+					<in2 component_id="900"/>
+					<in3 component_id="901"/>
+					<in4 component_id="908"/>
+				</object>
+			</c>
+			<c type="46">
+				<object id="873" e="((x&amp;y)|(!x&amp;z))&amp;w">
+					<pos x="-2.75" y="-16"/>
+					<in1 component_id="859"/>
+					<in2 component_id="900"/>
+					<in3 component_id="901"/>
+					<in4 component_id="908"/>
+				</object>
+			</c>
+			<c type="19">
+				<object id="882" name="Time to stay disconnected">
+					<pos x="-1" y="-16.25"/>
+					<min text="1" value="1"/>
+					<max text="10" value="10"/>
+					<int text="1" value="1"/>
+					<v text="3" value="3"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="885" l="Received decouple number" m="1">
+					<pos x="-8" y="-14.75"/>
+					<in1 component_id="863"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="900">
+					<pos x="-4.5" y="-14"/>
+					<in1 component_id="863"/>
+					<in2 component_id="862"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="901">
+					<pos x="-4.5" y="-16"/>
+					<in1 component_id="862"/>
+					<in2 component_id="902"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="902" e="x-1">
+					<pos x="-6.25" y="-16"/>
+					<in1 component_id="863"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="908">
+					<pos x="-4.5" y="-15"/>
+					<in1 component_id="862"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="912">
+					<pos x="-10.75" y="-7"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="913" i="1">
+					<pos x="-10.75" y="-7.5"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="914" i="2">
+					<pos x="-10.75" y="-8"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="915">
+					<pos x="-10.75" y="-8.75"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="916" i="1">
+					<pos x="-10.75" y="-9.25"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="917" i="2">
+					<pos x="-10.75" y="-9.75"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="918" i="10">
+					<pos x="-10.75" y="-10.25"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="919" count="3">
+					<pos x="-9" y="-7.5"/>
+					<in1 component_id="912"/>
+					<in2 component_id="913"/>
+					<in3 component_id="914"/>
 				</object>
 			</c>
 			<c type="40">
-				<object id="434" count="4">
-					<pos x="-1.5" y="-5.25"/>
-					<inc component_id="428"/>
-					<in1 component_id="422"/>
-					<in2 component_id="423"/>
-					<in3 component_id="424"/>
-					<in4 component_id="425"/>
+				<object id="920" count="4">
+					<pos x="-9" y="-9.5"/>
+					<inc component_id="919"/>
+					<in1 component_id="915"/>
+					<in2 component_id="916"/>
+					<in3 component_id="917"/>
+					<in4 component_id="918"/>
 				</object>
 			</c>
 		</components>
 		<components_bridge>
 			<c type="4">
-				<object id="268">
-					<pos x="-5" y="-2.75"/>
+				<object id="264">
+					<pos x="-14" y="-7.75"/>
 				</object>
 			</c>
-			<c type="5">
-				<object id="313">
-					<pos x="0.25" y="-4.25"/>
-					<in1 component_id="434"/>
+			<c type="1">
+				<object id="770">
+					<pos x="2.5" y="-14.25"/>
+					<in1 component_id="867"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="791">
+					<pos x="2.5" y="-16"/>
+					<in1 component_id="870"/>
 				</object>
 			</c>
 		</components_bridge>
 		<groups/>
 		<component_states>
-			<c0 id="419">
-				<pos x="-3.25" y="-2.75"/>
-				<in1 component_id="268"/>
+			<c0 id="859" i="2">
+				<pos x="-4.5" y="-12.25"/>
+				<in1 component_id="920"/>
 			</c0>
-			<c1 id="420" i="1">
-				<pos x="-3.25" y="-3.25"/>
-				<in1 component_id="268"/>
+			<c1 id="860">
+				<pos x="-6.25" y="-13"/>
+				<in1 component_id="920"/>
 			</c1>
-			<c2 id="421" i="2">
-				<pos x="-3.25" y="-3.75"/>
-				<in1 component_id="268"/>
+			<c2 id="861" i="1">
+				<pos x="-6.25" y="-13.5"/>
+				<in1 component_id="920"/>
 			</c2>
-			<c3 id="422">
-				<pos x="-3.25" y="-4.5"/>
-				<in1 component_id="268"/>
+			<c3 id="862" i="2">
+				<pos x="-6.25" y="-14"/>
+				<in1 component_id="920"/>
 			</c3>
-			<c4 id="423" i="1">
-				<pos x="-3.25" y="-5"/>
-				<in1 component_id="268"/>
+			<c4 id="863" i="3">
+				<pos x="-6.25" y="-14.5"/>
+				<in1 component_id="920"/>
 			</c4>
-			<c5 id="424" i="2">
-				<pos x="-3.25" y="-5.5"/>
-				<in1 component_id="268"/>
+			<c5 id="864" l="My ID">
+				<pos x="-8" y="-14.25"/>
+				<in1 component_id="862"/>
 			</c5>
-			<c6 id="425" i="10">
-				<pos x="-3.25" y="-6"/>
-				<in1 component_id="268"/>
+			<c6 id="865" l="Number of wagons">
+				<pos x="-8" y="-13.25"/>
+				<in1 component_id="860"/>
 			</c6>
-			<c7 id="428" count="3">
-				<pos x="-1.5" y="-3.25"/>
-				<in1 component_id="419"/>
-				<in2 component_id="420"/>
-				<in3 component_id="421"/>
+			<c7 id="866">
+				<pos x="0.75" y="-13.75"/>
+				<in1 component_id="868"/>
+				<in2 component_id="882"/>
 			</c7>
-			<c8 id="429">
-				<pos x="-5" y="-1.75"/>
-				<n text="7" value="7"/>
+			<c8 id="867">
+				<pos x="0.75" y="-14.5"/>
+				<in1 component_id="868"/>
+				<in2 component_id="882"/>
 			</c8>
-			<c9 id="430" l="Module ID">
-				<pos x="-3.25" y="-2"/>
-				<in1 component_id="429"/>
+			<c9 id="868">
+				<pos x="-1" y="-13.75"/>
+				<in1 component_id="872"/>
+				<in2 component_id="866"/>
 			</c9>
-			<c10 id="434" count="4">
-				<pos x="-1.5" y="-5.25"/>
-				<inc component_id="428"/>
-				<in1 component_id="422"/>
-				<in2 component_id="423"/>
-				<in3 component_id="424"/>
-				<in4 component_id="425"/>
+			<c10 id="869">
+				<pos x="0.75" y="-15.5"/>
+				<in1 component_id="871"/>
+				<in2 component_id="882"/>
 			</c10>
+			<c11 id="870">
+				<pos x="0.75" y="-16.25"/>
+				<in1 component_id="871"/>
+				<in2 component_id="882"/>
+			</c11>
+			<c12 id="871">
+				<pos x="-1" y="-15.5"/>
+				<in1 component_id="873"/>
+				<in2 component_id="869"/>
+			</c12>
+			<c13 id="872" e="((!x&amp;y)|(x&amp;z))&amp;w">
+				<pos x="-2.75" y="-14.25"/>
+				<in1 component_id="859"/>
+				<in2 component_id="900"/>
+				<in3 component_id="901"/>
+				<in4 component_id="908"/>
+			</c13>
+			<c14 id="873" e="((x&amp;y)|(!x&amp;z))&amp;w">
+				<pos x="-2.75" y="-16"/>
+				<in1 component_id="859"/>
+				<in2 component_id="900"/>
+				<in3 component_id="901"/>
+				<in4 component_id="908"/>
+			</c14>
+			<c15 id="882" name="Time to stay disconnected">
+				<pos x="-1" y="-16.25"/>
+				<min text="1" value="1"/>
+				<max text="10" value="10"/>
+				<int text="1" value="1"/>
+				<v text="3" value="3"/>
+			</c15>
+			<c16 id="885" l="Received decouple number" m="1">
+				<pos x="-8" y="-14.75"/>
+				<in1 component_id="863"/>
+			</c16>
+			<c17 id="900">
+				<pos x="-4.5" y="-14"/>
+				<in1 component_id="863"/>
+				<in2 component_id="862"/>
+				<e text="0.0001" value="0.0001"/>
+			</c17>
+			<c18 id="901">
+				<pos x="-4.5" y="-16"/>
+				<in1 component_id="862"/>
+				<in2 component_id="902"/>
+				<e text="0.0001" value="0.0001"/>
+			</c18>
+			<c19 id="902" e="x-1">
+				<pos x="-6.25" y="-16"/>
+				<in1 component_id="863"/>
+			</c19>
+			<c20 id="908">
+				<pos x="-4.5" y="-15"/>
+				<in1 component_id="862"/>
+			</c20>
+			<c21 id="912">
+				<pos x="-10.75" y="-7"/>
+				<in1 component_id="264"/>
+			</c21>
+			<c22 id="913" i="1">
+				<pos x="-10.75" y="-7.5"/>
+				<in1 component_id="264"/>
+			</c22>
+			<c23 id="914" i="2">
+				<pos x="-10.75" y="-8"/>
+				<in1 component_id="264"/>
+			</c23>
+			<c24 id="915">
+				<pos x="-10.75" y="-8.75"/>
+				<in1 component_id="264"/>
+			</c24>
+			<c25 id="916" i="1">
+				<pos x="-10.75" y="-9.25"/>
+				<in1 component_id="264"/>
+			</c25>
+			<c26 id="917" i="2">
+				<pos x="-10.75" y="-9.75"/>
+				<in1 component_id="264"/>
+			</c26>
+			<c27 id="918" i="10">
+				<pos x="-10.75" y="-10.25"/>
+				<in1 component_id="264"/>
+			</c27>
+			<c28 id="919" count="3">
+				<pos x="-9" y="-7.5"/>
+				<in1 component_id="912"/>
+				<in2 component_id="913"/>
+				<in3 component_id="914"/>
+			</c28>
+			<c29 id="920" count="4">
+				<pos x="-9" y="-9.5"/>
+				<inc component_id="919"/>
+				<in1 component_id="915"/>
+				<in2 component_id="916"/>
+				<in3 component_id="917"/>
+				<in4 component_id="918"/>
+			</c29>
 		</component_states>
 		<component_bridge_states>
-			<c0 id="268">
-				<pos x="-5" y="-2.75"/>
+			<c0 id="264">
+				<pos x="-14" y="-7.75"/>
 			</c0>
-			<c1 id="313">
-				<pos x="0.25" y="-4.25"/>
-				<in1 component_id="434"/>
+			<c1 id="770">
+				<pos x="2.5" y="-14.25"/>
+				<in1 component_id="867"/>
 			</c1>
+			<c2 id="791">
+				<pos x="2.5" y="-16"/>
+				<in1 component_id="870"/>
+			</c2>
 		</component_bridge_states>
 		<group_states/>
 	</group>
 </microprocessor>
+
