@@ -195,26 +195,23 @@
 				<object id="328" script='s,scr,i,o,m=self,screen,input,output,math
 pgn,pgb,gn,gb,sn,sb=property.getNumber,property.getBool,i.getNumber,i.getBool,o.setNumber,o.setBool
 abs=m.abs
-			
+            
 function clamp(x,min,max)
 return m.max(m.min(x,max),min)
 end
-						
+                        
 function pid(p,i)
 return{p=p,i=i,error=0,integral=0,
-run=function(s,sp,pv,min,max,maxI,reset,pause)
+run=function(s,sp,pv,min,max,maxI,reset,pause,accI)
 local reset=reset or f
-local maxI=maxI or max 
+local maxI=maxI or max
 local error,out
 error=sp-pv
 s.error=error
-out=error*s.p+s.integral
 if reset then s.integral=0
 elseif pause then
-else s.integral=clamp(s.integral+error*s.i*multI,min,maxI)
---out&gt;min and out&lt;max then
+else s.integral=clamp(s.integral+error*s.i*accI,min,maxI)*a
 end
-tinteg=s.integral
 return clamp(error*s.p+s.integral,min,max)
 end}
 end
@@ -235,36 +232,35 @@ wspeed=gn(3)
 slip=gb(1)
 
 rpsd=abs(abs(wspeed)-((abs(current)/m.pi)*siz))
-targetTemp=clamp(target,current-8,current+8)
+targetTemp=target
 
 
-if not wspeed==0 and rpsd &gt; 2.9 then a=clamp(a-0.05,0.05,1)
-elseif rpsd &lt; 2.75 then a=clamp(a+0.05,0.05,1)
+if rpsd &gt; 2.9 then a=clamp(a-0.005,0.05,1)
+elseif rpsd &lt; 2.75 then a=clamp(a+0.005,0.05,1)
 end
 
 if slip then
-	b=clamp(b-0.05,0.05,1)
-	pau=true
-else
-	b=clamp(b+0.001,0.05,1)
-	pau=false
+    b=clamp(b-0.005,0.05,1)
+    --pau=true
+elseif rpsd &lt; 2.8 then 
+    b=clamp(b+0.001,0.05,1)
+    --pau=false
 end
 
 if target &lt; 0 then 
-	thrTemp=piVal:run(targetTemp*b,current,-1,0,2.5*a,rst,pau)
+    thrTemp=piVal:run(targetTemp*b,current,-1,0,1,rst,pau,multI)
 elseif target &gt; 0 then
-	thrTemp=piVal:run(targetTemp*b,current,0,1,2.5*a,rst,pau)
+    thrTemp=piVal:run(targetTemp*b,current,0,1,1,rst,pau,multI)
 elseif target==0 then
-	thrTemp=piVal:run(0,0,0,0,0,true)
+    thrTemp=piVal:run(0,0,0,0,0,true)
 end
 
---thrTemp=piVal:run(target*b,current,-1,1,2.5*a,rst)
-if abs(current) &gt; abs(target)+0.5 then
-	thr=0
-	multI=3
+if abs(current) &gt; abs(target)+3 then
+    thr=0
+    multI=1
 else
-	thr=thrTemp
-	multI=1
+    thr=thrTemp
+    multI=1.5
 end
 
 
@@ -272,7 +268,8 @@ sn(1,thr)
 sn(2,rpsd)
 sn(3,a)
 sn(4,targetTemp)
-sn(5,tinteg)
+sn(5,piVal.integral)
+sn(6,piVal.p*piVal.error)
 end'>
 					<pos x="0.5" y="-10.75"/>
 					<in1 component_id="329"/>
@@ -1143,26 +1140,23 @@ end'>
 			<c19 id="328" script='s,scr,i,o,m=self,screen,input,output,math
 pgn,pgb,gn,gb,sn,sb=property.getNumber,property.getBool,i.getNumber,i.getBool,o.setNumber,o.setBool
 abs=m.abs
-			
+            
 function clamp(x,min,max)
 return m.max(m.min(x,max),min)
 end
-						
+                        
 function pid(p,i)
 return{p=p,i=i,error=0,integral=0,
-run=function(s,sp,pv,min,max,maxI,reset,pause)
+run=function(s,sp,pv,min,max,maxI,reset,pause,accI)
 local reset=reset or f
-local maxI=maxI or max 
+local maxI=maxI or max
 local error,out
 error=sp-pv
 s.error=error
-out=error*s.p+s.integral
 if reset then s.integral=0
 elseif pause then
-else s.integral=clamp(s.integral+error*s.i*multI,min,maxI)
---out&gt;min and out&lt;max then
+else s.integral=clamp(s.integral+error*s.i*accI,min,maxI)*a
 end
-tinteg=s.integral
 return clamp(error*s.p+s.integral,min,max)
 end}
 end
@@ -1183,36 +1177,35 @@ wspeed=gn(3)
 slip=gb(1)
 
 rpsd=abs(abs(wspeed)-((abs(current)/m.pi)*siz))
-targetTemp=clamp(target,current-8,current+8)
+targetTemp=target
 
 
-if not wspeed==0 and rpsd &gt; 2.9 then a=clamp(a-0.05,0.05,1)
-elseif rpsd &lt; 2.75 then a=clamp(a+0.05,0.05,1)
+if rpsd &gt; 2.9 then a=clamp(a-0.005,0.05,1)
+elseif rpsd &lt; 2.75 then a=clamp(a+0.005,0.05,1)
 end
 
 if slip then
-	b=clamp(b-0.05,0.05,1)
-	pau=true
-else
-	b=clamp(b+0.001,0.05,1)
-	pau=false
+    b=clamp(b-0.005,0.05,1)
+    --pau=true
+elseif rpsd &lt; 2.8 then 
+    b=clamp(b+0.001,0.05,1)
+    --pau=false
 end
 
 if target &lt; 0 then 
-	thrTemp=piVal:run(targetTemp*b,current,-1,0,2.5*a,rst,pau)
+    thrTemp=piVal:run(targetTemp*b,current,-1,0,1,rst,pau,multI)
 elseif target &gt; 0 then
-	thrTemp=piVal:run(targetTemp*b,current,0,1,2.5*a,rst,pau)
+    thrTemp=piVal:run(targetTemp*b,current,0,1,1,rst,pau,multI)
 elseif target==0 then
-	thrTemp=piVal:run(0,0,0,0,0,true)
+    thrTemp=piVal:run(0,0,0,0,0,true)
 end
 
---thrTemp=piVal:run(target*b,current,-1,1,2.5*a,rst)
-if abs(current) &gt; abs(target)+0.5 then
-	thr=0
-	multI=3
+if abs(current) &gt; abs(target)+3 then
+    thr=0
+    multI=1
 else
-	thr=thrTemp
-	multI=1
+    thr=thrTemp
+    multI=1.5
 end
 
 
@@ -1220,7 +1213,8 @@ sn(1,thr)
 sn(2,rpsd)
 sn(3,a)
 sn(4,targetTemp)
-sn(5,tinteg)
+sn(5,piVal.integral)
+sn(6,piVal.p*piVal.error)
 end'>
 				<pos x="0.5" y="-10.75"/>
 				<in1 component_id="329"/>
