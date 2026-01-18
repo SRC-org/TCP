@@ -1,3 +1,8 @@
+-------------------------------------------------
+---- Copyright SRC 2026. All rights reserved ----
+---- Written by programmer137                ----
+-------------------------------------------------
+
 -- don't copy into the game, only for the IDE
 --[[
 SW = require("Stormworks")
@@ -5,8 +10,6 @@ input = SW.input
 output = SW.output
 property = SW.property
 ]]
-------------------------------------
-
 
 get = input.getBool
 set = output.setBool
@@ -24,7 +27,7 @@ revmd = numprop("Reversing Light Mode")
 parkmd = numprop("Parking Light Mode")
 shuntmd = numprop("Shunting Light Mode")
 rgbrun = boolprop("Front RGB Lights")
-tailrun = true -- taillights on with running lights
+tailrun = boolprop("Taillight Behavior")
 
 frontrgb = {
   r = numprop("Front RGB Light (R)") / 255.0,
@@ -116,10 +119,10 @@ function onTick()
 
 
   out.run   = (lights.head and headmd ~= 1 or lights.run or autorun and get(30)) and
-      not (fogmd == 3 and lights.fog)
-  out.head  = headmd == 0 and lights.run or
+      not (fogmd == 3 and lights.fog) and not headmd == 0
+  out.head  = headmd == 0 and lights.head or
       lights.head and not lights.run and not (fogmd >= 2 and lights.fog)
-  out.tail  = lights.head or lights.run or autorun and get(30)
+  out.tail  = (lights.head and not lights.run) or (lights.run or autorun and get(30)) and tailrun
   out.high  = lights.head and lights.high and not (fogmd >= 1 and lights.fog)
   out.ditch = lights.ditch
   out.rev   = lights.rev and revmd == 3
