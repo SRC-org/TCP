@@ -19,7 +19,6 @@ numprop = property.getNumber
 boolprop = property.getBool
 
 -- properties
-autorun = boolprop("Automatic Running Lights")
 headmd = numprop("Running Light Behavior")
 -- 0: enable all lights, 1: disable high beams, 2: disable headlights, 3: disable running lights
 fogmd = numprop("Fog Light Behavior")
@@ -118,11 +117,11 @@ function onTick()
   reversed    = revmd == 1 and lights.rev
 
 
-  out.run   = (lights.head and headmd ~= 1 or lights.run or autorun and get(30)) and
-      not (fogmd == 3 and lights.fog) and not headmd == 0
+  out.run   = (lights.head and lights.run or lights.head and headmd == 2) and not (fogmd == 3 and lights.fog) and
+      not (headmd == 0)
   out.head  = headmd == 0 and lights.head or
       lights.head and not lights.run and not (fogmd >= 2 and lights.fog)
-  out.tail  = (lights.head and not lights.run) or (lights.run or autorun and get(30)) and tailrun
+  out.tail  = (lights.head and not lights.run) or (lights.run and tailrun)
   out.high  = lights.head and lights.high and not (fogmd >= 1 and lights.fog)
   out.ditch = lights.ditch
   out.rev   = lights.rev and revmd == 3

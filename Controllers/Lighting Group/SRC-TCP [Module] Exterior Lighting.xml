@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4-c0.dev" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="2" id_counter="1589" id_counter_node="70" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
+<microprocessor name="SRC-TCP [Module] Exterior Lighting v1.4-c0.dev" description="Interacts with the lighting module, UI, and lightbox to control exterior lighting" width="2" length="2" id_counter="1603" id_counter_node="70" sym6="4984" sym7="5144" sym8="6184" sym9="7880">
 	<nodes>
 		<n id="33" component_id="264">
 			<node label="Main Both" mode="1" type="5"/>
@@ -30,7 +30,7 @@
 				<object id="906" count="13">
 					<pos y="8.25"/>
 					<in1/>
-					<in2 component_id="1542"/>
+					<in2 component_id="1603"/>
 					<in3 component_id="1250"/>
 					<in4 component_id="1251"/>
 					<in5 component_id="1252"/>
@@ -174,7 +174,7 @@
 			<c type="46">
 				<object id="1524" e="x&amp;(!y)">
 					<pos x="-2.75" y="7.75"/>
-					<in1 component_id="1363"/>
+					<in1 component_id="1602"/>
 					<in2 component_id="1249"/>
 				</object>
 			</c>
@@ -291,11 +291,11 @@ function onTick()
   reversed    = revmd == 1 and lights.rev
 
 
-  out.run   = (lights.head and headmd ~= 1 or lights.run or autorun and get(30)) and
-      not (fogmd == 3 and lights.fog) and not headmd == 0
+  out.run   = (lights.head and lights.run or lights.head and headmd == 2) and not (fogmd == 3 and lights.fog) and
+      not (headmd == 0)
   out.head  = headmd == 0 and lights.head or
       lights.head and not lights.run and not (fogmd &gt;= 2 and lights.fog)
-  out.tail  = (lights.head and not lights.run) or (lights.run or autorun and get(30)) and tailrun
+  out.tail  = (lights.head and not lights.run) or (lights.run and tailrun)
   out.high  = lights.head and lights.high and not (fogmd &gt;= 1 and lights.fog)
   out.ditch = lights.ditch
   out.rev   = lights.rev and revmd == 3
@@ -345,13 +345,6 @@ end
 '>
 					<pos x="12.75" y="10.25"/>
 					<in1 component_id="1578"/>
-				</object>
-			</c>
-			<c type="2">
-				<object id="1542">
-					<pos x="-2.75" y="12.5"/>
-					<in1 component_id="1363"/>
-					<in2 component_id="1249"/>
 				</object>
 			</c>
 			<c type="20">
@@ -449,7 +442,7 @@ end
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="255" value="255"/>
+					<v text="147" value="147"/>
 				</object>
 			</c>
 			<c type="19">
@@ -458,7 +451,7 @@ end
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="255" value="255"/>
+					<v text="218" value="218"/>
 				</object>
 			</c>
 			<c type="19">
@@ -467,7 +460,7 @@ end
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="255" value="255"/>
+					<v text="230" value="230"/>
 				</object>
 			</c>
 			<c type="33">
@@ -476,8 +469,8 @@ end
 				</object>
 			</c>
 			<c type="33">
-				<object id="1576" n="Automatic Running Lights" on="On With Master" off="Disabled">
-					<pos x="9.75" y="7"/>
+				<object id="1576" n="Automatic Running Lights" on="On With Master" off="Disabled" v="true">
+					<pos x="-9.5" y="13.75"/>
 				</object>
 			</c>
 			<c type="41">
@@ -558,12 +551,39 @@ end
 					<min text="0"/>
 					<max text="255" value="255"/>
 					<int text="1" value="1"/>
-					<v text="0"/>
+					<v text="4" value="4"/>
 				</object>
 			</c>
 			<c type="33">
-				<object id="1589" n="Taillight Behavior" on="On with Running Lights" off="On with Headlights">
+				<object id="1589" n="Taillight Behavior" on="On with Running Lights" off="On with Headlights" v="true">
 					<pos x="9.75" y="6.5"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="1598">
+					<pos x="-8.25" y="13.25"/>
+					<in1 component_id="1576"/>
+					<in2 component_id="1599"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="1599" i="1">
+					<pos x="-9.5" y="13"/>
+					<in1 component_id="264"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="1602">
+					<pos x="-6.25" y="11"/>
+					<in1 component_id="1598"/>
+					<in2 component_id="1363"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="1603">
+					<pos x="-2.75" y="12.5"/>
+					<in1 component_id="1602"/>
+					<in2 component_id="1249"/>
 				</object>
 			</c>
 		</components>
@@ -596,7 +616,7 @@ end
 			<c0 id="906" count="13">
 				<pos y="8.25"/>
 				<in1/>
-				<in2 component_id="1542"/>
+				<in2 component_id="1603"/>
 				<in3 component_id="1250"/>
 				<in4 component_id="1251"/>
 				<in5 component_id="1252"/>
@@ -698,7 +718,7 @@ end
 			</c20>
 			<c21 id="1524" e="x&amp;(!y)">
 				<pos x="-2.75" y="7.75"/>
-				<in1 component_id="1363"/>
+				<in1 component_id="1602"/>
 				<in2 component_id="1249"/>
 			</c21>
 			<c22 id="1541" script='-------------------------------------------------
@@ -813,11 +833,11 @@ function onTick()
   reversed    = revmd == 1 and lights.rev
 
 
-  out.run   = (lights.head and headmd ~= 1 or lights.run or autorun and get(30)) and
-      not (fogmd == 3 and lights.fog) and not headmd == 0
+  out.run   = (lights.head and lights.run or lights.head and headmd == 2) and not (fogmd == 3 and lights.fog) and
+      not (headmd == 0)
   out.head  = headmd == 0 and lights.head or
       lights.head and not lights.run and not (fogmd &gt;= 2 and lights.fog)
-  out.tail  = (lights.head and not lights.run) or (lights.run or autorun and get(30)) and tailrun
+  out.tail  = (lights.head and not lights.run) or (lights.run and tailrun)
   out.high  = lights.head and lights.high and not (fogmd &gt;= 1 and lights.fog)
   out.ditch = lights.ditch
   out.rev   = lights.rev and revmd == 3
@@ -868,12 +888,7 @@ end
 				<pos x="12.75" y="10.25"/>
 				<in1 component_id="1578"/>
 			</c22>
-			<c23 id="1542">
-				<pos x="-2.75" y="12.5"/>
-				<in1 component_id="1363"/>
-				<in2 component_id="1249"/>
-			</c23>
-			<c24 id="1547" name="Running Light Behavior" i="2">
+			<c23 id="1547" name="Running Light Behavior" i="2">
 				<pos x="11" y="7"/>
 				<items>
 					<i l="Use headlights as running lights">
@@ -886,8 +901,8 @@ end
 						<v text="2" value="2"/>
 					</i>
 				</items>
-			</c24>
-			<c25 id="1548" name="Fog Light Behavior" i="1">
+			</c23>
+			<c24 id="1548" name="Fog Light Behavior" i="1">
 				<pos x="11" y="6.5"/>
 				<items>
 					<i l="Enable all lights">
@@ -903,8 +918,8 @@ end
 						<v text="3" value="3"/>
 					</i>
 				</items>
-			</c25>
-			<c26 id="1566" name="Reversing Light Mode" i="1">
+			</c24>
+			<c25 id="1566" name="Reversing Light Mode" i="1">
 				<pos x="12.25" y="7"/>
 				<items>
 					<i l="No change">
@@ -920,8 +935,8 @@ end
 						<v text="3" value="3"/>
 					</i>
 				</items>
-			</c26>
-			<c27 id="1567" name="Parking Light Mode" i="1">
+			</c25>
+			<c26 id="1567" name="Parking Light Mode" i="1">
 				<pos x="12.25" y="6.5"/>
 				<items>
 					<i l="No change">
@@ -937,8 +952,8 @@ end
 						<v text="3" value="3"/>
 					</i>
 				</items>
-			</c27>
-			<c28 id="1568" name="Shunting Light Mode" i="1">
+			</c26>
+			<c27 id="1568" name="Shunting Light Mode" i="1">
 				<pos x="12.25" y="6"/>
 				<items>
 					<i l="No change">
@@ -951,96 +966,115 @@ end
 						<v text="2" value="2"/>
 					</i>
 				</items>
-			</c28>
-			<c29 id="1569" name="Front RGB Light (R)">
+			</c27>
+			<c28 id="1569" name="Front RGB Light (R)">
 				<pos x="11" y="5.25"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="255" value="255"/>
-			</c29>
-			<c30 id="1570" name="Front RGB Light (G)">
+				<v text="147" value="147"/>
+			</c28>
+			<c29 id="1570" name="Front RGB Light (G)">
 				<pos x="11" y="4.75"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="255" value="255"/>
-			</c30>
-			<c31 id="1571" name="Front RGB Light (B)">
+				<v text="218" value="218"/>
+			</c29>
+			<c30 id="1571" name="Front RGB Light (B)">
 				<pos x="11" y="4.25"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="255" value="255"/>
-			</c31>
-			<c32 id="1575" n="Front RGB Lights" on="Running Lights" off="Headlights">
+				<v text="230" value="230"/>
+			</c30>
+			<c31 id="1575" n="Front RGB Lights" on="Running Lights" off="Headlights">
 				<pos x="9.75" y="5.25"/>
+			</c31>
+			<c32 id="1576" n="Automatic Running Lights" on="On With Master" off="Disabled" v="true">
+				<pos x="-9.5" y="13.75"/>
 			</c32>
-			<c33 id="1576" n="Automatic Running Lights" on="On With Master" off="Disabled">
-				<pos x="9.75" y="7"/>
-			</c33>
-			<c34 id="1577" count="3" offset="29">
+			<c33 id="1577" count="3" offset="29">
 				<pos x="10.25" y="9.75"/>
 				<inc component_id="1307"/>
 				<in1 component_id="1582"/>
 				<in2 component_id="1583"/>
 				<in3 component_id="1584"/>
-			</c34>
-			<c35 id="1578" count="3" offset="29">
+			</c33>
+			<c34 id="1578" count="3" offset="29">
 				<pos x="11.5" y="9.75"/>
 				<inc component_id="1577"/>
 				<in1 component_id="1579"/>
 				<in2 component_id="1580"/>
 				<in3 component_id="1581"/>
-			</c35>
-			<c36 id="1579">
+			</c34>
+			<c35 id="1579">
 				<pos x="11.5" y="9.25"/>
 				<in1 component_id="264"/>
-			</c36>
-			<c37 id="1580" i="1">
+			</c35>
+			<c36 id="1580" i="1">
 				<pos x="11.5" y="8.75"/>
 				<in1 component_id="264"/>
-			</c37>
-			<c38 id="1581" i="2">
+			</c36>
+			<c37 id="1581" i="2">
 				<pos x="11.5" y="8.25"/>
 				<in1 component_id="264"/>
-			</c38>
-			<c39 id="1582">
+			</c37>
+			<c38 id="1582">
 				<pos x="10.25" y="9.25"/>
 				<in1 component_id="264"/>
-			</c39>
-			<c40 id="1583" i="1">
+			</c38>
+			<c39 id="1583" i="1">
 				<pos x="10.25" y="8.75"/>
 				<in1 component_id="264"/>
-			</c40>
-			<c41 id="1584" i="2">
+			</c39>
+			<c40 id="1584" i="2">
 				<pos x="10.25" y="8.25"/>
 				<in1 component_id="264"/>
-			</c41>
-			<c42 id="1585" name="Rear RGB Light (R)">
+			</c40>
+			<c41 id="1585" name="Rear RGB Light (R)">
 				<pos x="12.25" y="5.25"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
 				<v text="255" value="255"/>
-			</c42>
-			<c43 id="1586" name="Rear RGB Light (G)">
+			</c41>
+			<c42 id="1586" name="Rear RGB Light (G)">
 				<pos x="12.25" y="4.75"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
 				<v text="0"/>
-			</c43>
-			<c44 id="1587" name="Rear RGB Light (B)">
+			</c42>
+			<c43 id="1587" name="Rear RGB Light (B)">
 				<pos x="12.25" y="4.25"/>
 				<min text="0"/>
 				<max text="255" value="255"/>
 				<int text="1" value="1"/>
-				<v text="0"/>
-			</c44>
-			<c45 id="1589" n="Taillight Behavior" on="On with Running Lights" off="On with Headlights">
+				<v text="4" value="4"/>
+			</c43>
+			<c44 id="1589" n="Taillight Behavior" on="On with Running Lights" off="On with Headlights" v="true">
 				<pos x="9.75" y="6.5"/>
+			</c44>
+			<c45 id="1598">
+				<pos x="-8.25" y="13.25"/>
+				<in1 component_id="1576"/>
+				<in2 component_id="1599"/>
 			</c45>
+			<c46 id="1599" i="1">
+				<pos x="-9.5" y="13"/>
+				<in1 component_id="264"/>
+			</c46>
+			<c47 id="1602">
+				<pos x="-6.25" y="11"/>
+				<in1 component_id="1598"/>
+				<in2 component_id="1363"/>
+			</c47>
+			<c48 id="1603">
+				<pos x="-2.75" y="12.5"/>
+				<in1 component_id="1602"/>
+				<in2 component_id="1249"/>
+			</c48>
 		</component_states>
 		<component_bridge_states>
 			<c0 id="264">
